@@ -21,7 +21,6 @@ class Sleep {
     return findSleepByDate.hoursSlept;
   }
 
-    //needs to be displayed on DOM
   calculateDailySleepQuality(id, date) {
     let findSleepQualityByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
     return findSleepQualityByDate.sleepQuality;
@@ -79,9 +78,9 @@ class Sleep {
   }
 }
 
-//get all-time avg sleep quality
-
 //get all-time avg # hrs of sleep
+
+//sleep quality for all 7 days listed (like hrs of sleep is written): calculateDailySleepQuality 
 
 
 export default Sleep;
