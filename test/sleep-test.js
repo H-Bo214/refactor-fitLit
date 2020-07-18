@@ -4,7 +4,7 @@ import Sleep from '../src/Sleep';
 import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
-describe('Sleep', function() {
+describe.only('Sleep', function() {
   let sleepData;
   let sleep;
   let user1;
