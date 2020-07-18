@@ -2,19 +2,34 @@ class Activity {
   constructor(activityData) {
     this.activityData = activityData
   }
+//dataset passed into constructor is array of objects with userID, date, numSteps, minutesActive & flightsOfStairs properties
+
   getMilesFromStepsByDate(id, date, userRepo) {
     let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
     return parseFloat(((userStepsByDate.numSteps * userRepo.strideLength) / 5280).toFixed(1));
   }
+//finds activity based on userId & date; accesses that activity's numSteps & multiplies it by stride length from userRepo?????????, dividing by 5280 to get # of miles walked on that date
+//this is not displayed on DOM and SHOULD be according to spec
+//Also doesn't makes sense to access userRepo.strideLength for this, as this will access the entire array of user data
+//instead, need to find user within userRepo whose id matches the id passed into function & access THAT user's strideLength property 
+
+
   getActiveMinutesByDate(id, date) {
     let userActivityByDate = this.activityData.find(data => id === data.userID && date === data.date);
     return userActivityByDate.minutesActive;
   }
+//returns # of active minutes based on user id & date (a user's active minutes on single day)
+
   calculateActiveAverageForWeek(id, date, userRepo) {
     return parseFloat((userRepo.getWeekFromDate(date, id, this.activityData).reduce((acc, elem) => {
       return acc += elem.minutesActive;
     }, 0) / 7).toFixed(1));
   }
+//getWeekFromDate takes all of a single user's (activity) data sorted by date & returns a week's worth of (activity) data given a start date
+//uses that data to tally up the active minutes for a user for a whole week
+//Divides that number by 7 to get the user's daily average active minutes
+//Do we need the parseFloat part? I think we're already getting back a number
+
   accomplishStepGoal(id, date, userRepo) {
     let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
     if (userStepsByDate.numSteps === userRepo.dailyStepGoal) {
