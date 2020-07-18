@@ -31,7 +31,7 @@ var sleepToday = document.getElementById('sleepToday');
 var sleepQualityToday = document.getElementById('sleepQualityToday');
 var userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
 var sleepThisWeek = document.getElementById('sleepThisWeek');
-var sleepEarlierWeek = document.getElementById('sleepEarlierWeek');
+var sleepQualityWeek = document.getElementById('sleepQualityWeek');
 var friendChallengeListToday = document.getElementById('friendChallengeListToday');
 var friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
 var bigWinner = document.getElementById('bigWinner');
@@ -47,6 +47,7 @@ var userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 var bestUserSteps = document.getElementById('bestUserSteps');
 var streakList = document.getElementById('streakList');
 var streakListMinutes = document.getElementById('streakListMinutes')
+var userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
 
 function startApp() {
   let userList = [];
@@ -128,11 +129,13 @@ function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
 function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
   sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${sleepInfo.calculateDailySleep(id, dateString)}</span></p> <p>hours today.</p>`);
   sleepQualityToday.insertAdjacentHTML("afterBegin", `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calculateDailySleepQuality(id, dateString)}</span></p><p>out of 5.</p>`);
-  //
   userAvgSleepQuality.insertAdjacentHTML("afterBegin",`<p>Your average sleep quality is</p> <p><span class="number">${Math.round(sleepInfo.calculateAverageSleepQuality(id) *100)/100}</span></p><p>out of 5.</p>`);
+  userAvgSleepQuantity.insertAdjacentHTML("afterBegin", `<p>Your average hours slept is</p> <p><span class="number">${Math.round(sleepInfo.calculateAverageSleep(id) * 100)/100}</span></p><p>per day.</p>`)
+
   sleepThisWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userStorage, sleepInfo.calculateWeekSleep(dateString, id, userStorage)));
-  //Change the below 
-  sleepEarlierWeek.insertAdjacentHTML('afterBegin', makeSleepQualityHTML(id, sleepInfo, userStorage, sleepInfo.calculateWeekSleepQuality(dateString, id, userStorage)));
+  sleepQualityWeek.insertAdjacentHTML('afterBegin', makeSleepQualityHTML(id, sleepInfo, userStorage, sleepInfo.calculateWeekSleepQuality(dateString, id, userStorage)));
+//
+  userAvgSleepQuantity
 }
 
 function makeSleepHTML(id, sleepInfo, userStorage, method) {
