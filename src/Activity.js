@@ -7,7 +7,9 @@ class Activity {
 
   getMilesFromStepsByDate(id, date, userRepo) {
     let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
-    return parseFloat(((userStepsByDate.numSteps * userRepo.strideLength) / 5280).toFixed(1));
+    //access the user with the id supplied from userRepo; then access strideLength
+    let user = userRepo.getDataFromID(id);
+    return parseFloat(((userStepsByDate.numSteps * user.strideLength) / 5280).toFixed(1));
   }
 //finds activity based on userId & date; accesses that activity's numSteps & multiplies it by stride length from userRepo?????????, dividing by 5280 to get # of miles walked on that date
 //this is not displayed on DOM and SHOULD be according to spec

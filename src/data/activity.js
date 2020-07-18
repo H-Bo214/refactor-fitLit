@@ -6,13 +6,13 @@ const activityData = [
     "minutesActive": 140,
     "flightsOfStairs": 16
   },
-  {
+ {
     "userID": 2,
     "date": "2019/06/15",
     "numSteps": 4294,
     "minutesActive": 138,
     "flightsOfStairs": 10
-  },
+  } ,
   {
     "userID": 3,
     "date": "2019/06/15",
