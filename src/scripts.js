@@ -15,6 +15,7 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
+// All query selectors are being used.
 var sidebarName = document.getElementById('sidebarName');
 var stepGoalCard = document.getElementById('stepGoalCard');
 var headerText = document.getElementById('headerText');
@@ -51,14 +52,20 @@ var userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
 
 function startApp() {
   let userList = [];
+  // users are instantiated in the makeUser method and pushed into userList, which then is used to instantiate the userRepo.
   makeUsers(userList);
   let userRepo = new UserRepo(userList);
+  // new object instantiations for all data sets, will most likely have to swap out with fetched data.
   let hydrationRepo = new Hydration(hydrationData);
   let sleepRepo = new Sleep(sleepData);
   let activityRepo = new Activity(activityData);
+  // userNowId is a random user chosen on page load through pickUser method.
   var userNowId = pickUser();
+  // userNow is the current random user.
   let userNow = getUserById(userNowId, userRepo);
+  // today is always 9/22/19
   let today = makeToday(userRepo, userNowId, hydrationData);
+
   let randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
   historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
   addInfoToSidebar(userNow, userRepo);
@@ -116,9 +123,17 @@ function makeRandomDate(userStorage, id, dataSet) {
 }
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
+
+  // Currently displayed on the Hydration Dashboard.
   hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
+
+  // Currently displayed on the Hydration Dashboard.
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`)
+
+  // Currently displayed on the Hydration Dashboard.
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
+
+// Currently displayed on the Hydration Dashboard.
   hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
 }
 
@@ -146,6 +161,9 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
   return method.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
 }
 
+//getAllUserAverage is not SRP and handling the AVERAGE of, flightsOfStairs, numSteps, minutesActive.
+//userDataForToday is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
+//userDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
   userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`)
   avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'flightsOfStairs')}</span></p>`)
@@ -159,7 +177,7 @@ function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateStr
   userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "minutesActive")));
   bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.userDataForWeek(winnerId, dateString, userStorage, "numSteps")));
 }
-
+//I think renaming these to 'display' vs. 'make' would be more semantic.
 function makeStepsHTML(id, activityInfo, userStorage, method) {
   return method.map(activityData => `<li class="historical-list-listItem">On ${activityData} steps</li>`).join('');
 }
@@ -188,4 +206,6 @@ function makeStepStreakHTML(id, activityInfo, userStorage, method) {
   return method.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
 
+
+// Should be invoked with window onload.
 startApp();
