@@ -50,6 +50,29 @@ var streakList = document.getElementById('streakList');
 var streakListMinutes = document.getElementById('streakListMinutes')
 var userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
 
+function getData() {
+  Promise.all([
+    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData'),
+    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData'),
+    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData'),
+    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
+  ])
+    .then(responses => Promise.all(responses.map(response => response.json())))
+    .then(([userData, sleepData, activityData, hydrationData]) => {
+      console.log('userData', userData);
+      console.log('sleepData', sleepData);
+      console.log('activityData', activityData);
+      console.log('hydrationData', hydrationData);
+    })
+    .catch(err => console.error(err))
+}
+
+
+
+
+
+
+
 function startApp() {
   let userList = [];
   // users are instantiated in the makeUser method and pushed into userList, which then is used to instantiate the userRepo.
@@ -209,3 +232,4 @@ function makeStepStreakHTML(id, activityInfo, userStorage, method) {
 
 // Should be invoked with window onload.
 startApp();
+window.onload = getData();
