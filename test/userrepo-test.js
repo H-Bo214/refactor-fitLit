@@ -7,7 +7,7 @@ import User from '../src/User';
 describe('User Repo', function() {
   let user1;
   let user2;
-  let user;
+  let users; // This was originally missing an "s" at the end, so this test suite wouldn't run
   let userRepo;
 
   beforeEach(function() {
@@ -32,53 +32,63 @@ describe('User Repo', function() {
     users = [user1, user2];
     userRepo = new UserRepo(users);
   });
+// In these beforeEach() statements, should we use a copy of one of the elements in the data array?
+  // For example, user1 = new User(userData[0]) and user2 = new User(userData[1])
 
   it('should be a function', function() {
     const userRepo = new UserRepo();
 
     expect(UserRepo).to.be.a('function');
   });
+  //This test looks good to me- making sure that UserRepo is indeed a function
 
   it('takes an array of user data', function() {
 
     expect(userRepo.users).to.include(user2);
   });
+  // This test isn't really worded for what it's testing. I think there should be some sad path testing here as well- what happens if the argument passed in is undefined/falsey/null/number/etc??
+  // This assertion is appropriate for a test like: "it (should have a list of users)" & I think an appropriate followup would be, each of these users should be instances of `User`.
 
   it('should have a parameter to take in user data', function() {
-    const user1 = new User({
-      id: 1,
-      name: "Alex Roth",
-      address: "1234 Turing Street, Denver CO 80301-1697",
-      email: "alex.roth1@hotmail.com",
-      strideLength: 4.3,
-      dailyStepGoal: 10000,
-      friends: [2, 3, 4]
-    });
-    const users = [user1];
-    const userRepo = new UserRepo(users);
-
-    console.log('here: ', userRepo.users[0]);
+  //Lines 53-65: I'm not sure why this code is here- if the beforeEach() is set up properly, there wouldn't need to be a new user1 & repo instantiation. If you comment all of these lines out, this test still passes, indicating the beforeEach() is working properly.
+    // const user1 = new User({
+    //   id: 1,
+    //   name: "Alex Roth",
+    //   address: "1234 Turing Street, Denver CO 80301-1697",
+    //   email: "alex.roth1@hotmail.com",
+    //   strideLength: 4.3,
+    //   dailyStepGoal: 10000,
+    //   friends: [2, 3, 4]
+    // });
+    // const users = [user1];
+    // const userRepo = new UserRepo(users);
+    //
+    // console.log('here: ', userRepo.users[0]);
 
     expect(userRepo.users[0].id).to.equal(1);
   });
+// Here, I think we're wanting to get at sad path testing for arguments that ARENT user objects.
 
   it('should return user data when given user ID', function() {
 
-
-    userRepo.getDataFromID(1);
+  // This line of code is extraneous & I think this assertion should be a deep equal (looking at an Object)
+    // userRepo.getDataFromID(1);
 
     expect(userRepo.getDataFromID(1)).to.eql(user1);
   });
+//
 
   it('should return the average of all users step goals', function() {
 
-
-    userRepo.calculateAverageStepGoal();
+// This line of code is extraneous
+    // userRepo.calculateAverageStepGoal();
 
     expect(userRepo.calculateAverageStepGoal()).to.eql(9500);
   });
+  //This test looks solid! & is indeed the average of these 2 users step goals (10000 + 9000 / 2 = 9500).
 
   describe('array changes', function() {
+// I am not sure why ANY of these tests are in this file! To me, it seems like a lot of this data retrieval can/should be happening within the Hydration/Activity/Sleep class files. (Though I totally may be off here!)
     let user1;
     let user2;
     let user3;
@@ -472,17 +482,25 @@ describe('User Repo', function() {
         }
       ]);
     });
+
+
     it('should get a users most recent date using the app', function() {
       expect(userRepo.getToday(4, hydrationData)).to.eql("2019/09/20");
     });
+
+
     it('should sort data by date and extract its week', function() {
 
       expect(userRepo.getFirstWeek(4, hydrationData)[3].date).to.eql("2019/09/17");
     });
+
+
     it('should get a sorted week of data for a single user from a date', function() {
       expect(userRepo.getWeekFromDate('2019/09/17', 4, hydrationData)[3].date).to.eql("2019/04/15");
       expect(userRepo.getWeekFromDate('2019/09/18', 4, hydrationData)[3].date).to.eql("2019/09/15");
     });
+// This test has multiple expect statements, which (I think) is a no. This method is not used in scripts.js.
+
     it('should get a week of data for all users in data set', function() {
       expect(userRepo.chooseWeekDataForAllUsers(hydrationData, '2019/09/17')[2].date).to.eql("2019/09/15");
       expect(userRepo.chooseWeekDataForAllUsers(hydrationData, '2019/09/17')[2].userID).to.eql(4);
