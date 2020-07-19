@@ -4,6 +4,7 @@ class Sleep {
   constructor(sleepData) {
     this.sleepData = sleepData;
   }
+  //need to add to DOM
   calculateAverageSleep(id) {
     let perDaySleep = this.sleepData.filter((data) => id === data.userID);
     return perDaySleep.reduce((sumSoFar, data) => {
@@ -20,6 +21,7 @@ class Sleep {
     let findSleepByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
     return findSleepByDate.hoursSlept;
   }
+
   calculateDailySleepQuality(id, date) {
     let findSleepQualityByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
     return findSleepQualityByDate.sleepQuality;
@@ -77,5 +79,6 @@ class Sleep {
   }
 }
 
+//get all-time avg # hrs of sleep for a user
 
 export default Sleep;
