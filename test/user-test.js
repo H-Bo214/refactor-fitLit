@@ -4,7 +4,7 @@ import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
 describe('User', function() {
-
+//We could have a beforeEach() here rather than each instantiation below:
   it('should be a function', function() {
     const user = new User({
       id: 1,
@@ -45,6 +45,7 @@ describe('User', function() {
     expect(user.id).to.equal(1);
     expect(user.name).to.equal("Alex Roth");
   });
+//Multiple expects?? (Bob told me no)
 
   it('should take a different user data object', function() {
     const user2 = new User({

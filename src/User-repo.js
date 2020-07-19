@@ -2,33 +2,49 @@ class UserRepo {
   constructor(users) {
     this.users = users;
   };
+// The spec details that the UserRepository holds onto all of the `User` objects. As it currently stands, this class can hold any type of objects. In the scripts.js file, on lines 71-75, we see where all of the users from the userData are created into instances of `User`. I think that there needs to be something explicit in this file that is turning this.users into an array of instances of `User`.
+
   getDataFromID(id) {
     return this.users.find((user) => id === user.id);
   };
+// From spec: it should have a method to determine a user's data given their ID. I believe I'd switch around user.id === id (though not sure if this matters or is more dev empathy?)
+
   getDataFromUserID(id, dataSet) {
     return dataSet.filter((userData) => id === userData.userID);
   };
+//This code seems extraneous- the idea of this class is that all f the userData is put in as an argument to the UserRepo class. The method above is doing the exact same thing, except with its own `this.users` list.
+
   calculateAverageStepGoal() {
     var totalStepGoal = this.users.reduce((sumSoFar, data) => {
       return sumSoFar = sumSoFar + data.dailyStepGoal;
     }, 0);
     return totalStepGoal / this.users.length;
   };
+//From spec: it should have a method to determine the average step goal amongst all users. It appears that this reduce is working correctly & that we are returning the average step goal of all users.
+
   makeSortedUserArray(id, dataSet) {
     let selectedID = this.getDataFromUserID(id, dataSet)
     let sortedByDate = selectedID.sort((a, b) => new Date(b.date) - new Date(a.date));
     return sortedByDate;
   }
+//This method selects a specific user (using the previously created getDataFromUserID() method) & then sorts the data by date.
+
   getToday(id, dataSet) {
     return this.makeSortedUserArray(id, dataSet)[0].date;
   };
+// This method uses the sorted data from above to get the data for a users day- "today" (most recent day in the data set). Used in getFirstWeek and getWeekFromDate, which are both used within Hydration/
+
   getFirstWeek(id, dataSet) {
     return this.makeSortedUserArray(id, dataSet).slice(0, 7);
   };
+// This method uses the makeSortedUserArray() above & then slices the past weeks worth of data for the user. Used in Hydration,
+
   getWeekFromDate(date, id, dataSet) {
     let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
     return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
   };
+// This method is not used in scripts.js, or elsewhere in this file. It is tested for (like 491-493 of test userrepo-test)
+
   chooseWeekDataForAllUsers(dataSet, date) {
     return dataSet.filter(function(dataItem) {
       return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
