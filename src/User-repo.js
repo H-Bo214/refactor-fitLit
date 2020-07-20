@@ -1,11 +1,12 @@
+import User from "./User";
+
 class UserRepo {
   constructor(users) {
-    this.users = users;
-  };
-// The spec details that the UserRepository holds onto all of the `User` objects. As it currently stands, this class can hold any type of objects. In the scripts.js file, on lines 71-75, we see where all of the users from the userData are created into instances of `User`. I think that there needs to be something explicit in this file that is turning this.users into an array of instances of `User`.
+    this.users = users.map(user => new User(user));
+  }
 
   getDataFromID(id) {
-    return this.users.find((user) => id === user.id);
+    return this.users.find((user) => user.id === id);
   };
 // From spec: it should have a method to determine a user's data given their ID. I believe I'd switch around user.id === id (though not sure if this matters or is more dev empathy?)
 
