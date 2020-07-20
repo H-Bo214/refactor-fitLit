@@ -6,7 +6,7 @@ class UserRepo {
   }
 
   getDataFromID(id) {
-    return this.users.find((user) => id === user.id);
+    return this.users.find((user) => user.id === id);
   };
 // From spec: it should have a method to determine a user's data given their ID. I believe I'd switch around user.id === id (though not sure if this matters or is more dev empathy?)
 

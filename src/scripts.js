@@ -74,18 +74,21 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   hydrationRepo = new Hydration(hydrationData.hydrationData);
   sleepRepo = new Sleep(sleepData.sleepData);
   activityRepo = new Activity(activityData.activityData);
-  console.log(userRepo, hydrationRepo, sleepRepo, activityRepo)
+  let userNowId = generateRandomId(userRepo); 
+  let userNow = generateRandomUser(userRepo, userNowId);
+  console.log(userNow)
+  //Note: Former today was string of "2019/06/15"
+  let today = generateCurrentDate(); 
+  console.log(today)
   // let userList = [];
   // users are instantiated in the makeUser method and pushed into userList, which then is used to instantiate the userRepo.
   // makeUsers(userList);
   // let userRepo = new UserRepo(userList);
-  // new object instantiations for all data sets, will most likely have to swap out with fetched data.
   // userNowId is a random user chosen on page load through pickUser method.
-  var userNowId = pickUser();
+  // var userNowId = pickUser();
   // userNow is the current random user.
-  let userNow = getUserById(userNowId, userRepo);
   // today is always 9/22/19
-  let today = makeToday(userRepo, userNowId, hydrationData);
+  // let today = makeToday(userRepo, userNowId, hydrationData);
 
   let randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
   historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
@@ -97,6 +100,28 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
+function generateRandomId(dataset) {
+  return Math.floor(Math.random() * dataset.users.length);
+}
+
+function generateRandomUser(userRepo, id) {
+  return userRepo.getDataFromID(id);
+};
+
+function generateCurrentDate() {
+  const rawDate = new Date();
+  let day = rawDate.getDate();
+  if (day < 10) {
+    day = `0${day.toString()}`
+  };
+  let month = rawDate.getMonth() + 1;
+  if (month < 10) {
+    month = `0${month.toString()}`
+  };
+  const year = rawDate.getFullYear(); 
+  return `${year}/${month}/${day}`
+}
+
 // function makeUsers(array) {
 //   userData.forEach(function(dataItem) {
 //     let user = new User(dataItem);
@@ -104,15 +129,7 @@ function startApp(userData, sleepData, activityData, hydrationData) {
 //   })
 // }
 
-function pickUser() {
-  return Math.floor(Math.random() * 50);
-}
-
-function getUserById(id, listRepo) {
-  return listRepo.getDataFromID(id);
-};
-
-
+///////
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
@@ -132,10 +149,10 @@ function makeWinnerID(activityInfo, user, dateString, userStorage){
   return activityInfo.getWinnerId(user, dateString, userStorage)
 }
 
-function makeToday(userStorage, id, dataSet) {
-  var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
-  return sortedArray[0].date;
-}
+// function makeToday(userStorage, id, dataSet) {
+//   var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
+//   return sortedArray[0].date;
+// }
 
 function makeRandomDate(userStorage, id, dataSet) {
   var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
