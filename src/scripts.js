@@ -19,7 +19,7 @@ import UserRepo from './User-repo';
 // var sidebarName = document.getElementById('sidebarName'); Old variable no longer being used.
 
 var sidebarHeaderName = document.querySelector('.sidebar-header-name')
-var stepGoalCard = document.getElementById('stepGoalCard');
+var stepGoalCard = document.querySelector('.step-goal-card');
 var headerText = document.getElementById('headerText');
 var userAddress = document.getElementById('userAddress');
 var userEmail = document.getElementById('userEmail');
