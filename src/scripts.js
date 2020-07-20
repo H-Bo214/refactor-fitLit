@@ -4,10 +4,10 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
-import userData from './data/users';
-import hydrationData from './data/hydration';
-import sleepData from './data/sleep';
-import activityData from './data/activity';
+// import userData from './data/users';
+// import hydrationData from './data/hydration';
+// import sleepData from './data/sleep';
+// import activityData from './data/activity';
 
 import User from './User';
 import Activity from './Activity';
@@ -50,6 +50,10 @@ var streakList = document.getElementById('streakList');
 var streakListMinutes = document.getElementById('streakListMinutes')
 var userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
 
+let userRepo, hydrationRepo, sleepRepo, activityRepo 
+
+window.onload = getData();
+
 function getData() {
   Promise.all([
     fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData'),
@@ -58,30 +62,24 @@ function getData() {
     fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
   ])
     .then(responses => Promise.all(responses.map(response => response.json())))
-    .then(([userData, sleepData, activityData, hydrationData]) => {
-      console.log('userData', userData);
-      console.log('sleepData', sleepData);
-      console.log('activityData', activityData);
-      console.log('hydrationData', hydrationData);
-    })
+    .then(([userData, sleepData, activityData, hydrationData]) => startApp(userData, sleepData, activityData, hydrationData)
+    )
     .catch(err => console.error(err))
 }
 
 
 
-
-
-
-
-function startApp() {
-  let userList = [];
+function startApp(userData, sleepData, activityData, hydrationData) {
+  userRepo = new UserRepo(userData.userData); 
+  hydrationRepo = new Hydration(hydrationData.hydrationData);
+  sleepRepo = new Sleep(sleepData.sleepData);
+  activityRepo = new Activity(activityData.activityData);
+  console.log(userRepo, hydrationRepo, sleepRepo, activityRepo)
+  // let userList = [];
   // users are instantiated in the makeUser method and pushed into userList, which then is used to instantiate the userRepo.
-  makeUsers(userList);
-  let userRepo = new UserRepo(userList);
+  // makeUsers(userList);
+  // let userRepo = new UserRepo(userList);
   // new object instantiations for all data sets, will most likely have to swap out with fetched data.
-  let hydrationRepo = new Hydration(hydrationData);
-  let sleepRepo = new Sleep(sleepData);
-  let activityRepo = new Activity(activityData);
   // userNowId is a random user chosen on page load through pickUser method.
   var userNowId = pickUser();
   // userNow is the current random user.
@@ -99,12 +97,12 @@ function startApp() {
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
-function makeUsers(array) {
-  userData.forEach(function(dataItem) {
-    let user = new User(dataItem);
-    array.push(user);
-  })
-}
+// function makeUsers(array) {
+//   userData.forEach(function(dataItem) {
+//     let user = new User(dataItem);
+//     array.push(user);
+//   })
+// }
 
 function pickUser() {
   return Math.floor(Math.random() * 50);
@@ -231,5 +229,4 @@ function makeStepStreakHTML(id, activityInfo, userStorage, method) {
 
 
 // Should be invoked with window onload.
-startApp();
-window.onload = getData();
+// startApp();
