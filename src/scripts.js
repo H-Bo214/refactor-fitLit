@@ -16,7 +16,9 @@ import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
 // All query selectors are being used.
-var sidebarName = document.getElementById('sidebarName');
+// var sidebarName = document.getElementById('sidebarName'); Old variable no longer being used.
+
+var sidebarHeaderName = document.querySelector('.sidebar-header-name')
 var stepGoalCard = document.getElementById('stepGoalCard');
 var headerText = document.getElementById('headerText');
 var userAddress = document.getElementById('userAddress');
@@ -131,7 +133,7 @@ function generateCurrentDate() {
 
 ///////
 function addInfoToSidebar(user, userStorage) {
-  sidebarName.innerText = user.name;
+  sidebarHeaderName.innerText = user.name;
   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
   stepGoalCard.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
   avStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
