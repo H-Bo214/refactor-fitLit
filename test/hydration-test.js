@@ -112,13 +112,13 @@ describe('Hydration', function() {
 
   // test and data used for this test checks out. Method functioning correctly based on current code.
   it.only('should find the average water intake per day for a user', function() {
-    expect(hydration.calculateAverageOunces(3)).to.equal(2);
+    expect(hydration.calcAvgOuncesConsumedByDay(3)).to.equal(2);
   });
 
     // test and data used for this test checks out. Method functioning correctly based on current code.
   it.only('should find the water intake for a user on a specified date', function() {
-    expect(hydration.calculateDailyOunces(1, "2019/06/15")).to.equal(37);
-    expect(hydration.calculateDailyOunces(4, "2019/04/15")).to.equal(36);
+    expect(hydration.calcOuncesConsumedByDay(1, "2019/06/15")).to.equal(37);
+    expect(hydration.calcOuncesConsumedByDay(4, "2019/04/15")).to.equal(36);
   });
 
   it.only('should find water intake by day for first week', function() {
@@ -143,9 +143,9 @@ describe('Hydration', function() {
     });
     const users = [user3, user4];
     const userRepo = new UserRepo(users);
-    // console.log(hydration.calculateFirstWeekOunces(userRepo, 4));
-    expect(hydration.calculateFirstWeekOunces(userRepo, 4)[0]).to.eql('2019/09/20: 40');
-    expect(hydration.calculateFirstWeekOunces(userRepo, 4)[6]).to.eql('2019/04/15: 36');
+    // console.log(hydration.calcRecentWeekOunces(userRepo, 4));
+    expect(hydration.calcRecentWeekOunces(userRepo, 4)[0]).to.eql('2019/09/20: 40');
+    expect(hydration.calcRecentWeekOunces(userRepo, 4)[6]).to.eql('2019/04/15: 36');
   });
 
   it.only('should find sleep quality by day for that days week', function() {
@@ -170,9 +170,9 @@ describe('Hydration', function() {
     });
     const users = [user3, user4];
     const userRepo = new UserRepo(users);
-    // console.log("HELOOO", hydration.calculateRandomWeekOunces('2018/02/01', 4, userRepo));
-    expect(hydration.calculateRandomWeekOunces('2019/09/18', 4, userRepo)[0]).to.eql('2019/09/18: 40');
-    // expect(hydration.calculateRandomWeekOunces('2018/02/01', 4, userRepo)[6]).to.eql('2019/09/16: 30');
+    // console.log("HELOOO", hydration.calcAdditionalWeekOunces('2018/02/01', 4, userRepo));
+    expect(hydration.calcAdditionalWeekOunces('2019/09/18', 4, userRepo)[0]).to.eql('2019/09/18: 40');
+    // expect(hydration.calcAdditionalWeekOunces('2018/02/01', 4, userRepo)[6]).to.eql('2019/09/16: 30');
     //this is failing because it doesn't exist, need a failure case
   })
   //day of hydration should not include user 2 or user 1 on August 22

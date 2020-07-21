@@ -163,16 +163,16 @@ function makeRandomDate(userStorage, id, dataSet) {
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
 
   // Currently displayed on the Hydration Dashboard.
-  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
+  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calcOuncesConsumedByDay(id, dateString)}</span></p><p>oz water today.</p>`);
 
   // Currently displayed on the Hydration Dashboard.
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`)
+  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calcAvgOuncesConsumedByDay(id)}</span></p> <p>oz per day.</p>`)
 
   // Currently displayed on the Hydration Dashboard.
-  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
+  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcRecentWeekOunces(userStorage, id)));
 
 // Currently displayed on the Hydration Dashboard.
-  hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
+  hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcAdditionalWeekOunces(laterDateString, id, userStorage)));
 }
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
