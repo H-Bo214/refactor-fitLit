@@ -4,6 +4,8 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
+import domUpdates from '../src/domUpdates'
+
 // import userData from './data/users';
 // import hydrationData from './data/hydration';
 // import sleepData from './data/sleep';
