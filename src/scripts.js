@@ -15,42 +15,34 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
-// All query selectors are being used.
-var sidebarName = document.getElementById('sidebarName');
-var stepGoalCard = document.getElementById('stepGoalCard');
-var headerText = document.getElementById('headerText');
-var userAddress = document.getElementById('userAddress');
-var userEmail = document.getElementById('userEmail');
-var userStridelength = document.getElementById('userStridelength');
-var friendList = document.getElementById('friendList');
-var hydrationToday = document.getElementById('hydrationToday');
-var hydrationAverage = document.getElementById('hydrationAverage');
-var hydrationThisWeek = document.getElementById('hydrationThisWeek');
-var hydrationEarlierWeek = document.getElementById('hydrationEarlierWeek');
-var historicalWeek = document.querySelectorAll('.historicalWeek');
-var sleepToday = document.getElementById('sleepToday');
-var sleepQualityToday = document.getElementById('sleepQualityToday');
-var userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
-var sleepThisWeek = document.getElementById('sleepThisWeek');
-var sleepQualityWeek = document.getElementById('sleepQualityWeek');
-var friendChallengeListToday = document.getElementById('friendChallengeListToday');
-var friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
-var bigWinner = document.getElementById('bigWinner');
-var userStepsToday = document.getElementById('userStepsToday');
-var avgStepsToday = document.getElementById('avgStepsToday');
-var userStairsToday = document.getElementById('userStairsToday');
-var avgStairsToday = document.getElementById('avgStairsToday');
-var userMinutesToday = document.getElementById('userMinutesToday');
-var avgMinutesToday = document.getElementById('avgMinutesToday');
-var userStepsThisWeek = document.getElementById('userStepsThisWeek');
-var userStairsThisWeek = document.getElementById('userStairsThisWeek');
-var userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
-var bestUserSteps = document.getElementById('bestUserSteps');
-var streakList = document.getElementById('streakList');
-var streakListMinutes = document.getElementById('streakListMinutes')
-var userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
+// All query selectors are being used
 
-let userRepo, hydrationRepo, sleepRepo, activityRepo; 
+let sleepToday = document.getElementById('sleepToday');
+let sleepQualityToday = document.getElementById('sleepQualityToday');
+let userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
+let userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
+let sleepThisWeek = document.getElementById('sleepThisWeek');
+let sleepQualityWeek = document.getElementById('sleepQualityWeek');
+
+let userStepsToday = document.getElementById('userStepsToday');
+let avgStepsToday = document.getElementById('avgStepsToday');
+let userStairsToday = document.getElementById('userStairsToday');
+let avgStairsToday = document.getElementById('avgStairsToday');
+let userMinutesToday = document.getElementById('userMinutesToday');
+let avgMinutesToday = document.getElementById('avgMinutesToday');
+let userStepsThisWeek = document.getElementById('userStepsThisWeek');
+let userStairsThisWeek = document.getElementById('userStairsThisWeek');
+let userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
+let bestUserSteps = document.getElementById('bestUserSteps');
+
+let bigWinner = document.getElementById('bigWinner');
+let friendChallengeListToday = document.getElementById('friendChallengeListToday');
+let friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
+let streakList = document.getElementById('streakList');
+
+
+
+let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory;
 
 window.onload = getData();
 
@@ -70,14 +62,14 @@ function getData() {
 
 
 function startApp(userData, sleepData, activityData, hydrationData) {
-  userRepo = new UserRepo(userData.userData); 
+  userRepo = new UserRepo(userData.userData);
   hydrationRepo = new Hydration(hydrationData.hydrationData);
   sleepRepo = new Sleep(sleepData.sleepData);
   activityRepo = new Activity(activityData.activityData);
-  let userNowId = generateRandomId(userRepo); 
+  let userNowId = generateRandomId(userRepo);
   let userNow = generateRandomUser(userRepo, userNowId);
-  //Note: Former today was string of "2019/06/15"; new function below generates string of same format 
-  // let today = generateCurrentDate(); 
+  //Note: Former today was string of "2019/06/15"; new function below generates string of same format
+  // let today = generateCurrentDate();
   // console.log(today)
   // let userList = [];
   // users are instantiated in the makeUser method and pushed into userList, which then is used to instantiate the userRepo.
@@ -89,8 +81,10 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   // today is always 9/22/19
   let today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
   console.log(today)
-  let randomHistory = makeRandomDate(userRepo, userNowId, hydrationRepo.hydrationData);
-  historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
+  randomHistory = makeRandomDate(userRepo, userNowId, hydrationRepo.hydrationData);
+
+  //Some of this is hydration card functionality- not sure why it's in start app rather than in the hydration function below!
+
   addInfoToSidebar(userNow, userRepo);
   addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
   addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
@@ -107,7 +101,7 @@ function generateRandomUser(userRepo, id) {
   return userRepo.getDataFromID(id);
 };
 
-//Not being used right now; use to get date later 
+//Not being used right now; use to get date later
 function generateCurrentDate() {
   const rawDate = new Date();
   let day = rawDate.getDate();
@@ -118,7 +112,7 @@ function generateCurrentDate() {
   if (month < 10) {
     month = `0${month.toString()}`
   };
-  const year = rawDate.getFullYear(); 
+  const year = rawDate.getFullYear();
   return `${year}/${month}/${day}`
 }
 
@@ -130,14 +124,31 @@ function generateCurrentDate() {
 // }
 
 ///////
+
+/* Dom functions */
 function addInfoToSidebar(user, userStorage) {
-  sidebarName.innerText = user.name;
+  let headerText = document.getElementById('headerText');
   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
-  stepGoalCard.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
-  avStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
+
+  let sidebarHeader = document.getElementById('sidebarName');
+  sidebarHeader.innerText = user.name;
+
+  let userAddress = document.getElementById('userAddress');
   userAddress.innerText = user.address;
+
+  let userEmail = document.getElementById('userEmail');
   userEmail.innerText = user.email;
-  userStridelength.innerText = `Your stridelength is ${user.strideLength} meters.`;
+
+  let userStrideLength = document.getElementById('userStridelength');
+  userStrideLength.innerText = `Your stridelength is ${user.strideLength} meters.`;
+
+  let userStepGoal = document.getElementById('stepGoalCard');
+  userStepGoal.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
+
+  //Right now, this is missing from the DOM interface! Not sure if we want to include this or remove both this method & html elements. The FitLit spec does say that this should be included
+  avStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
+
+  let friendList = document.getElementById('friendList');
   friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(user, userStorage))
 };
 
@@ -161,18 +172,25 @@ function makeRandomDate(userStorage, id, dataSet) {
 }
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
-
   // Currently displayed on the Hydration Dashboard.
+  let hydrationToday = document.getElementById('hydrationToday');
   hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
 
   // Currently displayed on the Hydration Dashboard.
+  let hydrationAverage = document.getElementById('hydrationAverage');
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`)
 
+
   // Currently displayed on the Hydration Dashboard.
+  let hydrationThisWeek = document.getElementById('hydrationThisWeek');
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
 
 // Currently displayed on the Hydration Dashboard.
+  let hydrationEarlierWeek = document.getElementById('hydrationEarlierWeek');
   hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
+
+  let historicalWeek = document.querySelectorAll('.historicalWeek');
+  historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
 }
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
@@ -229,9 +247,13 @@ function makeMinutesHTML(id, activityInfo, userStorage, method) {
 }
 
 function addFriendGameInfo(id, activityInfo, userStorage, dateString, laterDateString, user) {
+  let streakListMinutes = document.getElementById('streakListMinutes')
+  streakListMinutes.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'minutesActive')));
+
+
+
   friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.showChallengeListAndWinner(user, dateString, userStorage)));
   streakList.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'numSteps')));
-  streakListMinutes.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'minutesActive')));
   friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.showChallengeListAndWinner(user, dateString, userStorage)));
   bigWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${activityInfo.showcaseWinner(user, dateString, userStorage)} steps`)
 }
