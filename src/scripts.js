@@ -17,13 +17,6 @@ import UserRepo from './User-repo';
 
 // All query selectors are being used
 
-let sleepToday = document.getElementById('sleepToday');
-let sleepQualityToday = document.getElementById('sleepQualityToday');
-let userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
-let userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
-let sleepThisWeek = document.getElementById('sleepThisWeek');
-let sleepQualityWeek = document.getElementById('sleepQualityWeek');
-
 let userStepsToday = document.getElementById('userStepsToday');
 let avgStepsToday = document.getElementById('avgStepsToday');
 let userStairsToday = document.getElementById('userStairsToday');
@@ -198,15 +191,23 @@ function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
 }
 
 function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
+  let sleepToday = document.getElementById('sleepToday');
   sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${sleepInfo.calculateDailySleep(id, dateString)}</span></p> <p>hours today.</p>`);
+
+  let sleepQualityToday = document.getElementById('sleepQualityToday');
   sleepQualityToday.insertAdjacentHTML("afterBegin", `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calculateDailySleepQuality(id, dateString)}</span></p><p>out of 5.</p>`);
+
+  let userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
   userAvgSleepQuality.insertAdjacentHTML("afterBegin",`<p>Your average sleep quality is</p> <p><span class="number">${Math.round(sleepInfo.calculateAverageSleepQuality(id) *100)/100}</span></p><p>out of 5.</p>`);
+
+  let userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
   userAvgSleepQuantity.insertAdjacentHTML("afterBegin", `<p>Your average hours slept is</p> <p><span class="number">${Math.round(sleepInfo.calculateAverageSleep(id) * 100)/100}</span></p><p>per day.</p>`)
 
+  let sleepThisWeek = document.getElementById('sleepThisWeek');
   sleepThisWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userStorage, sleepInfo.calculateWeekSleep(dateString, id, userStorage)));
+
+  let sleepQualityWeek = document.getElementById('sleepQualityWeek');
   sleepQualityWeek.insertAdjacentHTML('afterBegin', makeSleepQualityHTML(id, sleepInfo, userStorage, sleepInfo.calculateWeekSleepQuality(dateString, id, userStorage)));
-//
-  userAvgSleepQuantity
 }
 
 function makeSleepHTML(id, sleepInfo, userStorage, method) {
