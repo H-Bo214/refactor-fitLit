@@ -1,0 +1,4 @@
+@mixin displayStyle($display, $direction) {
+  display: $display;
+  flex-direction: $direction;
+}
