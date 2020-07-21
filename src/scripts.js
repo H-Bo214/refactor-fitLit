@@ -171,19 +171,20 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 
   // Currently displayed on the Hydration Dashboard.
   let hydrationAverage = document.getElementById('hydrationAverage');
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`)
-
+  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id).toFixed(2)}</span></p> <p>oz per day.</p>`)
 
   // Currently displayed on the Hydration Dashboard.
   let hydrationThisWeek = document.getElementById('hydrationThisWeek');
   hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
 
 // Currently displayed on the Hydration Dashboard.
-  let hydrationEarlierWeek = document.getElementById('hydrationEarlierWeek');
-  hydrationEarlierWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
+  let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
+  hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
 
-  let historicalWeek = document.querySelectorAll('.historicalWeek');
-  historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
+// Currently displayed on the Hydration Dashboard.
+  let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
+  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
+
 }
 
 function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
