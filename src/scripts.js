@@ -17,17 +17,6 @@ import UserRepo from './User-repo';
 
 // All query selectors are being used
 
-let userStepsToday = document.getElementById('userStepsToday');
-let avgStepsToday = document.getElementById('avgStepsToday');
-let userStairsToday = document.getElementById('userStairsToday');
-let avgStairsToday = document.getElementById('avgStairsToday');
-let userMinutesToday = document.getElementById('userMinutesToday');
-let avgMinutesToday = document.getElementById('avgMinutesToday');
-let userStepsThisWeek = document.getElementById('userStepsThisWeek');
-let userStairsThisWeek = document.getElementById('userStairsThisWeek');
-let userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
-let bestUserSteps = document.getElementById('bestUserSteps');
-
 let bigWinner = document.getElementById('bigWinner');
 let friendChallengeListToday = document.getElementById('friendChallengeListToday');
 let friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
@@ -223,16 +212,34 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
 //userDataForToday is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
 //userDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
-  userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`)
-  avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'flightsOfStairs')}</span></p>`)
-  //add miles to this block
+  let userStepsToday = document.getElementById('userStepsToday');
   userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'numSteps')} (${activityInfo.getMilesFromStepsByDate(id, dateString, userStorage)} miles)</span></p>`)
+
+  let avgStepsToday = document.getElementById('avgStepsToday');
   avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'numSteps')}</span></p>`)
+
+  let userStairsToday = document.getElementById('userStairsToday');
+  userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`)
+
+  let avgStairsToday = document.getElementById('avgStairsToday');
+  avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'flightsOfStairs')}</span></p>`)
+
+  let userMinutesToday = document.getElementById('userMinutesToday');
   userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'minutesActive')}</span></p>`)
+
+  let avgMinutesToday = document.getElementById('avgMinutesToday');
   avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'minutesActive')}</span></p>`)
+
+  let userStepsThisWeek = document.getElementById('userStepsThisWeek');
   userStepsThisWeek.insertAdjacentHTML("afterBegin", makeStepsHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "numSteps")));
+
+  let userStairsThisWeek = document.getElementById('userStairsThisWeek');
   userStairsThisWeek.insertAdjacentHTML("afterBegin", makeStairsHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "flightsOfStairs")));
+
+  let userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
   userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "minutesActive")));
+
+  let bestUserSteps = document.getElementById('bestUserSteps');
   bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.userDataForWeek(winnerId, dateString, userStorage, "numSteps")));
 }
 //I think renaming these to 'display' vs. 'make' would be more semantic.
