@@ -73,7 +73,7 @@ function generateRandomId(dataset) {
 }
 
 function generateRandomUser(userRepo, id) {
-  return userRepo.getDataFromID(id);
+  return userRepo.getUserFromId(id);
 };
 
 //Not being used right now; use to get date later
@@ -132,17 +132,17 @@ function makeFriendHTML(user, userStorage) {
 }
 
 function makeWinnerID(activityInfo, user, dateString, userStorage){
-  return activityInfo.getWinnerId(user, dateString, userStorage)
+  return activityInfo.getWinnerById(user, dateString, userStorage)
 }
 
 function makeToday(userStorage, id, dataSet) {
-  var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
+  var sortedArray = userStorage.sortDataByDate(id, dataSet);
   return sortedArray[0].date;
 }
 
 //
 function makeRandomDate(userStorage, id, dataSet) {
-  var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
+  var sortedArray = userStorage.sortDataByDate(id, dataSet);
   return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
 }
 
@@ -202,8 +202,8 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
 }
 
 //getAllUserAverage is not SRP and handling the AVERAGE of, flightsOfStairs, numSteps, minutesActive.
-//userDataForToday is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
-//userDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
+//getUserDataByDate is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
+//getUserDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
   let userStepsToday = document.getElementById('userStepsToday');
   userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'numSteps')} (${activityInfo.getMilesFromStepsByDate(id, dateString, userStorage)} miles)</span></p>`)

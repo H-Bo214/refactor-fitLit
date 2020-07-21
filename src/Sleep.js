@@ -19,7 +19,7 @@ class Sleep {
     this.sleepData = sleepData;
   }
   //need to add to DOM
-  calculateAverageSleep(id) {
+  calcAverageSleepForDay(id) {
     let perDaySleep = this.sleepData.filter((data) => id === data.userID);
     return perDaySleep.reduce((sumSoFar, data) => {
       return sumSoFar += data.hoursSlept;
@@ -31,7 +31,7 @@ class Sleep {
   //doing the calculation to get the average sleep per day
   //appears to be working
 
-  calculateAverageSleepQuality(id) {
+  calcTotalAverageSleepQuality(id) {
     let perDaySleepQuality = this.sleepData.filter((data) => id === data.userID);
     return perDaySleepQuality.reduce((sumSoFar, data) => {
       return sumSoFar += data.sleepQuality;
@@ -43,7 +43,7 @@ class Sleep {
   //doing the calculation to get the average sleep quality
   //the functionality does not appear to be working---most likely a data issue---actually maybe bad code
 
-  calculateDailySleep(id, date) {
+  calcHoursSleptForDay(id, date) {
     let findSleepByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
     return findSleepByDate.hoursSlept;
   }
@@ -54,7 +54,7 @@ class Sleep {
   //appears on page as you slept 4.3 hours today
   //the functionality does appear to be working
 
-  calculateDailySleepQuality(id, date) {
+  calcSleepQualityForDay(id, date) {
     let findSleepQualityByDate = this.sleepData.find((data) => id === data.userID && date === data.date);
     return findSleepQualityByDate.sleepQuality;
   }
@@ -65,25 +65,25 @@ class Sleep {
   //appears on page as your sleep quality was 1.9 out of 5
   //the functionality does not appear to be working
 
-  calculateWeekSleep(date, id, userRepo) {
-    return userRepo.getWeekFromDate(date, id, this.sleepData).map((data) => `${data.date}: ${data.hoursSlept}`);
+  calcHoursSleptDailyForWeek(date, id, userRepo) {
+    return userRepo.getSpecifiedWeekOfData(date, id, this.sleepData).map((data) => `${data.date}: ${data.hoursSlept}`);
   }
   //function for how many hours slept each day over the course of a given week (7 days) - you should be able to calculate this for any week, not just the latest week
   //passing through date, id and userRepo
   //using map to create list of date: hoursSlept
-  //using getWeekFromDate method in userRepo
+  //using getSpecifiedWeekOfData method in userRepo
   //the functionality appears to be working
 
-  calculateWeekSleepQuality(date, id, userRepo) {
-    return userRepo.getWeekFromDate(date, id, this.sleepData).map((data) => `${data.date}: ${data.sleepQuality}`);
+  calcQualitySleepForWeek(date, id, userRepo) {
+    return userRepo.getSpecifiedWeekOfData(date, id, this.sleepData).map((data) => `${data.date}: ${data.sleepQuality}`);
   }
   //function for their sleep quality each day over the course of a given week (7 days) - you should be able to calculate this for any week, not just the latest week
   //passing through date, id and userRepo
   //using map to create list of date: sleepQuality
-  //using getWeekFromDate method in userRepo
+  //using getSpecifiedWeekOfData method in userRepo
   //the functionality appears absent
 
-  calculateAllUserSleepQuality() {
+  calcAllUserSleepQuality() {
     var totalSleepQuality = this.sleepData.reduce(function(sumSoFar, dataItem) {
       sumSoFar += dataItem.sleepQuality;
       return sumSoFar;
@@ -96,8 +96,8 @@ class Sleep {
   //the functionality appears to be working
 
   determineBestSleepers(date, userRepo) {
-    let timeline = userRepo.chooseWeekDataForAllUsers(this.sleepData, date);
-    let userSleepObject = userRepo.isolateUsernameAndRelevantData(this.sleepData, date, 'sleepQuality', timeline);
+    let timeline = userRepo.getAllUsersWeekOfData(this.sleepData, date);
+    let userSleepObject = userRepo.isolateUserIdAndPropertyData('sleepQuality', timeline);
 
     return Object.keys(userSleepObject).filter(function(key) {
       return (userSleepObject[key].reduce(function(sumSoFar, sleepQualityValue) {
@@ -105,33 +105,33 @@ class Sleep {
         return sumSoFar;
       }, 0) / userSleepObject[key].length) > 3
     }).map(function(sleeper) {
-      return userRepo.getDataFromID(parseInt(sleeper)).name;
+      return userRepo.getUserFromId(parseInt(sleeper)).name;
     })
   }
   //function to determine the best sleepers among users
   //pass through date and userRepo
-  //using chooseWeekDataForAllUsers from user-repo to calculate timeline
-  //using isolateUsernameAndRelevantData from user-repo to calculate pertient info for each user
-  //using getDataFromID from user-repo to specifiy user
+  //using getAllUsersWeekOfData from user-repo to calculate timeline
+  //using isolateUserIdAndPropertyData from user-repo to calculate pertient info for each user
+  //using getUserFromId from user-repo to specifiy user
   //does not appear to be functioning
 
-  determineSleepWinnerForWeek(date, userRepo) {
-    let timeline = userRepo.chooseWeekDataForAllUsers(this.sleepData, date);
-    let sleepRankWithData = userRepo.combineRankedUserIDsAndAveragedData(this.sleepData, date, 'sleepQuality', timeline);
+  getUsersWithMostSleepWeekly(date, userRepo) {
+    let timeline = userRepo.getAllUsersWeekOfData(this.sleepData, date);
+    let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages(this.sleepData, date, 'sleepQuality', timeline);
 
     return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
   }
   //function for users who have slept the most for the past week
 
-  determineSleepHoursWinnerForDay(date, userRepo) {
-    let timeline = userRepo.chooseDayDataForAllUsers(this.sleepData, date);
-    let sleepRankWithData = userRepo.combineRankedUserIDsAndAveragedData(this.sleepData, date, 'hoursSlept', timeline);
+  getUsersWithMostSleepForDay(date, userRepo) {
+    let timeline = userRepo.getAllUsersDayData(this.sleepData, date);
+    let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages(this.sleepData, date, 'hoursSlept', timeline);
 
     return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
   }
   //function for users who have slept the most for the day
 
-  getWinnerNamesFromList(sortedArray, userRepo) {
+  getBestSleepersForWeekandDay(sortedArray, userRepo) {
     let bestSleepers = sortedArray.filter(function(element) {
       return element[Object.keys(element)] === Object.values(sortedArray[0])[0]
     });
@@ -141,7 +141,7 @@ class Sleep {
     });
 
     return bestSleeperIds.map(function(sleepNumber) {
-      return userRepo.getDataFromID(parseInt(sleepNumber)).name;
+      return userRepo.getUserFromId(parseInt(sleepNumber)).name;
     });
   }
   //function for extracting user names for those who slept the most that week and the most that day
