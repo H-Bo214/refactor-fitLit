@@ -15,15 +15,6 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 import UserRepo from './User-repo';
 
-// All query selectors are being used
-
-let bigWinner = document.getElementById('bigWinner');
-let friendChallengeListToday = document.getElementById('friendChallengeListToday');
-let friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
-let streakList = document.getElementById('streakList');
-
-
-
 let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory;
 
 window.onload = getData();
@@ -256,25 +247,29 @@ function makeMinutesHTML(id, activityInfo, userStorage, method) {
 }
 
 function addFriendGameInfo(id, activityInfo, userStorage, dateString, laterDateString, user) {
-  let streakListMinutes = document.getElementById('streakListMinutes')
-  streakListMinutes.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'minutesActive')));
+  let increasedActivityStreak = document.getElementById('streakListMinutes')
+  increasedActivityStreak.insertAdjacentHTML("afterBegin", createStepStreak(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'minutesActive')));
 
+  let thisWeeksWinner = document.getElementById('bigWinner');
+  thisWeeksWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${activityInfo.showcaseWinner(user, dateString, userStorage)} steps`)
 
-
+  let friendChallengeListToday = document.getElementById('friendChallengeListToday');
   friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.showChallengeListAndWinner(user, dateString, userStorage)));
-  streakList.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'numSteps')));
+
+  let friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
   friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.showChallengeListAndWinner(user, dateString, userStorage)));
-  bigWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${activityInfo.showcaseWinner(user, dateString, userStorage)} steps`)
+
+  let stepStreak = document.getElementById('streakList');
+  stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'numSteps')));
 }
 
 function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
   return method.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData} average steps.</li>`).join('');
 }
 
-function makeStepStreakHTML(id, activityInfo, userStorage, method) {
+function createStepStreak(id, activityInfo, userStorage, method) {
   return method.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
-
 
 // Should be invoked with window onload.
 // startApp();
