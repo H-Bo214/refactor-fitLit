@@ -87,17 +87,20 @@ main {
 
 .main-column-hydration {
   @include displayStyle(flex, row);
-  height: 25%
+  flex-grow: 1;
+  // height: 25%
 }
 
 .main-column-activity {
   @include displayStyle(flex, row);
-  height: 50%
+  // height: 50%
+  flex-grow: 1;
 }
 
 .main-column-sleep {
   @include displayStyle(flex, row);
-  height: 35%
+  // height: 35%
+  flex-grow: 1;
 }
 
 .infoContainer-cardContainer-card-horizontal {
@@ -127,11 +130,7 @@ main {
 }
 
 .card-today-hydration {
-  text-align: center;
-  background-color: #5BC8AC;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
+  @include cardStyle($hydration-color);
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: space-between;
@@ -139,11 +138,7 @@ main {
 }
 
 .card-today-sleep {
-  text-align: center;
-  background-color: #EC96A4;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
+  @include cardStyle($sleep-color);
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: space-between;
@@ -151,11 +146,7 @@ main {
 }
 
 .card-today-activity {
-  text-align: center;
-  background-color: #DFE166;
-  height: auto;
-  font-size: 1.5em;
-  margin: .3em;
+  @include cardStyle($activity-color);
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: space-between;
@@ -163,10 +154,7 @@ main {
 }
 
 .card-history-hydration {
-  text-align: center;
-  background-color: #5BC8AC;
-  font-size: 1em;
-  margin: .5em;
+  @include cardStyle($hydration-color);
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: flex-start;
@@ -174,10 +162,7 @@ main {
 }
 
 .card-history-sleep {
-  text-align: center;
-  background-color: #EC96A4;
-  font-size: 1em;
-  margin: .5em;
+  @include cardStyle($sleep-color);
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: flex-start;
@@ -185,10 +170,7 @@ main {
 }
 
 .card-history-activity {
-  text-align: center;
-  background-color: #DFE166;
-  font-size: 1em;
-  margin: .5em;
+  @include cardStyle($activity-color);
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: flex-start;
@@ -204,7 +186,7 @@ main {
   font-kerning: normal;
 }
 
-.historicalWeek, .weekly-sleep-quality {
+.historicalWeek, .weekly-sleep-quality, .thisWeek {
   text-align: center;
   font-size: 1em;
   font-weight: bolder;
@@ -212,13 +194,13 @@ main {
   color: black;
 }
 
-.thisWeek {
-  text-align: center;
-  font-size: 1em;
-  font-weight: bolder;
-  margin: .5em;
-  color: black;
-}
+// .thisWeek {
+//   text-align: center;
+//   font-size: 1em;
+//   font-weight: bolder;
+//   margin: .5em;
+//   color: black;
+// }
 
 .card-vertical-list {
   list-style-type: none;

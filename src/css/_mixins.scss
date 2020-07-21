@@ -2,3 +2,10 @@
   display: $display;
   flex-direction: $direction;
 }
+
+@mixin cardStyle($color) {
+  background-color: $color;
+  text-align: center;
+  font-size: 1em;
+  margin: .5em;
+}
