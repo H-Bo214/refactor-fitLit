@@ -20,6 +20,7 @@ import UserRepo from './User-repo';
 
 var sidebarHeaderName = document.querySelector('.sidebar-header-name')
 var stepGoalCard = document.querySelector('.step-goal-card');
+var avgStepGoalCard = document.querySelector('.avg-step-goal-card')
 var headerText = document.getElementById('headerText');
 var userAddress = document.getElementById('userAddress');
 var userEmail = document.getElementById('userEmail');
@@ -136,7 +137,7 @@ function addInfoToSidebar(user, userStorage) {
   sidebarHeaderName.innerText = user.name;
   headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
   stepGoalCard.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
-  avStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
+  avgStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
   userAddress.innerText = user.address;
   userEmail.innerText = user.email;
   userStridelength.innerText = `Your stridelength is ${user.strideLength} meters.`;
