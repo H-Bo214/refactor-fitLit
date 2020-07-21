@@ -2,92 +2,98 @@ import User from "./User";
 
 class UserRepo {
   constructor(users) {
-    this.users = users.map(user => new User(user));
+    if (users === undefined) {
+      this.users = []
+    } else {
+      this.users = users.map(user => new User(user));
+    }
   }
 
-  getDataFromID(id) {
+  getUserFromId(id) {
     return this.users.find((user) => user.id === id);
   };
 // From spec: it should have a method to determine a user's data given their ID. I believe I'd switch around user.id === id (though not sure if this matters or is more dev empathy?)
 
-  getDataFromUserID(id, dataSet) {
-    return dataSet.filter((userData) => id === userData.userID);
+  getDataMatchingUserID(id, dataSet) {
+    return dataSet.filter((data) => data.userID === id);
   };
+//Rachel note: This method doesn't actually make use of anything in the User repo class, so doesn't really belong here
 //This code seems extraneous- the idea of this class is that all f the userData is put in as an argument to the UserRepo class. The method above is doing the exact same thing, except with its own `this.users` list.
 
   calculateAverageStepGoal() {
-    var totalStepGoal = this.users.reduce((sumSoFar, data) => {
-      return sumSoFar = sumSoFar + data.dailyStepGoal;
+    var totalStepGoal = this.users.reduce((summedStepGoals, user) => {
+      return summedStepGoals + user.dailyStepGoal;
     }, 0);
     return totalStepGoal / this.users.length;
   };
 //From spec: it should have a method to determine the average step goal amongst all users. It appears that this reduce is working correctly & that we are returning the average step goal of all users.
 
-  makeSortedUserArray(id, dataSet) {
-    let selectedID = this.getDataFromUserID(id, dataSet)
-    let sortedByDate = selectedID.sort((a, b) => new Date(b.date) - new Date(a.date));
+  sortDataByDate(id, dataSet) {
+    let dataMatchingId = this.getDataMatchingUserID(id, dataSet)
+    let sortedByDate = dataMatchingId.sort((a, b) => new Date(b.date) - new Date(a.date));
     return sortedByDate;
   }
-//This method selects a specific user (using the previously created getDataFromUserID() method) & then sorts the data by date.
+//This method selects a specific user (using the previously created getDataMatchingUserID method) & then sorts the data by date.
 
-  getToday(id, dataSet) {
-    return this.makeSortedUserArray(id, dataSet)[0].date;
+  getLatestDateInData(id, dataSet) {
+    return this.sortDataByDate(id, dataSet)[0].date;
   };
-// This method uses the sorted data from above to get the data for a users day- "today" (most recent day in the data set). Used in getFirstWeek and getWeekFromDate, which are both used within Hydration/
+// This method uses the sorted data from above to get the data for a users day- "today" (most recent day in the data set). Used in getDataFromLatestWeek and getSpecifiedWeekOfData, which are both used within Hydration/
 
-  getFirstWeek(id, dataSet) {
-    return this.makeSortedUserArray(id, dataSet).slice(0, 7);
+  getDataFromLatestWeek(id, dataSet) {
+    return this.sortDataByDate(id, dataSet).slice(0, 7);
   };
-// This method uses the makeSortedUserArray() above & then slices the past weeks worth of data for the user. Used in Hydration,
+// This method uses the sortDataByDate() above & then slices the past weeks worth of data for the user. Used in Hydration,
 
-  getWeekFromDate(date, id, dataSet) {
-    let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
-    return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
+  getSpecifiedWeekOfData(date, id, dataSet) {
+    let dateIndex = this.sortDataByDate(id, dataSet).indexOf(this.sortDataByDate(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
+    return this.sortDataByDate(id, dataSet).slice(dateIndex, dateIndex + 7);
   };
 // This method is not used in scripts.js, or elsewhere in this file. It is tested for (like 491-493 of test userrepo-test)
 
-  chooseWeekDataForAllUsers(dataSet, date) {
-    return dataSet.filter(function(dataItem) {
+  getAllUsersWeekOfData(dataSet, date) {
+    let test = dataSet.filter(dataItem => {
       return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
     })
-  };
-  chooseDayDataForAllUsers(dataSet, date) {
-    return dataSet.filter(function(dataItem) {
-      return dataItem.date === date
-    });
+    return test;
   }
-  isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod) {
-    return listFromMethod.reduce(function(objectSoFar, dataItem) {
-      if (!objectSoFar[dataItem.userID]) {
-        objectSoFar[dataItem.userID] = [dataItem[relevantData]]
+
+  getAllUsersDayData(dataSet, date) {
+    return dataSet.filter(dataItem => dataItem.date === date);
+  }
+
+  isolateUserIdAndPropertyData(dataKey, weekOfData) {
+    return weekOfData.reduce((IdsWithPropertyValues, dataItem) => {
+      if (!IdsWithPropertyValues[dataItem.userID]) {
+        IdsWithPropertyValues[dataItem.userID] = [dataItem[dataKey]]
       } else {
-        objectSoFar[dataItem.userID].push(dataItem[relevantData])
+        IdsWithPropertyValues[dataItem.userID].push(dataItem[dataKey])
       }
-      return objectSoFar;
+      return IdsWithPropertyValues;
     }, {});
   }
-  rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod) {
-    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
-    return Object.keys(sortedObjectKeys).sort(function(b, a) {
-      return (sortedObjectKeys[a].reduce(function(sumSoFar, sleepQualityValue) {
+
+  rankUserIdsByPropertyValues(dataKey, weekOfData) {
+    let userIdsToProperty = this.isolateUserIdAndPropertyData(dataKey, weekOfData);
+    return Object.keys(userIdsToProperty).sort((b, a) => {
+      return (userIdsToProperty[a].reduce((sumSoFar, sleepQualityValue) => {
         sumSoFar += sleepQualityValue
         return sumSoFar;
-      }, 0) / sortedObjectKeys[a].length) - (sortedObjectKeys[b].reduce(function(sumSoFar, sleepQualityValue) {
+      }, 0) / userIdsToProperty[a].length) - (userIdsToProperty[b].reduce((sumSoFar, sleepQualityValue) => {
         sumSoFar += sleepQualityValue
         return sumSoFar;
-      }, 0) / sortedObjectKeys[b].length)
+      }, 0) / userIdsToProperty[b].length)
     });
   }
-  combineRankedUserIDsAndAveragedData(dataSet, date, relevantData, listFromMethod) {
-    let sortedObjectKeys = this.isolateUsernameAndRelevantData(dataSet, date, relevantData, listFromMethod)
-    let rankedUsersAndAverages = this.rankUserIDsbyRelevantDataValue(dataSet, date, relevantData, listFromMethod)
-    return rankedUsersAndAverages.map(function(rankedUser) {
+  getRankedUserIDsWithDataAverages(dataKey, weekOfData) {
+    let userIdsToProperty = this.isolateUserIdAndPropertyData(dataKey, weekOfData);
+    let rankedUsersAndAverages = this.rankUserIdsByPropertyValues(dataKey, weekOfData);
+    return rankedUsersAndAverages.map(rankedUser => {
       rankedUser = {
-        [rankedUser]: sortedObjectKeys[rankedUser].reduce(
-          function(sumSoFar, sleepQualityValue) {
-            sumSoFar += sleepQualityValue
-            return sumSoFar;
-          }, 0) / sortedObjectKeys[rankedUser].length
+        [rankedUser]: userIdsToProperty[rankedUser].reduce((sumSoFar, sleepQualityValue) =>  {
+          sumSoFar += sleepQualityValue
+          return sumSoFar;
+        }, 0) / userIdsToProperty[rankedUser].length
       };
       return rankedUser;
     });

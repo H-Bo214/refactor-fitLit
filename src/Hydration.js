@@ -29,22 +29,22 @@ class Hydration {
 //Method calcRecentWeekOunces uses the additional methods below that currently live in the User Repo. Lots going on, we'll have to discuss if
 // we can refactor.
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    //  getFirstWeek(id, dataSet) {
-    //return this.makeSortedUserArray(id, dataSet).slice(0, 7);
+    //  getDataFromLatestWeek(id, dataSet) {
+    //return this.sortDataByDate(id, dataSet).slice(0, 7);
   //};
 
-  // makeSortedUserArray(id, dataSet) {
-  //   let selectedID = this.getDataFromUserID(id, dataSet)
+  // sortDataByDate(id, dataSet) {
+  //   let selectedID = this.getDataMatchingUserID(id, dataSet)
   //   let sortedByDate = selectedID.sort((a, b) => new Date(b.date) - new Date(a.date));
   //   return sortedByDate;
   // }
 
-  // getDataFromUserID(id, dataSet) {
+  // getDataMatchingUserID(id, dataSet) {
   //   return dataSet.filter((userData) => id === userData.userID);
   // };
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   calcRecentWeekOunces(userRepo, id) {
-    return userRepo.getFirstWeek(id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
+    return userRepo.getDataFromLatestWeek(id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
   }
 
 
@@ -52,19 +52,19 @@ class Hydration {
 // we can refactor.
 //
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  // getWeekFromDate(date, id, dataSet) {
-  //   let dateIndex = this.makeSortedUserArray(id, dataSet).indexOf(this.makeSortedUserArray(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
-  //   return this.makeSortedUserArray(id, dataSet).slice(dateIndex, dateIndex + 7);
+  // getSpecifiedWeekOfData(date, id, dataSet) {
+  //   let dateIndex = this.sortDataByDate(id, dataSet).indexOf(this.sortDataByDate(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
+  //   return this.sortDataByDate(id, dataSet).slice(dateIndex, dateIndex + 7);
   // };
 
-   // makeSortedUserArray(id, dataSet) {
-  //   let selectedID = this.getDataFromUserID(id, dataSet)
+   // sortDataByDate(id, dataSet) {
+  //   let selectedID = this.getDataMatchingUserID(id, dataSet)
   //   let sortedByDate = selectedID.sort((a, b) => new Date(b.date) - new Date(a.date));
   //   return sortedByDate;
   // }
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   calcAdditionalWeekOunces(date, id, userRepo) {
-    return userRepo.getWeekFromDate(date, id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
+    return userRepo.getSpecifiedWeekOfData(date, id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
   }
 }
 

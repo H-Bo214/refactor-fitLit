@@ -13,7 +13,7 @@ describe('User', function() {
       email: "alex.roth1@hotmail.com",
       strideLength: 4.3,
       dailyStepGoal: 10000,
-      friends: [2, 3, 4]
+      friendsIds: [2, 3, 4]
     });
     expect(User).to.be.a('function');
   });
@@ -26,7 +26,7 @@ describe('User', function() {
       email: "alex.roth1@hotmail.com",
       strideLength: 4.3,
       dailyStepGoal: 10000,
-      friends: [2, 3, 4]
+      friendsIds : [2, 3, 4]
     });
     expect(user).to.be.an.instanceof(User);
   });
@@ -39,7 +39,7 @@ describe('User', function() {
       email: "alex.roth1@hotmail.com",
       strideLength: 4.3,
       dailyStepGoal: 10000,
-      friends: [2, 3, 4]
+      friendsIds: [2, 3, 4]
     });
 
     expect(user.id).to.equal(1);
@@ -55,7 +55,7 @@ describe('User', function() {
       email: "allie.mcc1@hotmail.com",
       strideLength: 3.3,
       dailyStepGoal: 9000,
-      friends: [1, 3, 4]
+      friendsIds: [1, 3, 4]
     });
 
     expect(user2.id).to.equal(2);
@@ -70,10 +70,10 @@ describe('User', function() {
       email: "allie.mcc1@hotmail.com",
       strideLength: 3.3,
       dailyStepGoal: 9000,
-      friends: [1, 3, 4]
+      friendsIds: [1, 3, 4]
     });
 
-    expect(user2.getFirstName()).to.equal("Allie");
+    expect(user2.getUserFirstName()).to.equal("Allie");
   });
 
   it('should return list of friend names from user repository', function() {
@@ -84,7 +84,7 @@ describe('User', function() {
       email: "alex.roth1@hotmail.com",
       strideLength: 4.3,
       dailyStepGoal: 10000,
-      friends: [2, 3, 4]
+      friendsIds: [2, 3, 4]
     });
     const user2 = new User({
       id: 2,
@@ -93,7 +93,7 @@ describe('User', function() {
       email: "allie.mcc1@hotmail.com",
       strideLength: 3.3,
       dailyStepGoal: 9000,
-      friends: [1, 3, 4]
+      friendsIds: [1, 3, 4]
     });
 
     const user3 = new User({
@@ -103,7 +103,7 @@ describe('User', function() {
       email: "therock@hotmail.com",
       strideLength: 10,
       dailyStepGoal: 60000,
-      friends: [1, 2, 4]
+      friendsIds: [1, 2, 4]
     });
 
     const user4 = new User({
@@ -113,7 +113,7 @@ describe('User', function() {
       email: "rainbowD1@hotmail.com",
       strideLength: 3.8,
       dailyStepGoal: 7000,
-      friends: [1, 2, 3]
+      friendsIds: [1, 2, 3]
     });
     const users = [user1, user2, user3, user4];
     const userRepo = new UserRepo(users);

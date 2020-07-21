@@ -4,14 +4,14 @@ import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
 
-describe('User Repo', function() {
+describe.only('User Repo', function() {
   let user1;
   let user2;
   let users; // This was originally missing an "s" at the end, so this test suite wouldn't run
   let userRepo;
 
   beforeEach(function() {
-    user1 = new User({
+    user1 = {
       id: 1,
       name: "Alex Roth",
       address: "1234 Turing Street, Denver CO 80301-1697",
@@ -19,8 +19,8 @@ describe('User Repo', function() {
       strideLength: 4.3,
       dailyStepGoal: 10000,
       friends: [2, 3, 4]
-    });
-    user2 = new User({
+    };
+    user2 = {
       id: 2,
       name: "Allie McCarthy",
       address: "1235 Turing Street, Denver CO 80301-1697",
@@ -28,7 +28,7 @@ describe('User Repo', function() {
       strideLength: 3.3,
       dailyStepGoal: 9000,
       friends: [1, 3, 4]
-    });
+    };
     users = [user1, user2];
     userRepo = new UserRepo(users);
   });
@@ -42,9 +42,9 @@ describe('User Repo', function() {
   });
   //This test looks good to me- making sure that UserRepo is indeed a function
 
-  it('takes an array of user data', function() {
+  it('should store an array of Users', function() {
 
-    expect(userRepo.users).to.include(user2);
+    expect(userRepo.users[0]).to.be.an.instanceof(User);
   });
   // This test isn't really worded for what it's testing. I think there should be some sad path testing here as well- what happens if the argument passed in is undefined/falsey/null/number/etc??
   // This assertion is appropriate for a test like: "it (should have a list of users)" & I think an appropriate followup would be, each of these users should be instances of `User`.
@@ -72,9 +72,9 @@ describe('User Repo', function() {
   it('should return user data when given user ID', function() {
 
   // This line of code is extraneous & I think this assertion should be a deep equal (looking at an Object)
-    // userRepo.getDataFromID(1);
+    // userRepo.getUserFromId(1);
 
-    expect(userRepo.getDataFromID(1)).to.eql(user1);
+    expect(userRepo.getUserFromId(1).id).to.eql(1);
   });
 //
 
@@ -465,7 +465,7 @@ describe('User Repo', function() {
       ];
     });
     it('should get a users data from its userID in any data set', function() {
-      expect(userRepo.getDataFromUserID(1, hydrationData)).to.eql([{
+      expect(userRepo.getDataMatchingUserID(1, hydrationData)).to.eql([{
           "userID": 1,
           "date": "2019/06/15",
           "numOunces": 37
@@ -482,52 +482,53 @@ describe('User Repo', function() {
         }
       ]);
     });
-
+    //test missing for sortDataByDate
+  
 
     it('should get a users most recent date using the app', function() {
-      expect(userRepo.getToday(4, hydrationData)).to.eql("2019/09/20");
+      expect(userRepo.getLatestDateInData(4, hydrationData)).to.eql("2019/09/20");
     });
 
 
     it('should sort data by date and extract its week', function() {
 
-      expect(userRepo.getFirstWeek(4, hydrationData)[3].date).to.eql("2019/09/17");
+      expect(userRepo.getDataFromLatestWeek(4, hydrationData)[3].date).to.eql("2019/09/17");
     });
 
 
     it('should get a sorted week of data for a single user from a date', function() {
-      expect(userRepo.getWeekFromDate('2019/09/17', 4, hydrationData)[3].date).to.eql("2019/04/15");
-      expect(userRepo.getWeekFromDate('2019/09/18', 4, hydrationData)[3].date).to.eql("2019/09/15");
+      expect(userRepo.getSpecifiedWeekOfData('2019/09/17', 4, hydrationData)[3].date).to.eql("2019/04/15");
+      expect(userRepo.getSpecifiedWeekOfData('2019/09/18', 4, hydrationData)[3].date).to.eql("2019/09/15");
     });
 // This test has multiple expect statements, which (I think) is a no. This method is not used in scripts.js.
 
     it('should get a week of data for all users in data set', function() {
-      expect(userRepo.chooseWeekDataForAllUsers(hydrationData, '2019/09/17')[2].date).to.eql("2019/09/15");
-      expect(userRepo.chooseWeekDataForAllUsers(hydrationData, '2019/09/17')[2].userID).to.eql(4);
-      expect(userRepo.chooseWeekDataForAllUsers(hydrationData, '2019/09/17')[3].date).to.eql("2019/09/17");
-      expect(userRepo.chooseWeekDataForAllUsers(hydrationData, '2019/09/17')[3].userID).to.eql(3);
+      expect(userRepo.getAllUsersWeekOfData(hydrationData, '2019/09/17')[2].date).to.eql("2019/09/15");
+      expect(userRepo.getAllUsersWeekOfData(hydrationData, '2019/09/17')[2].userID).to.eql(4);
+      expect(userRepo.getAllUsersWeekOfData(hydrationData, '2019/09/17')[3].date).to.eql("2019/09/17");
+      expect(userRepo.getAllUsersWeekOfData(hydrationData, '2019/09/17')[3].userID).to.eql(3);
     });
     it('should get a day of data for all users in data set', function() {
-      expect(userRepo.chooseDayDataForAllUsers(sleepData, '2019/06/15')[0].date).to.eql('2019/06/15');
-      expect(userRepo.chooseDayDataForAllUsers(sleepData, '2019/06/15')[0].hoursSlept).to.eql(9);
-      expect(userRepo.chooseDayDataForAllUsers(sleepData, '2019/06/15')[2].date).to.eql('2019/06/15');
-      expect(userRepo.chooseDayDataForAllUsers(sleepData, '2019/06/15')[2].userID).to.eql(5);
+      expect(userRepo.getAllUsersDayData(sleepData, '2019/06/15')[0].date).to.eql('2019/06/15');
+      expect(userRepo.getAllUsersDayData(sleepData, '2019/06/15')[0].hoursSlept).to.eql(9);
+      expect(userRepo.getAllUsersDayData(sleepData, '2019/06/15')[2].date).to.eql('2019/06/15');
+      expect(userRepo.getAllUsersDayData(sleepData, '2019/06/15')[2].userID).to.eql(5);
     });
     it('should isolate a user ID and its values of any relevant data', function() {
-      expect(userRepo.isolateUsernameAndRelevantData(sleepData, "2019/06/21", 'sleepQuality', userRepo.chooseWeekDataForAllUsers(sleepData, "2019/06/21"))).to.eql({
+      expect(userRepo.isolateUserIdAndPropertyData('sleepQuality', userRepo.getAllUsersWeekOfData(sleepData, "2019/06/21"))).to.eql({
         '2': [3.5, 4, 3.3, 3.6, 3.6, 4, 3.1],
         '4': [3.5, 4, 1.3, 1.6, 1.6, 1, 3.1],
         '5': [4, 4, 4, 4, 4, 4, 4]
       })
-      expect(userRepo.isolateUsernameAndRelevantData(hydrationData, "2019/05/09", 'numOunces', userRepo.chooseWeekDataForAllUsers(hydrationData, "2019/05/09"))).to.eql({
+      expect(userRepo.isolateUserIdAndPropertyData('numOunces', userRepo.getAllUsersWeekOfData(hydrationData, "2019/05/09"))).to.eql({
         '3': [1]
       })
     });
     it('should rank user ids according to relevant data value averages', function() {
-      expect(userRepo.rankUserIDsbyRelevantDataValue(sleepData, "2019/06/21", 'sleepQuality', userRepo.chooseWeekDataForAllUsers(sleepData, "2019/06/21"))).to.eql(['5', '2', '4'])
+      expect(userRepo.rankUserIdsByPropertyValues( 'sleepQuality', userRepo.getAllUsersWeekOfData(sleepData, "2019/06/21"))).to.eql(['5', '2', '4'])
     });
     it('should show list in order of userID and average of relevant value', function() {
-      expect(userRepo.combineRankedUserIDsAndAveragedData(sleepData, "2019/06/21", 'sleepQuality', userRepo.chooseWeekDataForAllUsers(sleepData, "2019/06/21"))[0]).to.eql({
+      expect(userRepo.getRankedUserIDsWithDataAverages('sleepQuality', userRepo.getAllUsersWeekOfData(sleepData, "2019/06/21"))[0]).to.eql({
         '5': 4
       })
     });
