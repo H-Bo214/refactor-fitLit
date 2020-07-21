@@ -50,7 +50,7 @@ var streakList = document.getElementById('streakList');
 var streakListMinutes = document.getElementById('streakListMinutes')
 var userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
 
-let userRepo, hydrationRepo, sleepRepo, activityRepo; 
+let userRepo, hydrationRepo, sleepRepo, activityRepo;
 
 window.onload = getData();
 
@@ -70,14 +70,14 @@ function getData() {
 
 
 function startApp(userData, sleepData, activityData, hydrationData) {
-  userRepo = new UserRepo(userData.userData); 
+  userRepo = new UserRepo(userData.userData);
   hydrationRepo = new Hydration(hydrationData.hydrationData);
   sleepRepo = new Sleep(sleepData.sleepData);
   activityRepo = new Activity(activityData.activityData);
-  let userNowId = generateRandomId(userRepo); 
+  let userNowId = generateRandomId(userRepo);
   let userNow = generateRandomUser(userRepo, userNowId);
-  //Note: Former today was string of "2019/06/15"; new function below generates string of same format 
-  // let today = generateCurrentDate(); 
+  //Note: Former today was string of "2019/06/15"; new function below generates string of same format
+  // let today = generateCurrentDate();
   // console.log(today)
   // let userList = [];
   // users are instantiated in the makeUser method and pushed into userList, which then is used to instantiate the userRepo.
@@ -107,7 +107,7 @@ function generateRandomUser(userRepo, id) {
   return userRepo.getDataFromID(id);
 };
 
-//Not being used right now; use to get date later 
+//Not being used right now; use to get date later
 function generateCurrentDate() {
   const rawDate = new Date();
   let day = rawDate.getDate();
@@ -118,7 +118,7 @@ function generateCurrentDate() {
   if (month < 10) {
     month = `0${month.toString()}`
   };
-  const year = rawDate.getFullYear(); 
+  const year = rawDate.getFullYear();
   return `${year}/${month}/${day}`
 }
 
@@ -146,7 +146,7 @@ function makeFriendHTML(user, userStorage) {
 }
 
 function makeWinnerID(activityInfo, user, dateString, userStorage){
-  return activityInfo.getWinnerId(user, dateString, userStorage)
+  return activityInfo.getWinnerById(user, dateString, userStorage)
 }
 
 function makeToday(userStorage, id, dataSet) {
@@ -200,20 +200,20 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
 }
 
 //getAllUserAverage is not SRP and handling the AVERAGE of, flightsOfStairs, numSteps, minutesActive.
-//userDataForToday is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
-//userDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
+//getUserDataByDate is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
+//getUserDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
-  userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`)
-  avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'flightsOfStairs')}</span></p>`)
+  userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`)
+  avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, userStorage, 'flightsOfStairs')}</span></p>`)
   //add miles to this block
-  userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'numSteps')} (${activityInfo.getMilesFromStepsByDate(id, dateString, userStorage)} miles)</span></p>`)
-  avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'numSteps')}</span></p>`)
-  userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'minutesActive')}</span></p>`)
-  avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'minutesActive')}</span></p>`)
-  userStepsThisWeek.insertAdjacentHTML("afterBegin", makeStepsHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "numSteps")));
-  userStairsThisWeek.insertAdjacentHTML("afterBegin", makeStairsHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "flightsOfStairs")));
-  userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "minutesActive")));
-  bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.userDataForWeek(winnerId, dateString, userStorage, "numSteps")));
+  userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, userStorage, 'numSteps')} (${activityInfo.getMilesByStepsForDate(id, dateString, userStorage)} miles)</span></p>`)
+  avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, userStorage, 'numSteps')}</span></p>`)
+  userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, userStorage, 'minutesActive')}</span></p>`)
+  avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, userStorage, 'minutesActive')}</span></p>`)
+  userStepsThisWeek.insertAdjacentHTML("afterBegin", makeStepsHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "numSteps")));
+  userStairsThisWeek.insertAdjacentHTML("afterBegin", makeStairsHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "flightsOfStairs")));
+  userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "minutesActive")));
+  bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.getUserDataForWeek(winnerId, dateString, userStorage, "numSteps")));
 }
 //I think renaming these to 'display' vs. 'make' would be more semantic.
 function makeStepsHTML(id, activityInfo, userStorage, method) {
@@ -229,11 +229,11 @@ function makeMinutesHTML(id, activityInfo, userStorage, method) {
 }
 
 function addFriendGameInfo(id, activityInfo, userStorage, dateString, laterDateString, user) {
-  friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.showChallengeListAndWinner(user, dateString, userStorage)));
-  streakList.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'numSteps')));
-  streakListMinutes.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'minutesActive')));
-  friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.showChallengeListAndWinner(user, dateString, userStorage)));
-  bigWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${activityInfo.showcaseWinner(user, dateString, userStorage)} steps`)
+  friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.displayStepChallengeWinner(user, dateString, userStorage)));
+  streakList.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.displayIncreasedSteps(userStorage, id, 'numSteps')));
+  streakListMinutes.insertAdjacentHTML("afterBegin", makeStepStreakHTML(id, activityInfo, userStorage, activityInfo.displayIncreasedSteps(userStorage, id, 'minutesActive')));
+  friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.displayStepChallengeWinner(user, dateString, userStorage)));
+  bigWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${activityInfo.displayWinner(user, dateString, userStorage)} steps`)
 }
 
 function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
