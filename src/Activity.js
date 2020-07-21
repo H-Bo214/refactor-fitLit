@@ -100,7 +100,7 @@ class Activity {
   //gets activity data for each friend & merges into 1 array
 
   getFriendsAverageStepsForWeek(user, date, userRepo) {
-    let friendsActivity = this.getFriendsActivity(user, userRepo);
+    let friendsActivity = this.getFriendsActivityData(user, userRepo);
     let timeline = userRepo.getAllUsersWeekOfData(friendsActivity, date);
     return userRepo.getRankedUserIDsWithDataAverages('numSteps', timeline)
   }

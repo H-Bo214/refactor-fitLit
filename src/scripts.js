@@ -103,9 +103,9 @@ function generateCurrentDate() {
 /* Dom functions */
 function addInfoToSidebar(user, userStorage) {
   let headerText = document.getElementById('headerText');
-  headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
+  headerText.innerText = `${user.getUserFirstName()}'s Activity Tracker`;
 
-  let sidebarHeader = document.getElementById('sidebarName');
+  let sidebarHeader = document.querySelector('.sidebar-header-name');
   sidebarHeader.innerText = user.name;
 
   let userAddress = document.getElementById('userAddress');
@@ -117,11 +117,12 @@ function addInfoToSidebar(user, userStorage) {
   let userStrideLength = document.getElementById('userStridelength');
   userStrideLength.innerText = `Your stridelength is ${user.strideLength} meters.`;
 
-  let userStepGoal = document.getElementById('stepGoalCard');
+  let userStepGoal = document.querySelector('.step-goal-card');
   userStepGoal.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
 
   //Right now, this is missing from the DOM interface! Not sure if we want to include this or remove both this method & html elements. The FitLit spec does say that this should be included
-  avStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
+  let avgStepGoalCard = document.querySelector('.avg-step-goal-card')
+  avgStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
 
   let friendList = document.getElementById('friendList');
   friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(user, userStorage))
@@ -149,15 +150,15 @@ function makeRandomDate(userStorage, id, dataSet) {
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
   // Currently displayed on the Hydration Dashboard.
   let hydrationToday = document.getElementById('hydrationToday');
-  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
+  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calcOuncesConsumedByDay(id, dateString)}</span></p><p>oz water today.</p>`);
 
   // Currently displayed on the Hydration Dashboard.
   let hydrationAverage = document.getElementById('hydrationAverage');
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id).toFixed(2)}</span></p> <p>oz per day.</p>`)
+  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calcAvgOuncesConsumedByDay(id).toFixed(2)}</span></p> <p>oz per day.</p>`)
 
   // Currently displayed on the Hydration Dashboard.
   let hydrationThisWeek = document.getElementById('hydrationThisWeek');
-  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
+  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcRecentWeekOunces(userStorage, id)));
 
 // Currently displayed on the Hydration Dashboard.
   let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
@@ -165,7 +166,7 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 
 // Currently displayed on the Hydration Dashboard.
   let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
-  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
+  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcAdditionalWeekOunces(laterDateString, id, userStorage)));
 
 }
 
@@ -175,22 +176,22 @@ function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
 
 function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
   let sleepToday = document.getElementById('sleepToday');
-  sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${sleepInfo.calculateDailySleep(id, dateString)}</span></p> <p>hours today.</p>`);
+  sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${sleepInfo.calcHoursSleptForDay(id, dateString)}</span></p> <p>hours today.</p>`);
 
   let sleepQualityToday = document.getElementById('sleepQualityToday');
-  sleepQualityToday.insertAdjacentHTML("afterBegin", `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calculateDailySleepQuality(id, dateString)}</span></p><p>out of 5.</p>`);
+  sleepQualityToday.insertAdjacentHTML("afterBegin", `<p>Your sleep quality was</p> <p><span class="number">${sleepInfo.calcSleepQualityForDay(id, dateString)}</span></p><p>out of 5.</p>`);
 
   let userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
-  userAvgSleepQuality.insertAdjacentHTML("afterBegin",`<p>Your average sleep quality is</p> <p><span class="number">${Math.round(sleepInfo.calculateAverageSleepQuality(id) *100)/100}</span></p><p>out of 5.</p>`);
+  userAvgSleepQuality.insertAdjacentHTML("afterBegin",`<p>Your average sleep quality is</p> <p><span class="number">${Math.round(sleepInfo.calcTotalAverageSleepQuality(id) *100)/100}</span></p><p>out of 5.</p>`);
 
   let userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
-  userAvgSleepQuantity.insertAdjacentHTML("afterBegin", `<p>Your average hours slept is</p> <p><span class="number">${Math.round(sleepInfo.calculateAverageSleep(id) * 100)/100}</span></p><p>per day.</p>`)
+  userAvgSleepQuantity.insertAdjacentHTML("afterBegin", `<p>Your average hours slept is</p> <p><span class="number">${Math.round(sleepInfo.calcAverageSleepForDay(id) * 100)/100}</span></p><p>per day.</p>`)
 
   let sleepThisWeek = document.getElementById('sleepThisWeek');
-  sleepThisWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userStorage, sleepInfo.calculateWeekSleep(dateString, id, userStorage)));
+  sleepThisWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(id, sleepInfo, userStorage, sleepInfo.calcHoursSleptDailyForWeek(dateString, id, userStorage)));
 
   let sleepQualityWeek = document.getElementById('sleepQualityWeek');
-  sleepQualityWeek.insertAdjacentHTML('afterBegin', makeSleepQualityHTML(id, sleepInfo, userStorage, sleepInfo.calculateWeekSleepQuality(dateString, id, userStorage)));
+  sleepQualityWeek.insertAdjacentHTML('afterBegin', makeSleepQualityHTML(id, sleepInfo, userStorage, sleepInfo.calcQualitySleepForWeek(dateString, id, userStorage)));
 }
 
 function makeSleepHTML(id, sleepInfo, userStorage, method) {
@@ -206,7 +207,7 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
 //getUserDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
   let userStepsToday = document.getElementById('userStepsToday');
-  userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'numSteps')} (${activityInfo.getMilesFromStepsByDate(id, dateString, userStorage)} miles)</span></p>`)
+  userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.userDataForToday(id, dateString, userStorage, 'numSteps')} (${activityInfo.getMilesByStepsForDate(id, dateString, userStorage)} miles)</span></p>`)
 
   let avgStepsToday = document.getElementById('avgStepsToday');
   avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'numSteps')}</span></p>`)
@@ -224,16 +225,16 @@ function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateStr
   avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUserAverageForDay(dateString, userStorage, 'minutesActive')}</span></p>`)
 
   let userStepsThisWeek = document.getElementById('userStepsThisWeek');
-  userStepsThisWeek.insertAdjacentHTML("afterBegin", makeStepsHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "numSteps")));
+  userStepsThisWeek.insertAdjacentHTML("afterBegin", makeStepsHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "numSteps")));
 
   let userStairsThisWeek = document.getElementById('userStairsThisWeek');
-  userStairsThisWeek.insertAdjacentHTML("afterBegin", makeStairsHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "flightsOfStairs")));
+  userStairsThisWeek.insertAdjacentHTML("afterBegin", makeStairsHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "flightsOfStairs")));
 
   let userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
-  userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.userDataForWeek(id, dateString, userStorage, "minutesActive")));
+  userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "minutesActive")));
 
   let bestUserSteps = document.getElementById('bestUserSteps');
-  bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.userDataForWeek(winnerId, dateString, userStorage, "numSteps")));
+  bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.getUserDataForWeek(winnerId, dateString, userStorage, "numSteps")));
 }
 //I think renaming these to 'display' vs. 'make' would be more semantic.
 function makeStepsHTML(id, activityInfo, userStorage, method) {
@@ -250,19 +251,19 @@ function makeMinutesHTML(id, activityInfo, userStorage, method) {
 
 function addFriendGameInfo(id, activityInfo, userStorage, dateString, laterDateString, user) {
   let increasedActivityStreak = document.getElementById('streakListMinutes')
-  increasedActivityStreak.insertAdjacentHTML("afterBegin", createStepStreak(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'minutesActive')));
+  increasedActivityStreak.insertAdjacentHTML("afterBegin", createStepStreak(id, activityInfo, userStorage, activityInfo.displayIncreasedSteps(userStorage, id, 'minutesActive')));
 
   let thisWeeksWinner = document.getElementById('bigWinner');
-  thisWeeksWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${activityInfo.showcaseWinner(user, dateString, userStorage)} steps`)
+  thisWeeksWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${activityInfo.displayWinner(user, dateString, userStorage)} steps`)
 
   let friendChallengeListToday = document.getElementById('friendChallengeListToday');
-  friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.showChallengeListAndWinner(user, dateString, userStorage)));
+  friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.displayStepChallengeWinner(user, dateString, userStorage)));
 
   let friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
-  friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.showChallengeListAndWinner(user, dateString, userStorage)));
+  friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.displayStepChallengeWinner(user, dateString, userStorage)));
 
   let stepStreak = document.getElementById('streakList');
-  stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(id, activityInfo, userStorage, activityInfo.getStreak(userStorage, id, 'numSteps')));
+  stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(id, activityInfo, userStorage, activityInfo.displayIncreasedSteps(userStorage, id, 'numSteps')));
 }
 
 function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
