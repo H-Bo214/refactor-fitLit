@@ -104,7 +104,7 @@ function generateRandomId(dataset) {
 }
 
 function generateRandomUser(userRepo, id) {
-  return userRepo.getDataFromID(id);
+  return userRepo.getUserFromId(id);
 };
 
 //Not being used right now; use to get date later 
@@ -132,7 +132,7 @@ function generateCurrentDate() {
 ///////
 function addInfoToSidebar(user, userStorage) {
   sidebarName.innerText = user.name;
-  headerText.innerText = `${user.getFirstName()}'s Activity Tracker`;
+  headerText.innerText = `${user.getUserFirstName()}'s Activity Tracker`;
   stepGoalCard.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
   avStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
   userAddress.innerText = user.address;
@@ -150,13 +150,13 @@ function makeWinnerID(activityInfo, user, dateString, userStorage){
 }
 
 function makeToday(userStorage, id, dataSet) {
-  var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
+  var sortedArray = userStorage.sortDataByDate(id, dataSet);
   return sortedArray[0].date;
 }
 
 //
 function makeRandomDate(userStorage, id, dataSet) {
-  var sortedArray = userStorage.makeSortedUserArray(id, dataSet);
+  var sortedArray = userStorage.sortDataByDate(id, dataSet);
   return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
 }
 
