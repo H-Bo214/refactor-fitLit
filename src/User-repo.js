@@ -2,7 +2,11 @@ import User from "./User";
 
 class UserRepo {
   constructor(users) {
-    this.users = users.map(user => new User(user));
+    if (users === undefined) {
+      this.users = []
+    } else {
+      this.users = users.map(user => new User(user));
+    }
   }
 
   getUserFromId(id) {
@@ -48,9 +52,10 @@ class UserRepo {
 // This method is not used in scripts.js, or elsewhere in this file. It is tested for (like 491-493 of test userrepo-test)
 
   getAllUsersWeekOfData(dataSet, date) {
-    return dataSet.filter(dataItem => {
+    let test = dataSet.filter(dataItem => {
       return (new Date(date)).setDate((new Date(date)).getDate() - 7) <= new Date(dataItem.date) && new Date(dataItem.date) <= new Date(date)
     })
+    return test;
   }
 
   getAllUsersDayData(dataSet, date) {

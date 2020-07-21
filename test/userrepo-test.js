@@ -4,14 +4,14 @@ import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
 
-describe('User Repo', function() {
+describe.only('User Repo', function() {
   let user1;
   let user2;
   let users; // This was originally missing an "s" at the end, so this test suite wouldn't run
   let userRepo;
 
   beforeEach(function() {
-    user1 = new User({
+    user1 = {
       id: 1,
       name: "Alex Roth",
       address: "1234 Turing Street, Denver CO 80301-1697",
@@ -19,8 +19,8 @@ describe('User Repo', function() {
       strideLength: 4.3,
       dailyStepGoal: 10000,
       friends: [2, 3, 4]
-    });
-    user2 = new User({
+    };
+    user2 = {
       id: 2,
       name: "Allie McCarthy",
       address: "1235 Turing Street, Denver CO 80301-1697",
@@ -28,7 +28,7 @@ describe('User Repo', function() {
       strideLength: 3.3,
       dailyStepGoal: 9000,
       friends: [1, 3, 4]
-    });
+    };
     users = [user1, user2];
     userRepo = new UserRepo(users);
   });
@@ -42,9 +42,9 @@ describe('User Repo', function() {
   });
   //This test looks good to me- making sure that UserRepo is indeed a function
 
-  it('takes an array of user data', function() {
+  it('should store an array of Users', function() {
 
-    expect(userRepo.users).to.include(user2);
+    expect(userRepo.users[0]).to.be.an.instanceof(User);
   });
   // This test isn't really worded for what it's testing. I think there should be some sad path testing here as well- what happens if the argument passed in is undefined/falsey/null/number/etc??
   // This assertion is appropriate for a test like: "it (should have a list of users)" & I think an appropriate followup would be, each of these users should be instances of `User`.
@@ -74,7 +74,7 @@ describe('User Repo', function() {
   // This line of code is extraneous & I think this assertion should be a deep equal (looking at an Object)
     // userRepo.getUserFromId(1);
 
-    expect(userRepo.getUserFromId(1)).to.eql(user1);
+    expect(userRepo.getUserFromId(1).id).to.eql(1);
   });
 //
 

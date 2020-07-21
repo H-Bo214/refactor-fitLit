@@ -90,7 +90,7 @@ class Activity {
   getFriendsAverageStepsForWeek(user, date, userRepo) {
     let friendsActivity = this.getFriendsActivity(user, userRepo);
     let timeline = userRepo.getAllUsersWeekOfData(friendsActivity, date);
-    return userRepo.getRankedUserIDsWithDataAverages(friendsActivity, date, 'numSteps', timeline)
+    return userRepo.getRankedUserIDsWithDataAverages('numSteps', timeline)
   }
   //gets friends' average steps for week? need to review all methods to be sure of accuracy
 
