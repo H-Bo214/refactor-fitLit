@@ -13,10 +13,15 @@
 
 // import sleepData from './data/sleep';
 //data being imported from sleep.js
+import Sleep from "./Sleep";
 
 class SleepRepo {
   constructor(sleepData) {
-    this.sleepData = sleepData;
+    if (!sleepData) {
+      this.sleepData = []
+    } else {
+      this.sleepData = sleepData.map(data => new Sleep(data));
+    }
   }
   //need to add to DOM
   calcAverageSleepForDay(id) {
@@ -117,17 +122,17 @@ class SleepRepo {
 
   getUsersWithMostSleepWeekly(date, userRepo) {
     let timeline = userRepo.getAllUsersWeekOfData(this.sleepData, date);
-    let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages(this.sleepData, date, 'sleepQuality', timeline);
+    let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages('sleepQuality', timeline);
 
-    return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
+    return this.getBestSleepersForWeekandDay(sleepRankWithData, userRepo);
   }
   //function for users who have slept the most for the past week
 
   getUsersWithMostSleepForDay(date, userRepo) {
     let timeline = userRepo.getAllUsersDayData(this.sleepData, date);
-    let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages(this.sleepData, date, 'hoursSlept', timeline);
+    let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages('hoursSlept', timeline);
 
-    return this.getWinnerNamesFromList(sleepRankWithData, userRepo);
+    return this.getBestSleepersForWeekandDay(sleepRankWithData, userRepo);
   }
   //function for users who have slept the most for the day
 
