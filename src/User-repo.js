@@ -2,7 +2,7 @@ import User from "./User";
 
 class UserRepo {
   constructor(users) {
-    if (users === undefined) {
+    if (!users) {
       this.users = []
     } else {
       this.users = users.map(user => new User(user));

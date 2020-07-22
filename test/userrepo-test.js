@@ -4,7 +4,7 @@ import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
 
-describe.only('User Repo', function() {
+describe('User Repo', function() {
   let user1;
   let user2;
   let users; // This was originally missing an "s" at the end, so this test suite wouldn't run

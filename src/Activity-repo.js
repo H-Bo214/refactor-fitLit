@@ -9,16 +9,22 @@
 // steps taken for a specific date
 // minutes active for a specific date
 // Make a metric of your own! Document it, calculate it, and display it.
-
+import Activity from "./Activity";
 class ActivityRepo {
   constructor(activityData) {
-    this.activityData = activityData
+    if (!activityData) {
+      this.activityData = []
+    } else {
+      this.activityData = activityData.map(activity => new Activity(activity));
+    }
   }
 //dataset passed into constructor is array of objects with userID, date, numSteps, minutesActive & flightsOfStairs properties
 //scripts declares just ONE instance of the activity class that holds ALL of activityData; this class should probably be renamed Activity-repo & we should create an additional DailyActivity class that represents each activity object, with its 5 properties
 
   getMilesByStepsForDate(id, date, userRepo) {
     let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
+    // console.log('userRepo', userRepo);
+    // console.log('this.activityData', this.activityData);
     //access the user with the id supplied from userRepo; then access strideLength
     let user = userRepo.getUserFromId(id);
     return parseFloat(((userStepsByDate.numSteps * user.strideLength) / 5280).toFixed(1));
@@ -67,14 +73,14 @@ class ActivityRepo {
   }
   //Finds a single user's activities, then returns the activity object with the greatest # of flightsOfStairs, which can be used to represent date of flightsOfStairs record
 
-  getAllUserAverageForDay(date, userRepo, relevantData) {
+  getAllUsersAverageDataForDay(date, userRepo, relevantData) {
     let selectedDayData = userRepo.getAllUsersDayData(this.activityData, date);
     return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
   }
 //getAllUsersDayData takes activity data & returns just the activities on a particular date (all users)
 //this function then gets the average numSteps/minutesActive/flightsOfStairs (whatever relevantData string is passed in) for that day
 
-  userDataForToday(id, date, userRepo, relevantData) {
+  getUserDataByDate(id, date, userRepo, relevantData) {
     let userData = userRepo.getDataMatchingUserID(id, this.activityData);
     return userData.find(data => data.date === date)[relevantData];
   }

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import Sleep from '../src/Sleep';
+import SleepRepo from '../src/Sleep-repo';
 import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
@@ -235,7 +235,7 @@ describe('Sleep', function() {
     ];
 
 
-    sleep = new Sleep(sleepData);
+    sleep = new SleepRepo(sleepData);
     user1 = new User({
       id: 1,
       name: "Alex Roth",
