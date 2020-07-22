@@ -85,98 +85,72 @@ main {
   overflow: scroll;
 }
 
-.main-column-hydration {
+.main-column-hydration, .main-column-activity, .main-column-sleep {
   @include displayStyle(flex, row);
-  flex-grow: 1;
-  // height: 25%
-}
-
-.main-column-activity {
-  @include displayStyle(flex, row);
-  // height: 50%
   flex-grow: 1;
 }
 
-.main-column-sleep {
-  @include displayStyle(flex, row);
-  // height: 35%
-  flex-grow: 1;
-}
-
-.infoContainer-cardContainer-card-horizontal {
+.infoContainer-cardContainer-card-horizontal, .infoContainer-cardContainer-card-vertical {
   width: 100%;
   background-color: $section-background-color;
   border: $outer-border-style;
   @include displayStyle(flex, column);
   align-items: center;
   margin: 1%;
-  justify-content: space-between;
+  justify-content: space-around;
+  border-radius: 6px;
+  overflow: scroll;
 }
 
 .horizontalCard-activity-container {
   @include displayStyle(flex, row);
-  justify-content: space-around;
   width: 100%;
-  overflow: scroll;
 }
 
 .infoContainer-cardContainer-card-vertical {
-  width: 100%;
-  background-color: $section-background-color;
-  border: $outer-border-style;
   @include displayStyle(flex, row);
-  margin: 1%;
-  overflow: scroll;
 }
 
 .card-today-hydration {
   @include cardStyle($hydration-color);
-  font-family: $primary-font-style;
-  @include displayStyle(flex, column);
-  justify-content: space-between;
-  width: 80%;
 }
 
 .card-today-sleep {
   @include cardStyle($sleep-color);
-  font-family: $primary-font-style;
-  @include displayStyle(flex, column);
-  justify-content: space-between;
-  width: 80%;
 }
 
 .card-today-activity {
   @include cardStyle($activity-color);
+}
+
+.card-today-hydration, .card-today-sleep, .card-today-activity {
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
-  justify-content: space-between;
-  width: 40%;
+  justify-content: space-around;
+  width: 80%;
+  border-radius: 6px;
+  padding: 6px;
 }
 
 .card-history-hydration {
   @include cardStyle($hydration-color);
-  font-family: $primary-font-style;
-  @include displayStyle(flex, column);
-  justify-content: flex-start;
-  width: 50%;
 }
 
 .card-history-sleep {
   @include cardStyle($sleep-color);
-  font-family: $primary-font-style;
-  @include displayStyle(flex, column);
-  justify-content: flex-start;
-  width: 50%;
 }
 
 .card-history-activity {
   @include cardStyle($activity-color);
+  overflow: scroll;
+}
+
+.card-history-hydration, .card-history-sleep, .card-history-activity {
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: flex-start;
   width: 50%;
-  height: 93%;
-  overflow: scroll;
+  border-radius: 6px;
 }
 
 .number {
@@ -194,14 +168,6 @@ main {
   color: black;
 }
 
-// .thisWeek {
-//   text-align: center;
-//   font-size: 1em;
-//   font-weight: bolder;
-//   margin: .5em;
-//   color: black;
-// }
-
 .card-vertical-list {
   list-style-type: none;
   font-weight: lighter;
@@ -214,4 +180,5 @@ main {
   padding: .3em;
   font-weight: bold;
   font-family: $primary-font-style;
+  text-align: center;
 }
