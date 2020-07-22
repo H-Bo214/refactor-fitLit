@@ -2,7 +2,7 @@
 // For a user, how many fluid ounces they consumed for a specific day (identified by a date)
 // For a user, how many fluid ounces of water consumed each day over the course of a week (7 days) - return the amount for each day
 
-class Hydration {
+class HydrationRepo {
   constructor(hydrationData) {
     this.hydrationData = hydrationData;
   }
@@ -69,4 +69,4 @@ class Hydration {
 }
 
 
-export default Hydration;
+export default HydrationRepo;

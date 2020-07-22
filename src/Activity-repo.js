@@ -10,7 +10,7 @@
 // minutes active for a specific date
 // Make a metric of your own! Document it, calculate it, and display it.
 
-class Activity {
+class ActivityRepo {
   constructor(activityData) {
     this.activityData = activityData
   }
@@ -143,4 +143,4 @@ class Activity {
 
 
 
-export default Activity;
+export default ActivityRepo;

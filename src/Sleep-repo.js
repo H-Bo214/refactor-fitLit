@@ -11,10 +11,10 @@
 // For a given day (identified by the date), find the users who slept the most number of hours (one or more if they tied)
 // Make a metric of your own! Document it, calculate it, and display it.
 
-import sleepData from './data/sleep';
+// import sleepData from './data/sleep';
 //data being imported from sleep.js
 
-class Sleep {
+class SleepRepo {
   constructor(sleepData) {
     this.sleepData = sleepData;
   }
@@ -149,4 +149,4 @@ class Sleep {
 
 //get all-time avg # hrs of sleep for a user
 
-export default Sleep;
+export default SleepRepo;
