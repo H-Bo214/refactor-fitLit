@@ -1,3 +1,6 @@
+@import 'variables';
+@import 'mixins';
+
 * {
   margin: 0;
 }
@@ -17,23 +20,20 @@ h1 {
 }
 
 main {
-  display: flex;
-  flex-direction: row;
+  @include displayStyle(flex, row);
   height: 1500px;
 }
 
 .main-sidebar-body {
-  display: flex;
-  flex-direction: row;
+  @include displayStyle(flex, row);
   width: 25%;
   height: 100%;
 }
 
 .body-sidebar-sidebarContainer {
   background-color: #9A9DAB;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
+  border: $outer-border-style;
+  @include displayStyle(flex, column);
   align-items: center;
   text-align: center;
   overflow: scroll;
@@ -44,7 +44,7 @@ main {
 }
 
 .sidebar-header-userInfo {
-  font-family: sans-serif;
+  font-family: $primary-font-style;
   font-weight: bold;
   font-size: 1.2em;
   margin: .5em .5em .5em .5em;
@@ -52,7 +52,6 @@ main {
 }
 
 .sidebar-header-line {
-  color: #ffffff;
   border: 1px solid black;
   margin: 1em 1em 0 1em;
   height: 0;
@@ -71,8 +70,7 @@ main {
 }
 
 .sidebar-body-friendContainer {
-  display: flex;
-  flex-direction: column;
+  @include displayStyle(flex, column);
 }
 
 .sidebar-friendContainer-listItems {
@@ -81,135 +79,78 @@ main {
 
 .body-main-infoContainter {
   width: 100%;
-  border: 1px solid black;
+  border: $outer-border-style;
   margin: 0 0 1em;
-  display: flex;
-  flex-direction: column;
+  @include displayStyle(flex, column);
   overflow: scroll;
 }
 
-.main-column-hydration {
-  display: flex;
-  flex-direction: row;
-  height: 25%
+.main-column-hydration, .main-column-activity, .main-column-sleep {
+  @include displayStyle(flex, row);
+  flex-grow: 1;
 }
 
-.main-column-activity {
-  display: flex;
-  flex-direction: row;
-  height: 50%
-}
-
-.main-column-sleep {
-  display: flex;
-  flex-direction: row;
-  height: 35%
-}
-
-.infoContainer-cardContainer-card-horizontal {
+.infoContainer-cardContainer-card-horizontal, .infoContainer-cardContainer-card-vertical {
   width: 100%;
-  background-color: white;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
+  background-color: $section-background-color;
+  border: $outer-border-style;
+  @include displayStyle(flex, column);
   align-items: center;
   margin: 1%;
-  justify-content: space-between;
+  justify-content: space-around;
+  border-radius: 6px;
+  overflow: scroll;
 }
 
 .horizontalCard-activity-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  @include displayStyle(flex, row);
   width: 100%;
-  overflow: scroll;
 }
 
 .infoContainer-cardContainer-card-vertical {
-  width: 100%;
-  background-color: white;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: row;
-  margin: 1%;
-  overflow: scroll;
+  @include displayStyle(flex, row);
 }
 
 .card-today-hydration {
-  text-align: center;
-  background-color: #5BC8AC;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  @include cardStyle($hydration-color);
 }
 
 .card-today-sleep {
-  text-align: center;
-  background-color: #EC96A4;
-  height: auto;
-  font-size: 1.5em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 80%;
+  @include cardStyle($sleep-color);
 }
 
 .card-today-activity {
-  text-align: center;
-  background-color: #DFE166;
-  height: auto;
-  font-size: 1.5em;
-  margin: .3em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 40%;
+  @include cardStyle($activity-color);
+}
+
+.card-today-hydration, .card-today-sleep, .card-today-activity {
+  font-family: $primary-font-style;
+  @include displayStyle(flex, column);
+  justify-content: space-around;
+  width: 80%;
+  border-radius: 6px;
+  padding: 6px;
 }
 
 .card-history-hydration {
-  text-align: center;
-  background-color: #5BC8AC;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  @include cardStyle($hydration-color);
 }
 
 .card-history-sleep {
-  text-align: center;
-  background-color: #EC96A4;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  @include cardStyle($sleep-color);
 }
 
 .card-history-activity {
-  text-align: center;
-  background-color: #DFE166;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
+  @include cardStyle($activity-color);
+  overflow: scroll;
+}
+
+.card-history-hydration, .card-history-sleep, .card-history-activity {
+  font-family: $primary-font-style;
+  @include displayStyle(flex, column);
   justify-content: flex-start;
   width: 50%;
-  height: 93%;
-  overflow: scroll;
+  border-radius: 6px;
 }
 
 .number {
@@ -219,15 +160,7 @@ main {
   font-kerning: normal;
 }
 
-.historicalWeek, .weekly-sleep-quality {
-  text-align: center;
-  font-size: 1em;
-  font-weight: bolder;
-  margin: .5em;
-  color: black;
-}
-
-.thisWeek {
+.historicalWeek, .weekly-sleep-quality, .thisWeek {
   text-align: center;
   font-size: 1em;
   font-weight: bolder;
@@ -246,5 +179,6 @@ main {
 .historical-list-listItem {
   padding: .3em;
   font-weight: bold;
-  font-family: sans-serif;
+  font-family: $primary-font-style;
+  text-align: center;
 }

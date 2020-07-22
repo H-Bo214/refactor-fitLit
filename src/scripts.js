@@ -1,4 +1,4 @@
-import './css/base.scss';
+// import './css/base.scss';
 import './css/style.scss';
 
 import './images/person walking on path.jpg';
