@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Hydration from '../src/Hydration';
+import HydrationRepo from '../src/Hydration-repo';
 import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
@@ -101,27 +101,27 @@ describe('Hydration', function() {
       },
     ]
 
-    hydration = new Hydration(hydrationData);
+    hydration = new HydrationRepo(hydrationData);
   });
 
-  it.only('should take in a list of data', function() {
+  it('should take in a list of data', function() {
     expect(hydration.hydrationData[0].userID).to.equal(1);
     expect(hydration.hydrationData[2].numOunces).to.equal(1);
     expect(hydration.hydrationData[4].date).to.equal('2018/10/23');
   });
 
   // test and data used for this test checks out. Method functioning correctly based on current code.
-  it.only('should find the average water intake per day for a user', function() {
+  it('should find the average water intake per day for a user', function() {
     expect(hydration.calcAvgOuncesConsumedByDay(3)).to.equal(2);
   });
 
     // test and data used for this test checks out. Method functioning correctly based on current code.
-  it.only('should find the water intake for a user on a specified date', function() {
+  it('should find the water intake for a user on a specified date', function() {
     expect(hydration.calcOuncesConsumedByDay(1, "2019/06/15")).to.equal(37);
     expect(hydration.calcOuncesConsumedByDay(4, "2019/04/15")).to.equal(36);
   });
 
-  it.only('should find water intake by day for first week', function() {
+  it('should find water intake by day for first week', function() {
     const user3 = new User({
       id: 3,
       name: "The Rock",
@@ -148,7 +148,7 @@ describe('Hydration', function() {
     expect(hydration.calcRecentWeekOunces(userRepo, 4)[6]).to.eql('2019/04/15: 36');
   });
 
-  it.only('should find sleep quality by day for that days week', function() {
+  it('should find sleep quality by day for that days week', function() {
     const user3 = new User({
       id: 3,
       name: "The Rock",
