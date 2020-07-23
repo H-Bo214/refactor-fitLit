@@ -12,7 +12,7 @@ class UserRepo {
   getUserFromId(id) {
     return this.users.find((user) => user.id === id);
   };
-// From spec: it should have a method to determine a user's data given their ID. I believe I'd switch around user.id === id (though not sure if this matters or is more dev empathy?)
+// From spec: it should have a method to determine a user's data given their ID. 
 
   getDataMatchingUserID(id, dataSet) {
     return dataSet.filter((data) => data.userID === id);
@@ -90,10 +90,10 @@ class UserRepo {
     let rankedUsersAndAverages = this.rankUserIdsByPropertyValues(dataKey, weekOfData);
     return rankedUsersAndAverages.map(rankedUser => {
       rankedUser = {
-        [rankedUser]: userIdsToProperty[rankedUser].reduce((sumSoFar, sleepQualityValue) =>  {
+        [rankedUser]: Math.round(userIdsToProperty[rankedUser].reduce((sumSoFar, sleepQualityValue) =>  {
           sumSoFar += sleepQualityValue
           return sumSoFar;
-        }, 0) / userIdsToProperty[rankedUser].length
+        }, 0) / userIdsToProperty[rankedUser].length)
       };
       return rankedUser;
     });

@@ -43,9 +43,10 @@ class ActivityRepo {
 //returns # of active minutes based on user id & date (a user's active minutes on single day)
 
   getAverageMinutesActiveForWeek(id, date, userRepo) {
-    return parseFloat((userRepo.getSpecifiedWeekOfData(date, id, this.activityData).reduce((acc, elem) => {
-      return acc += elem.minutesActive;
-    }, 0) / 7).toFixed(1));
+    const weekOfData = userRepo.getSpecifiedWeekOfData(date, id, this.activityData); 
+    return parseFloat(weekOfData.reduce((totalActiveMinutes, activity) => {
+      return totalActiveMinutes += activity.minutesActive;
+    }, 0) / weekOfData.length).toFixed(1);
   }
 //getSpecifiedWeekOfData takes all of a single user's (activity) data sorted by date & returns a week's worth of (activity) data given a start date
 //uses that data to tally up the active minutes for a user for a whole week
@@ -54,7 +55,7 @@ class ActivityRepo {
 
   accomplishStepGoalForDay(id, date, userRepo) {
     let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
-    if (userStepsByDate.numSteps === userRepo.dailyStepGoal) {
+    if (userStepsByDate.numSteps >= userRepo.dailyStepGoal) {
       return true;
     }
     return false
@@ -73,21 +74,21 @@ class ActivityRepo {
   }
   //Finds a single user's activities, then returns the activity object with the greatest # of flightsOfStairs, which can be used to represent date of flightsOfStairs record
 
-  getAllUsersAverageDataForDay(date, userRepo, relevantData) {
+  getAllUsersAverageDataForDay(date, userRepo, dataKey) {
     let selectedDayData = userRepo.getAllUsersDayData(this.activityData, date);
-    return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
+    return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[dataKey], 0) / selectedDayData.length).toFixed(1));
   }
 //getAllUsersDayData takes activity data & returns just the activities on a particular date (all users)
-//this function then gets the average numSteps/minutesActive/flightsOfStairs (whatever relevantData string is passed in) for that day
+//this function then gets the average numSteps/minutesActive/flightsOfStairs (whatever dataKey string is passed in) for that day
 
-  getUserDataByDate(id, date, userRepo, relevantData) {
+  getUserDataByDate(id, date, userRepo, dataKey) {
     let userData = userRepo.getDataMatchingUserID(id, this.activityData);
-    return userData.find(data => data.date === date)[relevantData];
+    return userData.find(data => data.date === date)[dataKey];
   }
   //filters activity data to get just data for a particular user, then filters to just that user's data on a particular date, and returns the given property value (i.e. numSteps, minActive, stairs)
 
-  getUserDataForWeek(id, date, userRepo, releventData) {
-    return userRepo.getSpecifiedWeekOfData(date, id, this.activityData).map((data) => `${data.date}: ${data[releventData]}`);
+  getUserDataForWeek(id, date, userRepo, dataKey) {
+    return userRepo.getSpecifiedWeekOfData(date, id, this.activityData).map((data) => `${data.date}: ${data[dataKey]}`);
   }
   ////takes all of a single user's activity data sorted by date & returns a week's worth of data given a start date
   //maps that data to a string of 'date: num' for each
@@ -96,11 +97,9 @@ class ActivityRepo {
 
   getFriendsActivityData(user, userRepo) {
     let data = this.activityData;
-    let userDatalist = user.friendsIds.map(function(friend) {
-      return userRepo.getDataMatchingUserID(friend, data)
-    });
-    return userDatalist.reduce(function(arraySoFar, listItem) {
-      return arraySoFar.concat(listItem);
+    let userActivityData = user.friendsIds.map(friend => userRepo.getDataMatchingUserID(friend, data));
+    return userActivityData.reduce((friendsActivities, listItem) => {
+      return friendsActivities.concat(listItem);
     }, []);
   }
   //gets activity data for each friend & merges into 1 array
@@ -114,7 +113,6 @@ class ActivityRepo {
 
   displayStepChallengeWinner(user, date, userRepo) {
     let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
-
     return rankedList.map(function(listItem) {
       let userID = Object.keys(listItem)[0];
       let userName = userRepo.getUserFromId(parseInt(userID)).name;
@@ -128,12 +126,12 @@ class ActivityRepo {
     let winner = this.displayStepChallengeWinner(user, date, userRepo).shift();
     return winner;
   }
-  displayIncreasedSteps(userRepo, id, relevantData) {
+  displayIncreasedSteps(userRepo, id, dataKey) {
     let data = this.activityData;
     let sortedUserArray = (userRepo.sortDataByDate(id, data)).reverse();
     let streaks = sortedUserArray.filter(function(element, index) {
       if (index >= 2) {
-        return (sortedUserArray[index - 2][relevantData] < sortedUserArray[index - 1][relevantData] && sortedUserArray[index - 1][relevantData] < sortedUserArray[index][relevantData])
+        return (sortedUserArray[index - 2][dataKey] < sortedUserArray[index - 1][dataKey] && sortedUserArray[index - 1][dataKey] < sortedUserArray[index][dataKey])
       }
     });
     return streaks.map(function(streak) {
