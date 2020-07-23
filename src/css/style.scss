@@ -48,7 +48,7 @@ main {
   font-weight: bold;
   font-size: 1.2em;
   margin: .5em .5em .5em .5em;
-  width: inherit;
+  // width: inherit;
 }
 
 .sidebar-header-line {
@@ -56,6 +56,7 @@ main {
   margin: 1em 1em 0 1em;
   height: 0;
   width: 80%;
+  padding-left: 1em;
 }
 
 .sidebar-header-userImage {
@@ -183,6 +184,8 @@ main {
   font-style: italic;
   padding-left: 0;
   font-size: 1em;
+  height: 15rem;
+  overflow-y: scroll;
 }
 
 .historical-list-listItem {
@@ -190,6 +193,11 @@ main {
   font-weight: bold;
   font-family: $primary-font-style;
   text-align: center;
+}
+
+#streakListMinutes, #streakList {
+  border: 1px solid black;
+  border-radius: 6px;
 }
 
 @media only screen and (max-width: 1024px) {
