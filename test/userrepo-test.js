@@ -4,7 +4,7 @@ import UserRepo from '../src/User-repo';
 import User from '../src/User';
 
 
-describe.only('User Repo', function() {
+describe('User Repo', function() {
   let user1, user2, users, userRepo;
 
   beforeEach(function() {
