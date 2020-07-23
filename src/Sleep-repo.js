@@ -104,16 +104,12 @@ class SleepRepo {
 
   determineBestSleepers(date, userRepo) {
     let timeline = userRepo.getAllUsersWeekOfData(this.sleepData, date);
-    let userSleepObject = userRepo.isolateUserIdAndPropertyData('sleepQuality', timeline);
-
-    return Object.keys(userSleepObject).filter(function(key) {
-      return (userSleepObject[key].reduce(function(sumSoFar, sleepQualityValue) {
-        sumSoFar += sleepQualityValue
-        return sumSoFar;
-      }, 0) / userSleepObject[key].length) > 3
-    }).map(function(sleeper) {
-      return userRepo.getUserFromId(parseInt(sleeper)).name;
-    })
+    let usersSleepQuality = userRepo.isolateUserIdAndPropertyData('sleepQuality', timeline);
+    let userIds = Object.keys(usersSleepQuality);
+    let goodSleepers = userIds.filter(key => {
+      return (usersSleepQuality[key].reduce((totalSleepQuality, sleepQualityValue) => totalSleepQuality + sleepQualityValue, 0) / usersSleepQuality[key].length) > 3
+    });
+    return goodSleepers.map(sleeper => userRepo.getUserFromId(parseInt(sleeper)).name)
   }
   //function to determine the best sleepers among users
   //pass through date and userRepo
@@ -125,7 +121,6 @@ class SleepRepo {
   getUsersWithMostSleepWeekly(date, userRepo) {
     let timeline = userRepo.getAllUsersWeekOfData(this.sleepData, date);
     let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages('sleepQuality', timeline);
-
     return this.getBestSleepersForWeekandDay(sleepRankWithData, userRepo);
   }
   //function for users who have slept the most for the past week
@@ -142,14 +137,8 @@ class SleepRepo {
     let bestSleepers = sortedArray.filter(function(element) {
       return element[Object.keys(element)] === Object.values(sortedArray[0])[0]
     });
-
-    let bestSleeperIds = bestSleepers.map(function(bestSleeper) {
-      return (Object.keys(bestSleeper));
-    });
-
-    return bestSleeperIds.map(function(sleepNumber) {
-      return userRepo.getUserFromId(parseInt(sleepNumber)).name;
-    });
+    let bestSleeperIds = bestSleepers.map(bestSleeper => (Object.keys(bestSleeper)));
+    return bestSleeperIds.map(sleepNumber => userRepo.getUserFromId(parseInt(sleepNumber)).name);
   }
   //function for extracting user names for those who slept the most that week and the most that day
 }
