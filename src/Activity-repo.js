@@ -97,11 +97,9 @@ class ActivityRepo {
 
   getFriendsActivityData(user, userRepo) {
     let data = this.activityData;
-    let userDatalist = user.friendsIds.map(function(friend) {
-      return userRepo.getDataMatchingUserID(friend, data)
-    });
-    return userDatalist.reduce(function(arraySoFar, listItem) {
-      return arraySoFar.concat(listItem);
+    let userActivityData = user.friendsIds.map(friend => userRepo.getDataMatchingUserID(friend, data));
+    return userActivityData.reduce((friendsActivities, listItem) => {
+      return friendsActivities.concat(listItem);
     }, []);
   }
   //gets activity data for each friend & merges into 1 array
@@ -115,7 +113,6 @@ class ActivityRepo {
 
   displayStepChallengeWinner(user, date, userRepo) {
     let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
-
     return rankedList.map(function(listItem) {
       let userID = Object.keys(listItem)[0];
       let userName = userRepo.getUserFromId(parseInt(userID)).name;

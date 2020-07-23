@@ -90,10 +90,10 @@ class UserRepo {
     let rankedUsersAndAverages = this.rankUserIdsByPropertyValues(dataKey, weekOfData);
     return rankedUsersAndAverages.map(rankedUser => {
       rankedUser = {
-        [rankedUser]: userIdsToProperty[rankedUser].reduce((sumSoFar, sleepQualityValue) =>  {
+        [rankedUser]: Math.round(userIdsToProperty[rankedUser].reduce((sumSoFar, sleepQualityValue) =>  {
           sumSoFar += sleepQualityValue
           return sumSoFar;
-        }, 0) / userIdsToProperty[rankedUser].length
+        }, 0) / userIdsToProperty[rankedUser].length)
       };
       return rankedUser;
     });
