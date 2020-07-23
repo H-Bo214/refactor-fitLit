@@ -4,18 +4,19 @@
 
 * {
   margin: 0;
+  color: $main-font-color;
 }
 
 body {
   font-family: 'Open Sans';
   margin: 0;
-  background-color: #4d4e4f;
+  background-color: #708090;
   height: auto;
 }
 
 h1 {
   text-align: center;
-  color: #ffffff;
+  color: #fffff4;
   height: 80px;
   padding-top: 10px;
 }
@@ -31,8 +32,8 @@ main {
 }
 
 .body-sidebar-sidebarContainer {
-  background-color: #9A9DAB;
-  border: $outer-border-style;
+  background-color: #708090;
+  border-top: $outer-border-style;
   @include displayStyle(flex, column);
   align-items: center;
   text-align: center;
@@ -61,7 +62,7 @@ main {
 
 .sidebar-header-userImage {
   border-radius: 50%;
-  border-color: black;
+  border-color: $main-font-color;
   border-style: solid;
   border-width: 1px;
   height: 200px;
@@ -175,14 +176,16 @@ main {
   font-size: 1em;
   font-weight: bolder;
   margin: .5em;
-  color: black;
+  color: $main-font-color;
 }
 
 .card-vertical-list {
   list-style-type: none;
   font-weight: lighter;
   font-style: italic;
+  padding-top: 1em;
   padding-left: 0;
+  margin: 1em;
   font-size: 1em;
   height: 15rem;
   overflow-y: scroll;
