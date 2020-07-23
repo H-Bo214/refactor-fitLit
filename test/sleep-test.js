@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SleepRepo from '../src/Sleep-repo';
 import UserRepo from '../src/User-repo';
 
-describe.only('Sleep', function() {
+describe('Sleep', function() {
   let sleepData, sleep, user1, user2, user3, user4, users, userRepo;
 
   beforeEach(function() {
