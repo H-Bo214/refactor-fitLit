@@ -21,6 +21,28 @@ h1 {
   padding-top: 10px;
 }
 
+.hydration-header, .activity-header, .sleep-header {
+  text-align: center;
+  color: $section-background-color;
+  // text-shadow:
+	// 	-1px -1px 0 #000,
+	// 	1px -1px 0 #000,
+	// 	-1px 1px 0 #000,
+	// 	1px 1px 0 #000;
+}
+
+// .hydration-header {
+//   color: #11ad86;
+// }
+
+// .activity-header {
+//   color: $activity-color;
+// }
+
+// .sleep-header {
+//   color: $sleep-color;
+// }
+
 main {
   @include displayStyle(flex, row);
   height: 1500px;
@@ -201,6 +223,11 @@ main {
 #streakListMinutes, #streakList {
   border: 1px solid black;
   border-radius: 6px;
+}
+
+.runner-icon {
+  width: 200px;
+  margin-top: 1rem;
 }
 
 @media only screen and (max-width: 1024px) {
