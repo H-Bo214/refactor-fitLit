@@ -26,9 +26,10 @@ class SleepRepo {
   //need to add to DOM
   calcAverageSleepForDay(id) {
     let perDaySleep = this.sleepData.filter((data) => id === data.userID);
-    return perDaySleep.reduce((sumSoFar, data) => {
-      return sumSoFar += data.hoursSlept;
+    let averageSleep = perDaySleep.reduce((totalSleep, data) => {
+      return totalSleep += data.hoursSlept;
     }, 0) / perDaySleep.length;
+    return Math.round(averageSleep * 10) / 10
   }
   //function to calculate number of hours slept per day over all time
   //passing through the user ID
@@ -38,9 +39,10 @@ class SleepRepo {
 
   calcTotalAverageSleepQuality(id) {
     let perDaySleepQuality = this.sleepData.filter((data) => id === data.userID);
-    return perDaySleepQuality.reduce((sumSoFar, data) => {
-      return sumSoFar += data.sleepQuality;
+    let averageSleepQuality = perDaySleepQuality.reduce((totalSleepQuality, data) => {
+      return totalSleepQuality += data.sleepQuality;
     }, 0) / perDaySleepQuality.length;
+    return Math.round(averageSleepQuality * 10) / 10
   }
   //function to calculate average sleep quality over all time
   //passing through the user ID
