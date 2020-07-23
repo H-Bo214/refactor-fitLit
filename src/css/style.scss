@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'mixins';
+@import 'media-queries';
 
 * {
   margin: 0;
@@ -27,7 +28,6 @@ main {
 .main-sidebar-body {
   @include displayStyle(flex, row);
   width: 25%;
-  height: 100%;
 }
 
 .body-sidebar-sidebarContainer {
@@ -85,12 +85,15 @@ main {
   overflow: scroll;
 }
 
-.main-column-hydration, .main-column-activity, .main-column-sleep {
+.main-column-hydration,
+.main-column-activity,
+.main-column-sleep {
   @include displayStyle(flex, row);
   flex-grow: 1;
 }
 
-.infoContainer-cardContainer-card-horizontal, .infoContainer-cardContainer-card-vertical {
+.infoContainer-cardContainer-card-horizontal,
+.infoContainer-cardContainer-card-vertical {
   width: 100%;
   background-color: $section-background-color;
   border: $outer-border-style;
@@ -123,7 +126,9 @@ main {
   @include cardStyle($activity-color);
 }
 
-.card-today-hydration, .card-today-sleep, .card-today-activity {
+.card-today-hydration,
+.card-today-sleep,
+.card-today-activity {
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: space-around;
@@ -145,7 +150,9 @@ main {
   overflow: scroll;
 }
 
-.card-history-hydration, .card-history-sleep, .card-history-activity {
+.card-history-hydration,
+.card-history-sleep,
+.card-history-activity {
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: flex-start;
@@ -160,7 +167,9 @@ main {
   font-kerning: normal;
 }
 
-.historicalWeek, .weekly-sleep-quality, .thisWeek {
+.historicalWeek,
+.weekly-sleep-quality,
+.thisWeek {
   text-align: center;
   font-size: 1em;
   font-weight: bolder;
@@ -181,4 +190,32 @@ main {
   font-weight: bold;
   font-family: $primary-font-style;
   text-align: center;
+}
+
+@media only screen and (max-width: 1024px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    height: 1500px;
+  }
+
+  .main-sidebar-body {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .body-main-infoContainter {
+    overflow: unset;
+  }
+
+  .body-sidebar-sidebarContainer {
+    width: 100%;
+  }
+
+  .main-column-hydration,
+  .main-column-activity,
+  .main-column-sleep {
+    flex-direction: column;
+  }
 }
