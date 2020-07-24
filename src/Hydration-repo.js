@@ -44,11 +44,14 @@ class HydrationRepo extends DataRepo {
   //   return dataSet.filter((userData) => id === userData.userID);
   // };
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  calcRecentWeekOunces(userRepo, id) {
-    return userRepo.getDataFromLatestWeek(id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
-  }
+  calcRecentWeekOunces(id) {
+    let userData = this.getDataMatchingUserID(id, this.hydrationData);
+    let sortedData = this.sortDataByDate(userData);
+    let weekOfData = this.getDataInDateSpan(0, 7, sortedData);
+    return weekOfData;
+  };
 
-
+// takes date & id, 
   ////Method calculateRandomWeekOunces uses the additional methods below that currently live in the User Repo. Lots going on, we'll have to discuss if
 // we can refactor.
 //
@@ -64,8 +67,13 @@ class HydrationRepo extends DataRepo {
   //   return sortedByDate;
   // }
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  calcAdditionalWeekOunces(date, id, userRepo) {
-    return userRepo.getSpecifiedWeekOfData(date, id, this.hydrationData).map((data) => `${data.date}: ${data.numOunces}`);
+  calcAdditionalWeekOunces(date, id) {
+    let userData = this.getDataMatchingUserID(id, this.hydrationData)
+    let sortedData = this.sortDataByDate(userData);
+    let randomIndex = this.generateRandomIndex(sortedData);
+    let weekOfData = this.getDataInDateSpan(randomIndex, 7, sortedData);
+
+    return weekOfData;
   }
 }
 

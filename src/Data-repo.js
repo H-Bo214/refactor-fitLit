@@ -16,14 +16,17 @@ class DataRepo {
     return dataSet.sort((a, b) => new Date(b.date) - new Date(a.date));
   };
 
-  getDataInDateSpan(numOfDays, dataSet) {
-    return dataSet.splice(0, numOfDays);
+  getDataInDateSpan(index, numOfDays, dataSet) {
+    return dataSet.splice(index, numOfDays);
   };
 
   getDataByDate(date, dataSet) {
     return dataSet.find(data => data.date === date);
   };
 
+  generateRandomIndex(dataSet) {
+    return Math.floor(Math.random() * (dataSet.length - 7))
+  }
 };
 
 

@@ -160,8 +160,9 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calcAvgOuncesConsumedByDay(id).toFixed(2)}</span></p> <p>oz per day.</p>`)
 
   // Currently displayed on the Hydration Dashboard.
+  // Refactor .map((data) => `${data.date}: ${data.numOunces}`) at some point.
   let hydrationThisWeek = document.getElementById('hydrationThisWeek');
-  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcRecentWeekOunces(userStorage, id)));
+  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcRecentWeekOunces(id).map((data) => `${data.date}: ${data.numOunces}`)));
 
 // Currently displayed on the Hydration Dashboard.
   let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
@@ -169,7 +170,7 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 
 // Currently displayed on the Hydration Dashboard.
   let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
-  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcAdditionalWeekOunces(laterDateString, id, userStorage)));
+  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcAdditionalWeekOunces(laterDateString, id).map((data) => `${data.date}: ${data.numOunces}`)));
 
 }
 

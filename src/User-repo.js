@@ -41,12 +41,15 @@ class UserRepo extends DataRepo {
   };
 // This method uses the sorted data from above to get the data for a users day- "today" (most recent day in the data set). Used in getDataFromLatestWeek and getSpecifiedWeekOfData, which are both used within Hydration/
 
+// may need to be deleted later.
   getDataFromLatestWeek(id, dataSet) {
     return this.sortDataByDate(id, dataSet).slice(0, 7);
   };
 // This method uses the sortDataByDate() above & then slices the past weeks worth of data for the user. Used in Hydration,
 
   getSpecifiedWeekOfData(date, id, dataSet) {
+
+    
     let dateIndex = this.sortDataByDate(id, dataSet).indexOf(this.sortDataByDate(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
     return this.sortDataByDate(id, dataSet).slice(dateIndex, dateIndex + 7);
   };
