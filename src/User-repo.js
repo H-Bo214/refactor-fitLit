@@ -1,7 +1,8 @@
 import User from "./User";
-
-class UserRepo {
+import DataRepo from './Data-repo'
+class UserRepo extends DataRepo {
   constructor(users) {
+    super()
     if (!users) {
       this.users = []
     } else {

@@ -1,10 +1,12 @@
 // For a user (identified by their userID - this is the same for all methods requiring a specific user’s data), the average fluid ounces consumed per day for all time
 // For a user, how many fluid ounces they consumed for a specific day (identified by a date)
 // For a user, how many fluid ounces of water consumed each day over the course of a week (7 days) - return the amount for each day
+import DataRepo from './Data-repo'
 import Hydration from './Hydration'
 
-class HydrationRepo {
+class HydrationRepo extends DataRepo {
   constructor(hydrationData) {
+    super()
     if (!hydrationData) {
       this.hydrationData = []
     } else {
@@ -15,12 +17,8 @@ class HydrationRepo {
 
 
   calcAvgOuncesConsumedByDay(id) {
-    // method locates all user objects that match a user ID and displays the average oz for a specific user.
-    // I don't believe this needs a refactor at this time.
-    let perDayUserHydration = this.hydrationData.filter((data) => id === data.userID);
-    return perDayUserHydration.reduce((sumSoFar, data) => {
-      return sumSoFar += data.numOunces;
-    }, 0) / perDayUserHydration.length;
+    let perDayUserHydration = this.getDataMatchingUserID(id, this.hydrationData)
+    return this.calculateAverage(perDayUserHydration, 'numOunces');
   }
 
     // method iterates through hydration data matches a user id with a hydration user ID, accepts a date and returns the number of oz for that specific date.

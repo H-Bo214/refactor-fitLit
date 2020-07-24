@@ -43,6 +43,7 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   activityRepo = new ActivityRepo(activityData.activityData);
   console.log('activityRepo', activityRepo);
   let userNowId = generateRandomId(userRepo);
+  console.log('userNowId', userNowId);
   let userNow = generateRandomUser(userRepo, userNowId);
   //Note: Former today was string of "2019/06/15"; new function below generates string of same format
   // let today = generateCurrentDate();
@@ -138,13 +139,13 @@ function makeWinnerID(activityInfo, user, dateString, userStorage){
 }
 
 function makeToday(userStorage, id, dataSet) {
-  var sortedArray = userStorage.sortDataByDate(id, dataSet);
+  var sortedArray = userStorage.sortDataByDate(dataSet);
   return sortedArray[0].date;
 }
 
 //
 function makeRandomDate(userStorage, id, dataSet) {
-  var sortedArray = userStorage.sortDataByDate(id, dataSet);
+  var sortedArray = userStorage.sortDataByDate(dataSet);
   return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
 }
 
