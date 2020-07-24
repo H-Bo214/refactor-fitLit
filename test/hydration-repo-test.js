@@ -78,7 +78,7 @@ describe('Hydration', function() {
   });
 
   it('should find water intake by day for any week', function() {
-    expect(hydration.calcAdditionalWeekOunces('2019/09/19', 4, userRepo)[1]).to.eql('2019/09/18: 40');
-    expect(hydration.calcAdditionalWeekOunces('2018/10/23', 2, userRepo)[0]).to.eql('2018/10/23: 34');
+    expect(hydration.calcWeekOunces('2019/09/19', 4).to.eql('2019/09/18: 40');
+    expect(hydration.calcWeekOunces('2018/10/23', 2).to.eql('2018/10/23: 34');
   });
 });

@@ -41,9 +41,9 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   hydrationRepo = new HydrationRepo(hydrationData.hydrationData);
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
-  console.log('activityRepo', activityRepo);
+  // console.log('activityRepo', activityRepo);
   let userNowId = generateRandomId(userRepo);
-  console.log('userNowId', userNowId);
+  // console.log('userNowId', userNowId);
   let userNow = generateRandomUser(userRepo, userNowId);
   //Note: Former today was string of "2019/06/15"; new function below generates string of same format
   // let today = generateCurrentDate();
@@ -57,8 +57,8 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   // userNow is the current random user.
   // today is always 9/22/19
   let today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
-  console.log(today)
-  randomHistory = makeRandomDate(userRepo, userNowId, hydrationRepo.hydrationData);
+  console.log('hydrationRepo.hydrationData', hydrationRepo.hydrationData)
+  randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
 
   //Some of this is hydration card functionality- not sure why it's in start app rather than in the hydration function below!
 
@@ -144,14 +144,11 @@ function makeToday(userStorage, id, dataSet) {
 }
 
 //
-function makeRandomDate(userStorage, id, dataSet) {
-  var sortedArray = userStorage.sortDataByDate(dataSet);
-  return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
-}
+
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
   // Currently displayed on the Hydration Dashboard.
-  console.log('hydrationInfo.calcOuncesConsumedByDay(id, dateString)', hydrationInfo.calcOuncesConsumedByDay(id, dateString));
+  // console.log('hydrationInfo.calcOuncesConsumedByDay(id, dateString)', hydrationInfo.calcOuncesConsumedByDay(id, dateString));
   let hydrationToday = document.getElementById('hydrationToday');
   hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calcOuncesConsumedByDay(id, dateString)}</span></p><p>oz water today.</p>`);
 
@@ -162,7 +159,9 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
   // Currently displayed on the Hydration Dashboard.
   // Refactor .map((data) => `${data.date}: ${data.numOunces}`) at some point.
   let hydrationThisWeek = document.getElementById('hydrationThisWeek');
-  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcRecentWeekOunces(id).map((data) => `${data.date}: ${data.numOunces}`)));
+  console.log('dateString', dateString);
+  console.log('hydrationInfo.calcWeekOunces(id, dateString)', hydrationInfo.calcWeekOunces(id, dateString));
+  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcWeekOunces(dateString, id).map((data) => `${data.date}: ${data.numOunces}`)));
 
 // Currently displayed on the Hydration Dashboard.
   let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
@@ -170,7 +169,7 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 
 // Currently displayed on the Hydration Dashboard.
   let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
-  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcAdditionalWeekOunces(laterDateString, id).map((data) => `${data.date}: ${data.numOunces}`)));
+  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcWeekOunces(laterDateString, id).map((data) => `${data.date}: ${data.numOunces}`)));
 
 }
 

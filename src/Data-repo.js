@@ -24,9 +24,19 @@ class DataRepo {
     return dataSet.find(data => data.date === date);
   };
 
-  generateRandomIndex(dataSet) {
-    return Math.floor(Math.random() * (dataSet.length - 7))
+  // generateRandomIndex(dataSet) {
+  //   return Math.floor(Math.random() * (dataSet.length - 7))
+  // }
+
+  makeRandomDate(dataSet) {
+    let sortedArray = this.sortDataByDate(dataSet);
+    return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
   }
+
+  getIndexOfDate(date, dataSet) {
+    return dataSet.findIndex(data => data.date === date)
+  }
+
 };
 
 
