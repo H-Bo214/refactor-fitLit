@@ -21,13 +21,9 @@ class HydrationRepo extends DataRepo {
     return this.calculateAverage(perDayUserHydration, 'numOunces');
   }
 
-    // method iterates through hydration data matches a user id with a hydration user ID, accepts a date and returns the number of oz for that specific date.
-    // I don't believe this needs a refactor at this time.
   calcOuncesConsumedByDay(id, date) {
     let matchingData = this.getDataMatchingUserID(id, this.hydrationData)
     return this.getDataByDate(date, matchingData).numOunces
-    // let findOuncesByDate = this.hydrationData.find((data) => id === data.userID && date === data.date);
-    // return findOuncesByDate.numOunces;
   }
 
 
