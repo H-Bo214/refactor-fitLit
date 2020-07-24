@@ -41,6 +41,7 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   hydrationRepo = new HydrationRepo(hydrationData.hydrationData);
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
+  console.log('activityRepo', activityRepo);
   let userNowId = generateRandomId(userRepo);
   let userNow = generateRandomUser(userRepo, userNowId);
   //Note: Former today was string of "2019/06/15"; new function below generates string of same format

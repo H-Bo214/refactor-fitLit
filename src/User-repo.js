@@ -14,9 +14,9 @@ class UserRepo {
   };
 // From spec: it should have a method to determine a user's data given their ID. 
 
-  getDataMatchingUserID(id, dataSet) {
-    return dataSet.filter((data) => data.userID === id);
-  };
+  //  getDataMatchingUserID(id, dataSet) {
+  //    return dataSet.filter((data) => data.userID === id);
+  // };
 //Rachel note: This method doesn't actually make use of anything in the User repo class, so doesn't really belong here
 //This code seems extraneous- the idea of this class is that all f the userData is put in as an argument to the UserRepo class. The method above is doing the exact same thing, except with its own `this.users` list.
 
@@ -28,11 +28,11 @@ class UserRepo {
   };
 //From spec: it should have a method to determine the average step goal amongst all users. It appears that this reduce is working correctly & that we are returning the average step goal of all users.
 
-  sortDataByDate(id, dataSet) {
-    let dataMatchingId = this.getDataMatchingUserID(id, dataSet)
-    let sortedByDate = dataMatchingId.sort((a, b) => new Date(b.date) - new Date(a.date));
-    return sortedByDate;
-  }
+  // sortDataByDate(id, dataSet) {
+  //   let dataMatchingId = this.getDataMatchingUserID(id, dataSet)
+  //   let sortedByDate = dataMatchingId.sort((a, b) => new Date(b.date) - new Date(a.date));
+  //   return sortedByDate;
+  // }
 //This method selects a specific user (using the previously created getDataMatchingUserID method) & then sorts the data by date.
 
   getLatestDateInData(id, dataSet) {
