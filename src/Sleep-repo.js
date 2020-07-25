@@ -1,16 +1,3 @@
-// Items that need to be included in the Sleep class:
-
-// For a user (identified by their userID), the average number of hours slept per day
-// For a user, their average sleep quality per day over all time
-// For a user, how many hours they slept for a specific day (identified by a date)
-// For a user, their sleep quality for a specific day (identified by a date)
-// For a user, how many hours slept each day over the course of a given week (7 days) - you should be able to calculate this for any week, not just the latest week
-// For a user, their sleep quality each day over the course of a given week (7 days) - you should be able to calculate this for any week, not just the latest week
-// For all users, the average sleep quality
-// Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
-// For a given day (identified by the date), find the users who slept the most number of hours (one or more if they tied)
-// Make a metric of your own! Document it, calculate it, and display it.
-
 import Sleep from "./Sleep";
 import DataRepo from "./Data-repo";
 
@@ -79,34 +66,41 @@ class SleepRepo extends DataRepo {
       return wellRestedUsers; 
     }, [])
   }
+  
+  ////function for users who have slept the most for the past week: DELETING BECAUSE NOT NEEDED IN SPEC
+  // getUsersWithMostSleepWeekly(date, userRepo) {
+  //   let timeline = userRepo.getAllUsersWeekOfData(this.sleepData, date);
+  //   let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages('sleepQuality', timeline);
+  //   return this.getBestSleepersForWeekandDay(sleepRankWithData, userRepo);
+  // }
 
-  getUsersWithMostSleepWeekly(date, userRepo) {
-    
-
-    let timeline = userRepo.getAllUsersWeekOfData(this.sleepData, date);
-    let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages('sleepQuality', timeline);
-    return this.getBestSleepersForWeekandDay(sleepRankWithData, userRepo);
-  }
-  //function for users who have slept the most for the past week
-
-  getUsersWithMostSleepForDay(date, userRepo) {
-    let timeline = userRepo.getAllUsersDayData(this.sleepData, date);
-    let sleepRankWithData = userRepo.getRankedUserIDsWithDataAverages('hoursSlept', timeline);
-
-    return this.getBestSleepersForWeekandDay(sleepRankWithData, userRepo);
-  }
-  //function for users who have slept the most for the day
-
-  getBestSleepersForWeekandDay(sortedArray, userRepo) {
-    let bestSleepers = sortedArray.filter(function(element) {
-      return element[Object.keys(element)] === Object.values(sortedArray[0])[0]
+  //DOUBLE CHECK IN TEST SUITE (NOT CALLED IN SCRIPTS); return value from getMaxSleepData gets passed into getUsersWithMostSleepForDay 
+  getMaxSleepData(date) {
+    let sleepDataOnDate = this.getDataMatchingDate(date, this.sleepData);
+    let sortedSleepData = sleepDataOnDate.sort((a, b) => b.hoursSlept - a.hoursSlept);
+    let maxSleep = sortedSleepData[0].hoursSlept; 
+    return sortedSleepData.filter(data => {
+      return data.hoursSlept === maxSleep
     });
-    let bestSleeperIds = bestSleepers.map(bestSleeper => (Object.keys(bestSleeper)));
-    return bestSleeperIds.map(sleepNumber => userRepo.getUserFromId(parseInt(sleepNumber)).name);
   }
-  //function for extracting user names for those who slept the most that week and the most that day
-}
 
-//get all-time avg # hrs of sleep for a user
+  getUsersWithMostSleepForDay(dataSet, userRepo) {
+    return dataSet.reduce((usersWithMaxSleep, data) => {
+      let matchingUser = userRepo.users.find(user => user.id === data.userID); 
+      usersWithMaxSleep.push(matchingUser);
+      return usersWithMaxSleep; 
+    }, [])
+  }
+
+  //function for extracting user names for those who slept the most that week and the most that day: DELETING BECAUSE NOT NEEDED IN SPEC
+  // getBestSleepersForWeekandDay(sortedArray, userRepo) {
+  //   let bestSleepers = sortedArray.filter(function(element) {
+  //     return element[Object.keys(element)] === Object.values(sortedArray[0])[0]
+  //   });
+  //   let bestSleeperIds = bestSleepers.map(bestSleeper => (Object.keys(bestSleeper)));
+  //   return bestSleeperIds.map(sleepNumber => userRepo.getUserFromId(parseInt(sleepNumber)).name);
+  // }
+  
+}
 
 export default SleepRepo;

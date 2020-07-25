@@ -60,10 +60,6 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   // today is always 9/22/19
   let today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
-  console.log('today', today);
-  console.log('randomHistory', randomHistory);
-  console.log(sleepRepo.determineBestSleepers(today, userRepo.users))
-  console.log(sleepRepo.determineBestSleepers('2020/01/21', userRepo.users)); 
   //Some of this is hydration card functionality- not sure why it's in start app rather than in the hydration function below!
 
   addInfoToSidebar(userNow, userRepo);
