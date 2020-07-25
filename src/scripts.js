@@ -46,7 +46,7 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   // console.log('activityRepo', activityRepo);
   let userNowId = generateRandomId(userRepo);
   // console.log('userNowId', userNowId);
-   userNow = generateRandomUser(userRepo, userNowId);
+  userNow = generateRandomUser(userRepo, userNowId);
   //Note: Former today was string of "2019/06/15"; new function below generates string of same format
   // let today = generateCurrentDate();
   // console.log(today)
