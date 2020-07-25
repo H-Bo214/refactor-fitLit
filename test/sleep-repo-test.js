@@ -133,7 +133,7 @@ describe('Sleep', function() {
   });
 
   it('should find the average sleep hours per day for a user', function() {
-    expect(sleep.calcAverageSleepForDay(2)).to.equal(5.9);
+    expect(sleep.calcUserAverageSleep(2)).to.equal(5.9);
   });
 
   it('should find the average sleep quality per day for a user', function() {
@@ -141,7 +141,7 @@ describe('Sleep', function() {
   });
 
   it('should find the hours slept for a user on a specified date', function() {
-    expect(sleep.calcHoursSleptForDay(2, '2019/08/22')).to.equal(6.9);
+    expect(sleep.calcDailySleep(2, '2019/08/22')).to.equal(6.9);
   });
 
   it('should find the sleep quality for a user on a specified date', function() {
