@@ -65,6 +65,7 @@ class UserRepo extends DataRepo {
     return dataSet.filter(dataItem => dataItem.date === date);
   }
 
+  //for one user, returns an object with keys that are days in week & value of dataKey
   isolateUserIdAndPropertyData(dataKey, weekOfData) {
     return weekOfData.reduce((IdsWithPropertyValues, dataItem) => {
       if (!IdsWithPropertyValues[dataItem.userID]) {

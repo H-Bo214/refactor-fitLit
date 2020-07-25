@@ -26,6 +26,7 @@ class HydrationRepo extends DataRepo {
     let sortedData = this.sortDataByDate(userData);
     let indexOfDate = this.getIndexOfDate(date, sortedData)
     let weekOfData = this.getDataInDateSpan(indexOfDate, 7, sortedData);
+
     return weekOfData;
   };
 
