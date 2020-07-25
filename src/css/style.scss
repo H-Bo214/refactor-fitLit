@@ -8,40 +8,18 @@
 }
 
 body {
-  font-family: 'Open Sans';
+  font-family: 'Roboto', sans-serif;
   margin: 0;
-  background-color: #708090;
+  background-color: #e4e7eb;
   height: auto;
 }
 
 h1 {
   text-align: center;
-  color: #fffff4;
   height: 80px;
   padding-top: 10px;
+  margin-top: 16px;
 }
-
-.hydration-header, .activity-header, .sleep-header {
-  text-align: center;
-  color: $section-background-color;
-  // text-shadow:
-	// 	-1px -1px 0 #000,
-	// 	1px -1px 0 #000,
-	// 	-1px 1px 0 #000,
-	// 	1px 1px 0 #000;
-}
-
-// .hydration-header {
-//   color: #11ad86;
-// }
-
-// .activity-header {
-//   color: $activity-color;
-// }
-
-// .sleep-header {
-//   color: $sleep-color;
-// }
 
 main {
   @include displayStyle(flex, row);
@@ -54,7 +32,7 @@ main {
 }
 
 .body-sidebar-sidebarContainer {
-  background-color: #708090;
+  background-color: #e4e7eb;
   border-top: $outer-border-style;
   @include displayStyle(flex, column);
   align-items: center;
@@ -62,16 +40,14 @@ main {
   overflow: scroll;
 }
 
-.sidebar-header-name {
+.sidebar-header-name, .hydration-header, .activity-header, .sleep-header {
+  margin-top: 0.4em;
   text-align: center;
 }
 
 .sidebar-header-userInfo {
   font-family: $primary-font-style;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin: .5em .5em .5em .5em;
-  // width: inherit;
+  margin: .6em;
 }
 
 .sidebar-header-line {
@@ -84,12 +60,9 @@ main {
 
 .sidebar-header-userImage {
   border-radius: 50%;
-  border-color: $main-font-color;
-  border-style: solid;
-  border-width: 1px;
-  height: 200px;
-  width: 200px;
-  margin: 4px 2px 2px 2px;
+  border: 5px solid $main-font-color;
+  width: 150px;
+  margin-top: 1rem;
   justify-content: center;
 }
 
@@ -205,7 +178,7 @@ main {
   list-style-type: none;
   font-weight: lighter;
   font-style: italic;
-  padding-top: 1em;
+  // padding-top: 1em;
   padding-left: 0;
   margin: 1em;
   font-size: 1em;
@@ -226,7 +199,7 @@ main {
 }
 
 .runner-icon {
-  width: 200px;
+  width: 150px;
   margin-top: 1rem;
 }
 
@@ -248,7 +221,7 @@ main {
   }
 
   .body-sidebar-sidebarContainer {
-    width: 100%;
+    width: 100vw;
   }
 
   .main-column-hydration,
@@ -256,4 +229,17 @@ main {
   .main-column-sleep {
     flex-direction: column;
   }
+
+@media only screen and (max-width: 768px) {
+
+.body-sidebar-sidebarContainer {
+  width:100vw;
+}
+
+
+}
+
+
+
+
 }
