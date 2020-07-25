@@ -1,22 +1,24 @@
 @import 'variables';
 @import 'mixins';
+@import 'media-queries';
 
 * {
-  margin: 0;
+  color: $main-font-color;
 }
 
 body {
-  font-family: 'Open Sans';
-  margin: 0;
-  background-color: #4d4e4f;
+  font-family: 'Roboto', sans-serif;
+  background-color: #e4e7eb;
   height: auto;
 }
 
 h1 {
   text-align: center;
-  color: #ffffff;
   height: 80px;
   padding-top: 10px;
+  margin-top:0;
+  margin-bottom: 0;
+  border: $outer-border-style;
 }
 
 main {
@@ -27,28 +29,26 @@ main {
 .main-sidebar-body {
   @include displayStyle(flex, row);
   width: 25%;
-  height: 100%;
 }
 
 .body-sidebar-sidebarContainer {
-  background-color: #9A9DAB;
+  background-color: #e4e7eb;
   border: $outer-border-style;
+  border-top: none;
   @include displayStyle(flex, column);
   align-items: center;
   text-align: center;
   overflow: scroll;
 }
 
-.sidebar-header-name {
+.sidebar-header-name, .hydration-header, .activity-header, .sleep-header {
+  margin-top: 0.4em;
   text-align: center;
 }
 
 .sidebar-header-userInfo {
   font-family: $primary-font-style;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin: .5em .5em .5em .5em;
-  width: inherit;
+  margin: .6em;
 }
 
 .sidebar-header-line {
@@ -56,17 +56,13 @@ main {
   margin: 1em 1em 0 1em;
   height: 0;
   width: 80%;
+  padding-left: 1em;
 }
 
-.sidebar-header-userImage {
+.friends-running-img {
   border-radius: 50%;
-  border-color: black;
-  border-style: solid;
-  border-width: 1px;
-  height: 200px;
-  width: 200px;
-  margin: 4px 2px 2px 2px;
-  justify-content: center;
+  width: 197px;
+  margin: 1rem;
 }
 
 .sidebar-body-friendContainer {
@@ -79,19 +75,21 @@ main {
 
 .body-main-infoContainter {
   width: 100%;
-  border: $outer-border-style;
   margin: 0 0 1em;
   @include displayStyle(flex, column);
   overflow: scroll;
 }
 
-.main-column-hydration, .main-column-activity, .main-column-sleep {
+.main-column-hydration,
+.main-column-activity,
+.main-column-sleep {
   @include displayStyle(flex, row);
   flex-grow: 1;
 }
 
-.infoContainer-cardContainer-card-horizontal, .infoContainer-cardContainer-card-vertical {
-  width: 100%;
+.infoContainer-cardContainer-card-horizontal,
+.infoContainer-cardContainer-card-vertical {
+  width: 100vw;
   background-color: $section-background-color;
   border: $outer-border-style;
   @include displayStyle(flex, column);
@@ -123,13 +121,14 @@ main {
   @include cardStyle($activity-color);
 }
 
-.card-today-hydration, .card-today-sleep, .card-today-activity {
+.card-today-hydration,
+.card-today-sleep,
+.card-today-activity {
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: space-around;
   width: 80%;
   border-radius: 6px;
-  padding: 6px;
 }
 
 .card-history-hydration {
@@ -145,7 +144,9 @@ main {
   overflow: scroll;
 }
 
-.card-history-hydration, .card-history-sleep, .card-history-activity {
+.card-history-hydration,
+.card-history-sleep,
+.card-history-activity {
   font-family: $primary-font-style;
   @include displayStyle(flex, column);
   justify-content: flex-start;
@@ -160,20 +161,26 @@ main {
   font-kerning: normal;
 }
 
-.historicalWeek, .weekly-sleep-quality, .thisWeek {
+.historicalWeek,
+.weekly-sleep-quality,
+.thisWeek {
   text-align: center;
   font-size: 1em;
   font-weight: bolder;
   margin: .5em;
-  color: black;
+  color: $main-font-color;
 }
 
 .card-vertical-list {
   list-style-type: none;
   font-weight: lighter;
   font-style: italic;
+  // padding-top: 1em;
   padding-left: 0;
+  margin: 1em;
   font-size: 1em;
+  // height: 15rem;
+  overflow-y: scroll;
 }
 
 .historical-list-listItem {
@@ -182,3 +189,64 @@ main {
   font-family: $primary-font-style;
   text-align: center;
 }
+
+#streakListMinutes, #streakList {
+  border: 1px solid black;
+  border-radius: 6px;
+}
+
+.runner-img {
+  margin: 1rem;
+  border-radius: 50%;
+  width: 200px;
+}
+
+@media only screen and (max-width: 1024px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    height: 1500px;
+  }
+
+  .main-sidebar-body {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-top: 1px solid black;
+  }
+
+  .body-main-infoContainter {
+    overflow: unset;
+  }
+
+  .body-sidebar-sidebarContainer {
+    width: 100vw;
+  }
+
+  // .main-column-hydration,
+  // .main-column-activity,
+  // .main-column-sleep {
+  //   flex-direction: column;
+  // }
+  }
+@media only screen and (max-width: 768px) {
+
+.body-sidebar-sidebarContainer {
+  width:100vw;
+}
+
+
+}
+
+@media only screen and (max-width: 600px) {
+  .body-sidebar-sidebarContainer {
+    width:100vw;
+  }
+  
+  .main-column-hydration,
+  .main-column-activity,
+  .main-column-sleep {
+  flex-direction: column;
+  }
+  
+  }

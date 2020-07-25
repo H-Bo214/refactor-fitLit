@@ -6,7 +6,6 @@ class Activity {
     this.minutesActive = activityDetails.minutesActive;
     this.flightsOfStairs = activityDetails.flightsOfStairs;
   }
-
 }
 
 export default Activity;

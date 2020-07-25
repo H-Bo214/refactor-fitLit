@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" name="description"
     content="A fitness tracking website that displays your hydration, sleep, and activity data.">
-  <meta name="viewport" content="width=device=width initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Activity Tracker</title>
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap"
+    rel="stylesheet" /> -->
 </head>
 <body>
   <header>
@@ -17,8 +18,7 @@
       <aside class="body-sidebar-sidebarContainer">
         <h2 class="sidebar-header-name">Name Name</h2>
         <section class="sidebar-header-line"></section>
-        <img src="./images/The Rock.jpg" alt="head-shot of famous actor Dwayne 'The Rock' Johnson"
-          class="sidebar-header-userImage"></img>
+        <img class="runner-img" src="./images/runner.jpg" alt="image of a person running in a park" >
         <section class="sidebar-header-line"></section>
         <p class="sidebar-header-userInfo" id="userAddress"></p>
         <section class="sidebar-header-line"></section>
@@ -27,8 +27,7 @@
         <p class="sidebar-header-userInfo" id="userStridelength"></p>
         <section class="sidebar-header-line"></section>
         <p class="sidebar-header-userInfo step-goal-card"></p>
-        <p class="sidebar-header-userInfo avg-step-goal-card">
-          <p>
+        <p class="sidebar-header-userInfo avg-step-goal-card"></p>
             <section class="sidebar-header-line"></section>
             <section class="sidebar-body-friendContainer">
               <p class="sidebar-header-userInfo">Friends</p>
@@ -46,6 +45,7 @@
       </aside>
     </section>
     <section class="body-main-infoContainter">
+      <h2 class="hydration-header">Hydration</h2>
       <section class="main-column-hydration">
         <section class="infoContainer-cardContainer-card-horizontal">
           <section class="card-today-hydration">
@@ -72,6 +72,7 @@
           </section>
         </section>
       </section>
+      <h2 class="activity-header">Activity</h2>
       <section class="main-column-activity">
         <section class="infoContainer-cardContainer-card-horizontal">
           <!-- <section class="horizontalCard-activity-container"> -->
@@ -134,6 +135,7 @@
           </section>
         </section>
       </section>
+      <h2 class="sleep-header">Sleep</h2>
       <section class="main-column-sleep">
         <section class="infoContainer-cardContainer-card-horizontal">
           <section class="card-today-sleep">
@@ -169,11 +171,11 @@
     </section>
     <section class="main-sidebar-body">
       <aside class="body-sidebar-sidebarContainer">
-        <h2 class="sidebar-header-name">FRIENDLY STEP CHALLENGE!</h2>
+        <h2 class="sidebar-header-name">STEP CHALLENGE!</h2>
         <section class="sidebar-header-line"></section>
-        <img src="./images/person walking on path.jpg"
-          alt="image of a person dressed in fitness clothing walking on paved track"
-          class="sidebar-header-userImage"></img>
+        <img src="./images/friends-running.jpg"
+          alt="image of two friends running on a paved track"
+          class="friends-running-img"></img>
         <section class="sidebar-header-line"></section>
         <p class="sidebar-header-userInfo" id="bigWinner"></p>
         <section class="sidebar-header-line"></section>

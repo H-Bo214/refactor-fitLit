@@ -17,7 +17,7 @@ describe.only('Hydration', function() {
       expect(Hydration).to.be.a('function');
     });
 
-    it('should be an instance of Sleep', function() {
+    it('should be an instance of Hydration', function() {
       expect(hydration1).to.be.an.instanceof(Hydration);
     });
 

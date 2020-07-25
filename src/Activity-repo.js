@@ -1,14 +1,3 @@
-// For a specific day (specified by a date), return the miles a user has walked based on their number of steps (use their strideLength to help calculate this)
-// For a user, (identified by their userID) how many minutes were they active for a given day (specified by a date)?
-// For a user, how many minutes active did they average for a given week (7 days)?
-// For a user, did they reach their step goal for a given day (specified by a date)?
-// For a user, find all the days where they exceeded their step goal
-// For a user, find their all-time stair climbing record
-// For all users, what is the average number of:
-// stairs climbed for a specified date
-// steps taken for a specific date
-// minutes active for a specific date
-// Make a metric of your own! Document it, calculate it, and display it.
 import DataRepo from './Data-repo'
 import Activity from "./Activity";
 
@@ -21,8 +10,6 @@ class ActivityRepo extends DataRepo {
       this.activityData = activityData.map(data => new Activity(data));
     }
   }
-//dataset passed into constructor is array of objects with userID, date, numSteps, minutesActive & flightsOfStairs properties
-//scripts declares just ONE instance of the activity class that holds ALL of activityData; this class should probably be renamed Activity-repo & we should create an additional DailyActivity class that represents each activity object, with its 5 properties
 
   getMilesByStepsForDate(id, date, userRepo) {
     let userData = this.getDataMatchingUserID(id, this.activityData);
@@ -30,12 +17,6 @@ class ActivityRepo extends DataRepo {
     let user = userRepo.getUserFromId(id);
     return parseFloat(((activityOnDate.numSteps * user.strideLength) / 5280).toFixed(1));
   }
-//finds activity based on userId & date; accesses that activity's numSteps & multiplies it by stride length from userRepo?????????, dividing by 5280 to get # of miles walked on that date
-//this is not displayed on DOM and SHOULD be according to spec
-//Also doesn't makes sense to access userRepo.strideLength for this, as this will access the entire array of user data
-//instead, need to find user within userRepo whose id matches the id passed into function & access THAT user's strideLength property
-//(console.log(userRepo.stridelength)returns undefined)
-
 
   getActiveMinutesByDate(id, date) {
     let userData = this.getDataMatchingUserID(id, this.activityData);
@@ -43,7 +24,6 @@ class ActivityRepo extends DataRepo {
     return activityOnDate.minutesActive;
   }
 
-  // Not displayed on DOM. Confirm functional via test.
   getAverageMinutesActiveForWeek(id, date) {
     let userData = this.getDataMatchingUserID(id, this.activityData);
     let sortedData = this.sortDataByDate(userData);
@@ -52,7 +32,6 @@ class ActivityRepo extends DataRepo {
     return Math.round(this.calculateAverage(weekOfData, 'minutesActive'))
   }
 
-  // Not displayed on DOM. Confirm functional via test.
   accomplishStepGoalForDay(id, date, userRepo) {
     let user = userRepo.getUserFromId(id)
     let userData = this.getDataMatchingUserID(id, this.activityData);
@@ -60,7 +39,6 @@ class ActivityRepo extends DataRepo {
     return dataOneDay.numSteps >= user.dailyStepGoal; 
   }
 
-  // Not displayed on DOM. Confirm functional via test.
   exceededStepGoalForDay(id, userRepo) {
     let user = userRepo.getUserFromId(id)
     let userData = this.getDataMatchingUserID(id, this.activityData);
@@ -68,10 +46,9 @@ class ActivityRepo extends DataRepo {
     return daysExceeded.map(data => data.date);
   }
 
-// Not displayed on DOM. Confirm functional via test.
   getStairClimbingRecord(id) {
     let userData = this.getDataMatchingUserID(id, this.activityData);
-    return userData.reduce((max, data) => (data.flightsOfStairs > max) ? data.flightsOfStairs : max);
+    return userData.reduce((max, data) => (data.flightsOfStairs > max) ? data.flightsOfStairs : max, 0);
   }
 
   getAllUsersAverageDataForDay(date, dataKey) {
@@ -84,7 +61,7 @@ class ActivityRepo extends DataRepo {
     return this.getDataByDate(date, userData)[dataKey];
   }
 
-  getUserDataForWeek(id, date,) {
+  getUserDataForWeek(id, date) {
     let userData = this.getDataMatchingUserID(id, this.activityData);
     let sortedData = this.sortDataByDate(userData);
     let indexOfDate = this.getIndexOfDate(date, sortedData)
