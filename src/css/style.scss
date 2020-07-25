@@ -201,7 +201,78 @@ main {
   width: 200px;
 }
 
+.button {
+  display: flex;
+  justify-content: space-around;
+}
+
+.sleep-data-button, .activity-data-button, .hydration-data-button {
+    background-color: #9A9DAB;
+    border: none;
+    border-radius: 6px;
+    color: black;
+    font-size: 16px;
+    margin: 15px;
+    outline: none;
+    padding: 10px 20px;
+}
+
+.hidden {
+  display: none;
+}
+.sleep-data-form, .hydration-data-form, .activity-data-form {
+  align-items: center;
+  display: flex;
+  display: hidden;
+  flex-direction: column;
+  height: 100vh;
+  margin-bottom: 20px;
+}
+.sleep-data-form h2, .hydration-data-form h2, .activity-data-form h2 {
+  margin-top: 15px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.sleep-data-form form, .hydration-data-form form, .activity-data-form form {
+  align-content: center;
+  background-color: #9A9DAB;
+  border: .5px solid white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+.sleep-data-form input, .hydration-data-form input, .activity-data-form input {
+  border-radius: 6px;
+  display: block;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  outline: none;
+  padding: 10px 20px;
+}
+.submit-sleep-info, .submit-hydration-info, .submit-activity-info  {
+  background-color: #4D4E4F;
+  border: 1px solid black;
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 16px;
+  margin: 35px;
+  outline: none;
+  padding: 10px 20px;
+}
+
+label {
+  padding-bottom: 0.3em;
+  text-align: center;
+}
+
+
+
+
+//Media Queries
 @media only screen and (max-width: 1024px) {
+  
   main {
     display: flex;
     flex-direction: column;
@@ -223,12 +294,8 @@ main {
     width: 100vw;
   }
 
-  // .main-column-hydration,
-  // .main-column-activity,
-  // .main-column-sleep {
-  //   flex-direction: column;
-  // }
-  }
+}
+
 @media only screen and (max-width: 768px) {
 
 .body-sidebar-sidebarContainer {
@@ -239,6 +306,7 @@ main {
 }
 
 @media only screen and (max-width: 600px) {
+
   .body-sidebar-sidebarContainer {
     width:100vw;
   }

@@ -1,8 +1,6 @@
-// import './css/base.scss';
 import './css/style.scss';
 
-// import './images/person walking on path.jpg';
-// import './images/The Rock.jpg';
+
 import './images/runner.jpg';
 import './images/track.svg';
 import './images/friends-running.jpg';
@@ -20,6 +18,23 @@ import SleepRepo from './Sleep-repo';
 import UserRepo from './User-repo';
 
 let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory, userNow;
+
+let sleepDataButton = document.querySelector('.sleep-data-button')
+let mainPage = document.querySelector('.main')
+let sleepInputPage = document.querySelector('.sleep-input')
+let activityInputPage = document.querySelector('.activity-input')
+let activityDataButton = document.querySelector('.activity-data-button')
+let hydrationDataButton = document.querySelector('.hydration-data-button')
+let hydrationInputPage = document.querySelector('.hydration-input')
+let submitSleepInfoButton = document.querySelector('.submit-sleep-info')
+let submitActivityInfoButton = document.querySelector('.submit-activity-info')
+let submitHydrationInfoButton = document.querySelector('.submit-hydration-info')
+sleepDataButton.addEventListener('click', accessSleepInputForm)
+activityDataButton.addEventListener('click', accessActivityInputForm)
+hydrationDataButton.addEventListener('click', accessHydrationInputForm)
+submitSleepInfoButton.addEventListener('click', backToMainPage)
+submitActivityInfoButton.addEventListener('click', backToMainPage)
+submitHydrationInfoButton.addEventListener('click', backToMainPage)
 
 window.onload = getData();
 
@@ -275,5 +290,23 @@ function createStepStreak(id, activityInfo, userStorage, method) {
   return method.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
 
+function accessSleepInputForm() {
+  mainPage.classList.add('hidden')
+  sleepInputPage.classList.remove('hidden')
+}
+function accessActivityInputForm() {
+  mainPage.classList.add('hidden')
+  activityInputPage.classList.remove('hidden')
+}
+function accessHydrationInputForm() {
+  mainPage.classList.add('hidden')
+  hydrationInputPage.classList.remove('hidden')
+}
+function backToMainPage() {
+  mainPage.classList.remove('hidden')
+  sleepInputPage.classList.add('hidden')
+  activityInputPage.classList.add('hidden')
+  hydrationInputPage.classList.add('hidden')
+}
 // Should be invoked with window onload.
 // startApp();
