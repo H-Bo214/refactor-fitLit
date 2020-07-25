@@ -30,11 +30,40 @@ describe('Hydration', function() {
       {
         "userID": 4,
         "date": "2019/09/18",
-        "numOunces": 40
+        "numOunces": 29
+      },{
+        "userID": 4,
+        "date": "2019/09/17",
+        "numOunces": 28
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/16",
+        "numOunces": 27
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/15",
+        "numOunces": 26
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/14",
+        "numOunces": 25
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/13",
+        "numOunces": 24
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/12",
+        "numOunces": 23
       },
     ]
     hydration = new HydrationRepo(hydrationData)
-   
+
     user1 = {
       id: 3,
       name: "The Rock",
