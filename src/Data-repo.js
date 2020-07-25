@@ -17,7 +17,7 @@ class DataRepo {
   };
 
   getDataInDateSpan(index, numOfDays, dataSet) {
-    return dataSet.splice(index, numOfDays);
+    return dataSet.slice(index, numOfDays);
   };
 
   getDataByDate(date, dataSet) {
