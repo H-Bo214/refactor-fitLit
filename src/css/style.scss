@@ -24,6 +24,11 @@ main {
   height: 1500px;
 }
 
+label {
+  padding-bottom: 0.3em;
+  text-align: center;
+}
+
 .main-sidebar-body {
   @include displayStyle(flex, row);
   width: 25%;
@@ -50,6 +55,7 @@ main {
   border-radius: 6px;
   color: black;
   font-size: 16px;
+  margin: 15px;
   padding: 10px 20px;
 }
 
@@ -59,6 +65,7 @@ main {
   border-radius: 6px;
   color: black;
   font-size: 16px;
+  margin: 15px;
   padding: 10px 20px;
 }
 
@@ -68,8 +75,63 @@ main {
   border-radius: 6px;
   color: black;
   font-size: 16px;
+  margin: 15px;
   padding: 10px 20px;
 }
+
+.hidden {
+  display: none;
+}
+
+.sleep-data-form {
+  align-items: center;
+
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin-bottom: 20px;
+
+}
+
+.sleep-data-form h2 {
+  margin-top: 15px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sleep-data-form form {
+  align-content: center;
+  background-color: #9A9DAB;
+  border: .5px solid white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+
+.sleep-data-form input {
+  border-radius: 6px;
+  display: block;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  outline: none;
+  padding: 10px 20px;
+}
+
+.submit-sleep-info {
+  background-color: #4D4E4F;
+  border: 1px solid black;
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 16px;
+  margin: 35px;
+  outline: none;
+  padding: 10px 20px;
+}
+// .input-area {
+//   border: 1px solid #FFFFFF;
+// }
 
 .sidebar-header-name {
   text-align: center;

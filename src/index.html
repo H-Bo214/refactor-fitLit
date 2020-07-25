@@ -12,7 +12,7 @@
   <header>
     <h1 id="headerText">Activity Tracker</h1>
   </header>
-  <main class="main">
+  <main class="main hidden">
     <section class="main-sidebar-body">
       <aside class="body-sidebar-sidebarContainer">
         <h2 class="sidebar-header-name">Name Name</h2>
@@ -206,5 +206,21 @@
       </aside>
     </section>
   </main>
+  <section class="sleep-data-form">
+    <form>
+      <h2>Add New Sleep Data</h2>
+        <!-- <article class="input-area"> -->
+          <label for="sleep-user-id">User ID</label>
+          <input type="text" name="sleep-user-id" id="sleep-user-id">
+          <label for="sleep-user-date">Date</label>
+          <input type="text" name="sleep-user-date" id="sleep-user-date">
+          <label for="user-hours-slept">Hours Slept</label>
+          <input type="text" name="user-hours-slept" id="user-hours-slept">
+          <label for="user-sleep-quality">Sleep Quality</label>
+          <input type="text" name="user-sleep-quality" id="user-sleep-quality">
+          <button class="submit-sleep-info">Submit</button>
+        <!-- </article -->
+    </form>
+  </section>
 </body>
 </html>
