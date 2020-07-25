@@ -9,25 +9,26 @@
 // steps taken for a specific date
 // minutes active for a specific date
 // Make a metric of your own! Document it, calculate it, and display it.
+import DataRepo from './Data-repo'
 import Activity from "./Activity";
-class ActivityRepo {
+
+class ActivityRepo extends DataRepo {
   constructor(activityData) {
+    super()
     if (!activityData) {
       this.activityData = []
     } else {
-      this.activityData = activityData.map(activity => new Activity(activity));
+      this.activityData = activityData.map(data => new Activity(data));
     }
   }
 //dataset passed into constructor is array of objects with userID, date, numSteps, minutesActive & flightsOfStairs properties
 //scripts declares just ONE instance of the activity class that holds ALL of activityData; this class should probably be renamed Activity-repo & we should create an additional DailyActivity class that represents each activity object, with its 5 properties
 
   getMilesByStepsForDate(id, date, userRepo) {
-    let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
-    // console.log('userRepo', userRepo);
-    // console.log('this.activityData', this.activityData);
-    //access the user with the id supplied from userRepo; then access strideLength
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    let activityOnDate = this.getDataByDate(date, userData)
     let user = userRepo.getUserFromId(id);
-    return parseFloat(((userStepsByDate.numSteps * user.strideLength) / 5280).toFixed(1));
+    return parseFloat(((activityOnDate.numSteps * user.strideLength) / 5280).toFixed(1));
   }
 //finds activity based on userId & date; accesses that activity's numSteps & multiplies it by stride length from userRepo?????????, dividing by 5280 to get # of miles walked on that date
 //this is not displayed on DOM and SHOULD be according to spec
@@ -37,72 +38,70 @@ class ActivityRepo {
 
 
   getActiveMinutesByDate(id, date) {
-    let userActivityByDate = this.activityData.find(data => id === data.userID && date === data.date);
-    return userActivityByDate.minutesActive;
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    let activityOnDate = this.getDataByDate(date, userData)
+    return activityOnDate.minutesActive;
   }
-//returns # of active minutes based on user id & date (a user's active minutes on single day)
 
-  getAverageMinutesActiveForWeek(id, date, userRepo) {
-    return parseFloat((userRepo.getSpecifiedWeekOfData(date, id, this.activityData).reduce((acc, elem) => {
-      return acc += elem.minutesActive;
-    }, 0) / 7).toFixed(1));
+  // Not displayed on DOM. Confirm functional via test.
+  getAverageMinutesActiveForWeek(id, date) {
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    let sortedData = this.sortDataByDate(userData);
+    let indexOfDate = this.getIndexOfDate(date, sortedData)
+    let weekOfData = this.getDataInDateSpan(indexOfDate, 7, sortedData);
+    return Math.round(this.calculateAverage(weekOfData, 'minutesActive'))
   }
-//getSpecifiedWeekOfData takes all of a single user's (activity) data sorted by date & returns a week's worth of (activity) data given a start date
-//uses that data to tally up the active minutes for a user for a whole week
-//Divides that number by 7 to get the user's daily average active minutes
-//Do we need the parseFloat part? I think we're already getting back a number
 
+  // Not displayed on DOM. Confirm functional via test.
   accomplishStepGoalForDay(id, date, userRepo) {
-    let userStepsByDate = this.activityData.find(data => id === data.userID && date === data.date);
-    if (userStepsByDate.numSteps === userRepo.dailyStepGoal) {
-      return true;
-    }
-    return false
+    let user = userRepo.getUserFromId(id)
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    let dataOneDay = this.getDataByDate(date, userData);
+    return dataOneDay.numSteps >= user.dailyStepGoal; 
   }
-//finds activity data for specific user on specific date; if that day's numSteps matches dailyStepGoal from repo, true is returned i.e. step goal was met
-//again, can't access userRepo.dailyStepGoal, as that is the entire array of users, not a single user
 
+  // Not displayed on DOM. Confirm functional via test.
   exceededStepGoalForDay(id, userRepo) {
-    return this.activityData.filter(data => id === data.userID && data.numSteps > userRepo.dailyStepGoal).map(data => data.date);
+    let user = userRepo.getUserFromId(id)
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    let daysExceeded = userData.filter(data => data.numSteps > user.dailyStepGoal);
+    return daysExceeded.map(data => data.date);
   }
-  //again, cannot access userRepo.dailyStepGoal so this code won't work
-  //it attempts to find the activity objects for a particular user where their numSteps exceeds their step goal, and then map that to just an array of the dates when the step goal was met
 
+// Not displayed on DOM. Confirm functional via test.
   getStairClimbingRecord(id) {
-    return this.activityData.filter(data => id === data.userID).reduce((acc, elem) => (elem.flightsOfStairs > acc) ? elem.flightsOfStairs : acc, 0);
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    return userData.reduce((max, data) => (data.flightsOfStairs > max) ? data.flightsOfStairs : max);
   }
-  //Finds a single user's activities, then returns the activity object with the greatest # of flightsOfStairs, which can be used to represent date of flightsOfStairs record
 
-  getAllUsersAverageDataForDay(date, userRepo, relevantData) {
-    let selectedDayData = userRepo.getAllUsersDayData(this.activityData, date);
-    return parseFloat((selectedDayData.reduce((acc, elem) => acc += elem[relevantData], 0) / selectedDayData.length).toFixed(1));
+  getAllUsersAverageDataForDay(date, dataKey) {
+    let selectedDayData = this.getDataMatchingDate(date, this.activityData);
+    return Math.round(this.calculateAverage(selectedDayData, dataKey))
   }
-//getAllUsersDayData takes activity data & returns just the activities on a particular date (all users)
-//this function then gets the average numSteps/minutesActive/flightsOfStairs (whatever relevantData string is passed in) for that day
 
-  getUserDataByDate(id, date, userRepo, relevantData) {
-    let userData = userRepo.getDataMatchingUserID(id, this.activityData);
-    return userData.find(data => data.date === date)[relevantData];
+  getUserDataByDate(id, date, dataKey) {
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    return this.getDataByDate(date, userData)[dataKey];
   }
-  //filters activity data to get just data for a particular user, then filters to just that user's data on a particular date, and returns the given property value (i.e. numSteps, minActive, stairs)
 
-  getUserDataForWeek(id, date, userRepo, releventData) {
-    return userRepo.getSpecifiedWeekOfData(date, id, this.activityData).map((data) => `${data.date}: ${data[releventData]}`);
+  getUserDataForWeek(id, date,) {
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    let sortedData = this.sortDataByDate(userData);
+    let indexOfDate = this.getIndexOfDate(date, sortedData)
+    let weekOfData = this.getDataInDateSpan(indexOfDate, 7, sortedData);
+    return weekOfData;
   }
-  ////takes all of a single user's activity data sorted by date & returns a week's worth of data given a start date
-  //maps that data to a string of 'date: num' for each
 
   // Friends(is for Iteration 5)
-
+    // Will need to refactor the 4 functions below. They use each other to currently function.
   getFriendsActivityData(user, userRepo) {
     let data = this.activityData;
-    let userDatalist = user.friendsIds.map(function(friend) {
-      return userRepo.getDataMatchingUserID(friend, data)
-    });
-    return userDatalist.reduce(function(arraySoFar, listItem) {
-      return arraySoFar.concat(listItem);
+    let userActivityData = user.friendsIds.map(friend => userRepo.getDataMatchingUserID(friend, data));
+    return userActivityData.reduce((friendsActivities, listItem) => {
+      return friendsActivities.concat(listItem);
     }, []);
   }
+
   //gets activity data for each friend & merges into 1 array
 
   getFriendsAverageStepsForWeek(user, date, userRepo) {
@@ -114,7 +113,6 @@ class ActivityRepo {
 
   displayStepChallengeWinner(user, date, userRepo) {
     let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
-
     return rankedList.map(function(listItem) {
       let userID = Object.keys(listItem)[0];
       let userName = userRepo.getUserFromId(parseInt(userID)).name;
@@ -128,12 +126,12 @@ class ActivityRepo {
     let winner = this.displayStepChallengeWinner(user, date, userRepo).shift();
     return winner;
   }
-  displayIncreasedSteps(userRepo, id, relevantData) {
+  displayIncreasedSteps(userRepo, id, dataKey) {
     let data = this.activityData;
     let sortedUserArray = (userRepo.sortDataByDate(id, data)).reverse();
     let streaks = sortedUserArray.filter(function(element, index) {
       if (index >= 2) {
-        return (sortedUserArray[index - 2][relevantData] < sortedUserArray[index - 1][relevantData] && sortedUserArray[index - 1][relevantData] < sortedUserArray[index][relevantData])
+        return (sortedUserArray[index - 2][dataKey] < sortedUserArray[index - 1][dataKey] && sortedUserArray[index - 1][dataKey] < sortedUserArray[index][dataKey])
       }
     });
     return streaks.map(function(streak) {

@@ -5,10 +5,7 @@ import User from '../src/User';
 
 
 describe('User Repo', function() {
-  let user1;
-  let user2;
-  let users; // This was originally missing an "s" at the end, so this test suite wouldn't run
-  let userRepo;
+  let user1, user2, users, userRepo;
 
   beforeEach(function() {
     user1 = {
@@ -32,63 +29,32 @@ describe('User Repo', function() {
     users = [user1, user2];
     userRepo = new UserRepo(users);
   });
-// In these beforeEach() statements, should we use a copy of one of the elements in the data array?
-  // For example, user1 = new User(userData[0]) and user2 = new User(userData[1])
 
   it('should be a function', function() {
-    const userRepo = new UserRepo();
-
     expect(UserRepo).to.be.a('function');
   });
-  //This test looks good to me- making sure that UserRepo is indeed a function
 
   it('should store an array of Users', function() {
-
     expect(userRepo.users[0]).to.be.an.instanceof(User);
   });
-  // This test isn't really worded for what it's testing. I think there should be some sad path testing here as well- what happens if the argument passed in is undefined/falsey/null/number/etc??
-  // This assertion is appropriate for a test like: "it (should have a list of users)" & I think an appropriate followup would be, each of these users should be instances of `User`.
 
-  it('should have a parameter to take in user data', function() {
-  //Lines 53-65: I'm not sure why this code is here- if the beforeEach() is set up properly, there wouldn't need to be a new user1 & repo instantiation. If you comment all of these lines out, this test still passes, indicating the beforeEach() is working properly.
-    // const user1 = new User({
-    //   id: 1,
-    //   name: "Alex Roth",
-    //   address: "1234 Turing Street, Denver CO 80301-1697",
-    //   email: "alex.roth1@hotmail.com",
-    //   strideLength: 4.3,
-    //   dailyStepGoal: 10000,
-    //   friends: [2, 3, 4]
-    // });
-    // const users = [user1];
-    // const userRepo = new UserRepo(users);
-    //
-    // console.log('here: ', userRepo.users[0]);
+  it('should store an empty array if no user data is passed in', function() {
+    const userRepo2 = new UserRepo(); 
 
-    expect(userRepo.users[0].id).to.equal(1);
+    expect(userRepo2.users).to.deep.equal([]);
   });
-// Here, I think we're wanting to get at sad path testing for arguments that ARENT user objects.
 
   it('should return user data when given user ID', function() {
-
-  // This line of code is extraneous & I think this assertion should be a deep equal (looking at an Object)
-    // userRepo.getUserFromId(1);
-
-    expect(userRepo.getUserFromId(1).id).to.eql(1);
+    expect(userRepo.getUserFromId(1).name).to.eql('Alex Roth');
   });
-//
 
   it('should return the average of all users step goals', function() {
-
-// This line of code is extraneous
-    // userRepo.calculateAverageStepGoal();
-
     expect(userRepo.calculateAverageStepGoal()).to.eql(9500);
   });
-  //This test looks solid! & is indeed the average of these 2 users step goals (10000 + 9000 / 2 = 9500).
 
   describe('array changes', function() {
 // I am not sure why ANY of these tests are in this file! To me, it seems like a lot of this data retrieval can/should be happening within the Hydration/Activity/Sleep class files. (Though I totally may be off here!)
+//***Rachel note: Held up on refactoring the below, because these are likely the methods that may be moved to the parent Repo class */
     let user1;
     let user2;
     let user3;

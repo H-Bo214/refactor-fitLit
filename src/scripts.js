@@ -18,7 +18,7 @@ import HydrationRepo from './Hydration-repo';
 import SleepRepo from './Sleep-repo';
 import UserRepo from './User-repo';
 
-let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory;
+let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory, userNow;
 
 window.onload = getData();
 
@@ -42,8 +42,10 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   hydrationRepo = new HydrationRepo(hydrationData.hydrationData);
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
+  // console.log('activityRepo', activityRepo);
   let userNowId = generateRandomId(userRepo);
-  let userNow = generateRandomUser(userRepo, userNowId);
+  // console.log('userNowId', userNowId);
+   userNow = generateRandomUser(userRepo, userNowId);
   //Note: Former today was string of "2019/06/15"; new function below generates string of same format
   // let today = generateCurrentDate();
   // console.log(today)
@@ -56,16 +58,16 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   // userNow is the current random user.
   // today is always 9/22/19
   let today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
-  console.log(today)
-  randomHistory = makeRandomDate(userRepo, userNowId, hydrationRepo.hydrationData);
+  console.log('hydrationRepo.hydrationData', hydrationRepo.hydrationData)
+  randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
 
   //Some of this is hydration card functionality- not sure why it's in start app rather than in the hydration function below!
 
   addInfoToSidebar(userNow, userRepo);
   addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
-  addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
   let winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
   addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
+  addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
@@ -138,18 +140,16 @@ function makeWinnerID(activityInfo, user, dateString, userStorage){
 }
 
 function makeToday(userStorage, id, dataSet) {
-  var sortedArray = userStorage.sortDataByDate(id, dataSet);
+  var sortedArray = userStorage.sortDataByDate(dataSet);
   return sortedArray[0].date;
 }
 
 //
-function makeRandomDate(userStorage, id, dataSet) {
-  var sortedArray = userStorage.sortDataByDate(id, dataSet);
-  return sortedArray[Math.floor(Math.random() * sortedArray.length + 1)].date
-}
+
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
   // Currently displayed on the Hydration Dashboard.
+  // console.log('hydrationInfo.calcOuncesConsumedByDay(id, dateString)', hydrationInfo.calcOuncesConsumedByDay(id, dateString));
   let hydrationToday = document.getElementById('hydrationToday');
   hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calcOuncesConsumedByDay(id, dateString)}</span></p><p>oz water today.</p>`);
 
@@ -158,8 +158,11 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
   hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calcAvgOuncesConsumedByDay(id).toFixed(2)}</span></p> <p>oz per day.</p>`)
 
   // Currently displayed on the Hydration Dashboard.
+  // Refactor .map((data) => `${data.date}: ${data.numOunces}`) at some point.
   let hydrationThisWeek = document.getElementById('hydrationThisWeek');
-  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcRecentWeekOunces(userStorage, id)));
+  console.log('dateString', dateString);
+  console.log('hydrationInfo.calcWeekOunces(id, dateString)', hydrationInfo.calcWeekOunces(id, dateString));
+  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcWeekOunces(dateString, id).map((data) => `${data.date}: ${data.numOunces}`)));
 
 // Currently displayed on the Hydration Dashboard.
   let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
@@ -167,7 +170,7 @@ function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateS
 
 // Currently displayed on the Hydration Dashboard.
   let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
-  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcAdditionalWeekOunces(laterDateString, id, userStorage)));
+  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcWeekOunces(laterDateString, id).map((data) => `${data.date}: ${data.numOunces}`)));
 
 }
 
@@ -208,34 +211,34 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
 //getUserDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
 function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
   let userStepsToday = document.getElementById('userStepsToday');
-  userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, userStorage, 'numSteps')} (${activityInfo.getMilesByStepsForDate(id, dateString, userStorage)} miles)</span></p>`)
+  userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, 'numSteps')} (${activityInfo.getMilesByStepsForDate(id, dateString, userStorage)} miles)</span></p>`)
 
   let avgStepsToday = document.getElementById('avgStepsToday');
-  avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, userStorage, 'numSteps')}</span></p>`)
+  avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, 'numSteps')}</span></p>`)
 
   let userStairsToday = document.getElementById('userStairsToday');
-  userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, userStorage, 'flightsOfStairs')}</span></p>`)
+  userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${activityInfo.getUserDataByDate(id, dateString,  'flightsOfStairs')}</span></p>`)
 
   let avgStairsToday = document.getElementById('avgStairsToday');
-  avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, userStorage, 'flightsOfStairs')}</span></p>`)
+  avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, 'flightsOfStairs')}</span></p>`)
 
   let userMinutesToday = document.getElementById('userMinutesToday');
-  userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, userStorage, 'minutesActive')}</span></p>`)
+  userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, 'minutesActive')}</span></p>`)
 
   let avgMinutesToday = document.getElementById('avgMinutesToday');
-  avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, userStorage, 'minutesActive')}</span></p>`)
+  avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${activityInfo.getAllUsersAverageDataForDay(dateString, 'minutesActive')}</span></p>`)
 
   let userStepsThisWeek = document.getElementById('userStepsThisWeek');
-  userStepsThisWeek.insertAdjacentHTML("afterBegin", makeStepsHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "numSteps")));
+  userStepsThisWeek.insertAdjacentHTML("afterBegin", makeStepsHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString).map((data) => `${data.date}: ${data['numSteps']}`)));
 
   let userStairsThisWeek = document.getElementById('userStairsThisWeek');
-  userStairsThisWeek.insertAdjacentHTML("afterBegin", makeStairsHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "flightsOfStairs")));
+  userStairsThisWeek.insertAdjacentHTML("afterBegin", makeStairsHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString).map((data) => `${data.date}: ${data['flightsOfStairs']}`)));
 
   let userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
-  userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString, userStorage, "minutesActive")));
+  userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString).map((data) => `${data.date}: ${data['minutesActive']}`)));
 
   let bestUserSteps = document.getElementById('bestUserSteps');
-  bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.getUserDataForWeek(winnerId, dateString, userStorage, "numSteps")));
+  bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.getUserDataForWeek(winnerId, dateString).map((data) => `${data.date}: ${data['numSteps']}`)));
 }
 //I think renaming these to 'display' vs. 'make' would be more semantic.
 function makeStepsHTML(id, activityInfo, userStorage, method) {
