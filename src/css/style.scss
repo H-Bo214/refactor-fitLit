@@ -164,6 +164,63 @@ label {
   padding: 10px 20px;
 }
 
+.submit-sleep-info {
+  background-color: #4D4E4F;
+  border: 1px solid black;
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 16px;
+  margin: 35px;
+  outline: none;
+  padding: 10px 20px;
+}
+
+.hydration-data-form {
+  align-items: center;
+  display: flex;
+  display: hidden;
+  flex-direction: column;
+  height: 100vh;
+  margin-bottom: 20px;
+}
+
+.hydration-data-form h2 {
+  margin-top: 15px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.hydration-data-form form {
+  align-content: center;
+  background-color: #9A9DAB;
+  border: .5px solid white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+
+.hydration-data-form input {
+  border-radius: 6px;
+  display: block;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  outline: none;
+  padding: 10px 20px;
+}
+
+.submit-hydration-info {
+  background-color: #4D4E4F;
+  border: 1px solid black;
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 16px;
+  margin: 35px;
+  outline: none;
+  padding: 10px 20px;
+}
+
 .sidebar-header-name {
   text-align: center;
 }
