@@ -1,10 +1,12 @@
 // import './css/base.scss';
 import './css/style.scss';
 
-import './images/person walking on path.jpg';
-import './images/The Rock.jpg';
-
-import domUpdates from '../src/domUpdates'
+// import './images/person walking on path.jpg';
+// import './images/The Rock.jpg';
+import './images/runner.jpg';
+import './images/track.svg';
+import './images/friends-running.jpg';
+// import domUpdates from '../src/domUpdates'
 
 // import userData from './data/users';
 // import hydrationData from './data/hydration';
