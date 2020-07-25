@@ -24,7 +24,6 @@ class ActivityRepo extends DataRepo {
     return activityOnDate.minutesActive;
   }
 
-  // Not displayed on DOM. Confirm functional via test.
   getAverageMinutesActiveForWeek(id, date) {
     let userData = this.getDataMatchingUserID(id, this.activityData);
     let sortedData = this.sortDataByDate(userData);
@@ -33,7 +32,6 @@ class ActivityRepo extends DataRepo {
     return Math.round(this.calculateAverage(weekOfData, 'minutesActive'))
   }
 
-  // Not displayed on DOM. Confirm functional via test.
   accomplishStepGoalForDay(id, date, userRepo) {
     let user = userRepo.getUserFromId(id)
     let userData = this.getDataMatchingUserID(id, this.activityData);
@@ -41,7 +39,6 @@ class ActivityRepo extends DataRepo {
     return dataOneDay.numSteps >= user.dailyStepGoal; 
   }
 
-  // Not displayed on DOM. Confirm functional via test.
   exceededStepGoalForDay(id, userRepo) {
     let user = userRepo.getUserFromId(id)
     let userData = this.getDataMatchingUserID(id, this.activityData);
@@ -49,10 +46,9 @@ class ActivityRepo extends DataRepo {
     return daysExceeded.map(data => data.date);
   }
 
-// Not displayed on DOM. Confirm functional via test.
   getStairClimbingRecord(id) {
     let userData = this.getDataMatchingUserID(id, this.activityData);
-    return userData.reduce((max, data) => (data.flightsOfStairs > max) ? data.flightsOfStairs : max);
+    return userData.reduce((max, data) => (data.flightsOfStairs > max) ? data.flightsOfStairs : max, 0);
   }
 
   getAllUsersAverageDataForDay(date, dataKey) {
@@ -65,7 +61,7 @@ class ActivityRepo extends DataRepo {
     return this.getDataByDate(date, userData)[dataKey];
   }
 
-  getUserDataForWeek(id, date,) {
+  getUserDataForWeek(id, date) {
     let userData = this.getDataMatchingUserID(id, this.activityData);
     let sortedData = this.sortDataByDate(userData);
     let indexOfDate = this.getIndexOfDate(date, sortedData)
