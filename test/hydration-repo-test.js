@@ -1,9 +1,11 @@
 import { expect } from 'chai';
+
+import DataRepo from '../src/Data-repo'
 import HydrationRepo from '../src/Hydration-repo';
 import UserRepo from '../src/User-repo';
 
-describe('Hydration', function() {
-  let hydrationData, hydration, user1, user2, users, userRepo;
+describe.only('Hydration Repo', function() {
+  let hydrationData, hydrationRepo, user1, user2, users, userRepo;
 
   beforeEach(function() {
     hydrationData = [
@@ -30,11 +32,40 @@ describe('Hydration', function() {
       {
         "userID": 4,
         "date": "2019/09/18",
-        "numOunces": 40
+        "numOunces": 29
+      },{
+        "userID": 4,
+        "date": "2019/09/17",
+        "numOunces": 28
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/16",
+        "numOunces": 27
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/15",
+        "numOunces": 26
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/14",
+        "numOunces": 25
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/13",
+        "numOunces": 24
+      },
+      {
+        "userID": 4,
+        "date": "2019/09/12",
+        "numOunces": 23
       },
     ]
-    hydration = new HydrationRepo(hydrationData)
-   
+    hydrationRepo = new HydrationRepo(hydrationData)
+
     user1 = {
       id: 3,
       name: "The Rock",
@@ -58,27 +89,42 @@ describe('Hydration', function() {
     userRepo = new UserRepo(users);
   });
 
+  it('should be a function', function() {
+    expect(HydrationRepo).to.be.a('function');
+  });
+
+  it('should be an instance of HydrationRepo', function() {
+    expect(hydrationRepo).to.be.an.instanceof(HydrationRepo);
+  });
+
+  it('should be an instance of DataRepo', function() {
+    expect(hydrationRepo).to.be.an.instanceof(DataRepo);
+  });
+
   it('should take in a list of data', function() {
-    expect(hydration.hydrationData[0].userID).to.equal(1);
-    expect(hydration.hydrationData[1].numOunces).to.equal(38);
-    expect(hydration.hydrationData[2].date).to.equal('2018/10/23');
+    expect(hydrationRepo.hydrationData[0].userID).to.equal(1);
+    expect(hydrationRepo.hydrationData[1].numOunces).to.equal(38);
+    expect(hydrationRepo.hydrationData[2].date).to.equal('2018/10/23');
   });
 
   it('should find the average water intake per day for a user', function() {
-    expect(hydration.calcAvgOuncesConsumedByDay(2)).to.equal(36);
+    expect(hydrationRepo.calcAvgOuncesConsumedByDay(2, "2019/06/15")).to.equal(36);
   });
 
   it('should find the water intake for a user on a specified date', function() {
-    expect(hydration.calcOuncesConsumedByDay(1, "2019/06/15")).to.equal(37);
-    expect(hydration.calcOuncesConsumedByDay(4, "2019/09/18")).to.equal(40);
+    expect(hydrationRepo.calcOuncesConsumedByDay(1, "2019/06/15")).to.equal(37);
+    expect(hydrationRepo.calcOuncesConsumedByDay(4, "2019/09/19")).to.equal(30);
   });
 
   it('should find water intake by day for first week', function() {
-    expect(hydration.calcRecentWeekOunces(userRepo, 4)[0]).to.eql('2019/09/19: 30');
+    expect(hydrationRepo.calcWeekOunces('2019/09/19', 4)[1]).to.deep.equal(
+      { userID: 4, date: "2019/09/18", numOunces: 29}
+    );
   });
 
   it('should find water intake by day for any week', function() {
-    expect(hydration.calcWeekOunces('2019/09/19', 4)).to.eql('2019/09/18: 40');
-    expect(hydration.calcWeekOunces('2018/10/23', 2)).to.eql('2018/10/23: 34');
+    expect(hydrationRepo.calcWeekOunces('2019/09/18', 4)[1]).to.deep.equal(
+      { userID: 4, date: "2019/09/17", numOunces: 28}
+    );
   });
 });
