@@ -12,7 +12,8 @@
   <header>
     <h1 id="headerText">Activity Tracker</h1>
   </header>
-  <main class="main hidden">
+  <main class="main">
+    <!-- <div class="hide-main" -->
     <section class="main-sidebar-body">
       <aside class="body-sidebar-sidebarContainer">
         <h2 class="sidebar-header-name">Name Name</h2>
@@ -30,14 +31,14 @@
         <p class="sidebar-header-userInfo avg-step-goal-card">
           <p>
             <section class="sidebar-header-line"></section>
-            <section class="sidebar-body-friendContainer">
+            <section class="sidebar-body-friendContainer"></section>
               <p class="sidebar-header-userInfo">Friends</p>
               <section class="sidebar-friendContainer-listItems">
                 <ul class="card-vertical-list" id="friendList">
                   <!-- friend list goes here -->
                 </ul>
               </section>
-              <section class="sidebar-header-line"></section>
+              <section class="sidebar-header-line">
               <p class="thisWeek">Keep up the good work! You were increasingly active on these dates:</p>
               <ul class="card-vertical-list" id="streakListMinutes">
                 <!-- friend list goes here -->
@@ -206,7 +207,9 @@
       </aside>
     </section>
   </main>
-  <!-- <section class="sleep-data-form">
+    <!-- </div> -->
+  <div class="sleep-input hidden">
+  <section class="sleep-data-form">
     <form>
       <h2>Add New Sleep Data</h2>
           <label for="sleep-user-id">User ID</label>
@@ -219,9 +222,11 @@
           <input type="text" name="user-sleep-quality" id="user-sleep-quality">
           <button class="submit-sleep-info">Submit</button>
     </form>
-  </section> -->
+  </section>
+  </div>
 
-  <!-- <section class="activity-data-form">
+  <div class="activity-input hidden">
+  <section class="activity-data-form">
     <form>
       <h2>Add New Activity Data</h2>
           <label for="activity-user-id">User ID</label>
@@ -236,9 +241,10 @@
           <input type="text" name="user-stairs-climbed" id="user-stairs-climbed">
           <button class="submit-activity-info">Submit</button>
     </form>
-  </section> -->
+  </section>
+  </div>
 
-  <!-- //{"userID": integer, "date": string, "numOunces": integer} -->
+  <div class ="hydration-input hidden">
   <section class="hydration-data-form">
     <form>
       <h2>Add New Hydration Data</h2>
@@ -251,6 +257,8 @@
           <button class="submit-hydration-info">Submit</button>
     </form>
   </section>
+</div>
+
 
 </body>
 </html>
