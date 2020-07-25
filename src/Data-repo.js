@@ -24,6 +24,9 @@ class DataRepo {
     return dataSet.find(data => data.date === date);
   };
 
+  getDataMatchingDate(date, dataSet) {
+    return dataSet.filter((data) => data.date === date);
+  }
   // generateRandomIndex(dataSet) {
   //   return Math.floor(Math.random() * (dataSet.length - 7))
   // }

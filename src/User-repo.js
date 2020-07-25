@@ -10,6 +10,7 @@ class UserRepo extends DataRepo {
     }
   }
 
+  // getUserFromId - Do not delete.
   getUserFromId(id) {
     return this.users.find((user) => user.id === id);
   };
@@ -48,8 +49,6 @@ class UserRepo extends DataRepo {
 // This method uses the sortDataByDate() above & then slices the past weeks worth of data for the user. Used in Hydration,
 
   getSpecifiedWeekOfData(date, id, dataSet) {
-
-    
     let dateIndex = this.sortDataByDate(id, dataSet).indexOf(this.sortDataByDate(id, dataSet).find((sortedItem) => (sortedItem.date === date)));
     return this.sortDataByDate(id, dataSet).slice(dateIndex, dateIndex + 7);
   };
