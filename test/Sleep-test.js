@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import Sleep from '../src/Sleep'
 
-describe.only('Sleep', function() {
+describe('Sleep', function() {
   let sleep1;
 
   beforeEach(function() {
@@ -19,7 +19,7 @@ describe.only('Sleep', function() {
   });
 
   it('should be an instance of Sleep', function() {
-    expect(Sleep).to.be.an.instanceof(Sleep);
+    expect(sleep1).to.be.an.instanceof(Sleep);
   });
 
   it('should have an id', function() {
