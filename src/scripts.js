@@ -26,17 +26,17 @@ let activityInputPage = document.querySelector('.activity-input')
 let activityDataButton = document.querySelector('.activity-data-button')
 let hydrationDataButton = document.querySelector('.hydration-data-button')
 let hydrationInputPage = document.querySelector('.hydration-input')
-let submitSleepInfoButton = document.querySelector('.submit-sleep-info')
-let submitActivityInfoButton = document.querySelector('.submit-activity-info')
-let submitHydrationInfoButton = document.querySelector('.submit-hydration-info')
+let submitInfoButton = document.querySelector('.submit-info')
+
 sleepDataButton.addEventListener('click', accessSleepInputForm)
 activityDataButton.addEventListener('click', accessActivityInputForm)
 hydrationDataButton.addEventListener('click', accessHydrationInputForm)
-submitSleepInfoButton.addEventListener('click', backToMainPage)
-submitActivityInfoButton.addEventListener('click', backToMainPage)
-submitHydrationInfoButton.addEventListener('click', backToMainPage)
+submitInfoButton.addEventListener('click', submitButton)
+
 
 window.onload = getData();
+
+
 
 function getData() {
   Promise.all([
@@ -51,6 +51,12 @@ function getData() {
     .catch(err => console.error(err))
 }
 
+
+function submitButton(event) {
+  if(event.target.classList.contains('submit-info')) {
+    backToMainPage();
+  }
+}
 
 
 function startApp(userData, sleepData, activityData, hydrationData) {
@@ -298,19 +304,24 @@ function accessSleepInputForm() {
   mainPage.classList.add('hidden')
   sleepInputPage.classList.remove('hidden')
 }
+
 function accessActivityInputForm() {
   mainPage.classList.add('hidden')
   activityInputPage.classList.remove('hidden')
 }
+
 function accessHydrationInputForm() {
   mainPage.classList.add('hidden')
   hydrationInputPage.classList.remove('hidden')
 }
+
 function backToMainPage() {
   mainPage.classList.remove('hidden')
   sleepInputPage.classList.add('hidden')
   activityInputPage.classList.add('hidden')
   hydrationInputPage.classList.add('hidden')
 }
+
+
 // Should be invoked with window onload.
 // startApp();
