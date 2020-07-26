@@ -17,18 +17,144 @@ describe.only('Activity', function() {
         "flightsOfStairs": 16
       },
       {
+        "userID": 1,
+        "date": "2019/06/14",
+        "numSteps": 10000,
+        "minutesActive": 140,
+        "flightsOfStairs": 16
+      },
+      {
+        "userID": 1,
+        "date": "2019/06/13",
+        "numSteps": 10000,
+        "minutesActive": 140,
+        "flightsOfStairs": 16
+      },
+      {
+        "userID": 1,
+        "date": "2019/06/12",
+        "numSteps": 10000,
+        "minutesActive": 140,
+        "flightsOfStairs": 16
+      },
+      {
+        "userID": 1,
+        "date": "2019/06/11",
+        "numSteps": 10000,
+        "minutesActive": 140,
+        "flightsOfStairs": 16
+      },
+      {
+        "userID": 1,
+        "date": "2019/06/10",
+        "numSteps": 10000,
+        "minutesActive": 140,
+        "flightsOfStairs": 16
+      },
+      {
+        "userID": 1,
+        "date": "2019/06/09",
+        "numSteps": 10000,
+        "minutesActive": 140,
+        "flightsOfStairs": 16
+      },
+      {
         "userID": 2,
         "date": "2019/06/15",
         "numSteps": 4000,
-        "minutesActive": 138,
+        "minutesActive": 120,
+        "flightsOfStairs": 10
+      },
+      {
+        "userID": 2,
+        "date": "2019/06/14",
+        "numSteps": 4000,
+        "minutesActive": 120,
+        "flightsOfStairs": 10
+      },
+      {
+        "userID": 2,
+        "date": "2019/06/13",
+        "numSteps": 4000,
+        "minutesActive": 120,
+        "flightsOfStairs": 10
+      },
+      {
+        "userID": 2,
+        "date": "2019/06/12",
+        "numSteps": 4000,
+        "minutesActive": 120,
+        "flightsOfStairs": 10
+      },
+      {
+        "userID": 2,
+        "date": "2019/06/11",
+        "numSteps": 4000,
+        "minutesActive": 120,
+        "flightsOfStairs": 10
+      },
+      {
+        "userID": 2,
+        "date": "2019/06/10",
+        "numSteps": 4000,
+        "minutesActive": 120,
+        "flightsOfStairs": 10
+      },
+      {
+        "userID": 2,
+        "date": "2019/06/09",
+        "numSteps": 4000,
+        "minutesActive": 120,
         "flightsOfStairs": 10
       },
       {
         "userID": 3,
         "date": "2019/06/15",
-        "numSteps": 9000,
-        "minutesActive": 116,
-        "flightsOfStairs": 33
+        "numSteps": 2000,
+        "minutesActive": 80,
+        "flightsOfStairs": 5
+      },
+      {
+        "userID": 3,
+        "date": "2019/06/14",
+        "numSteps": 2000,
+        "minutesActive": 80,
+        "flightsOfStairs": 5
+      },
+      {
+        "userID": 3,
+        "date": "2019/06/13",
+        "numSteps": 2000,
+        "minutesActive": 80,
+        "flightsOfStairs": 5
+      },
+      {
+        "userID": 3,
+        "date": "2019/06/12",
+        "numSteps": 2000,
+        "minutesActive": 80,
+        "flightsOfStairs": 5
+      },
+      {
+        "userID": 3,
+        "date": "2019/06/11",
+        "numSteps": 2000,
+        "minutesActive": 80,
+        "flightsOfStairs": 5
+      },
+      {
+        "userID": 3,
+        "date": "2019/06/10",
+        "numSteps": 2000,
+        "minutesActive": 80,
+        "flightsOfStairs": 5
+      },
+      {
+        "userID": 3,
+        "date": "2019/06/09",
+        "numSteps": 2000,
+        "minutesActive": 80,
+        "flightsOfStairs": 5
       },
       {
         "userID": 11,
@@ -86,7 +212,7 @@ describe.only('Activity', function() {
     users = [user1, user2, user3];
     userRepo = new UserRepo(users);
     activityRepo = new ActivityRepo(activityData);
-    
+
   });
 
   it('should be a function', function() {
@@ -94,7 +220,7 @@ describe.only('Activity', function() {
   });
 
   it('should be an instance of ActivityRepo', function() {
-    expect(activityRepo).to.be.an.instanceof(ActivityRepo); 
+    expect(activityRepo).to.be.an.instanceof(ActivityRepo);
   });
 
   it('should be an instance of DataRepo', function() {
@@ -103,9 +229,9 @@ describe.only('Activity', function() {
 
   it('should take in activity data', function () {
     expect(activityRepo.activityData[0].date).to.equal('2019/06/15');
-    expect(activityRepo.activityData[1].numSteps).to.equal(4000);
-    expect(activityRepo.activityData[2].minutesActive).to.equal(116);
-    expect(activityRepo.activityData[4].flightsOfStairs).to.equal(33);
+    expect(activityRepo.activityData[1].numSteps).to.equal(10000);
+    expect(activityRepo.activityData[2].minutesActive).to.equal(140);
+    expect(activityRepo.activityData[4].flightsOfStairs).to.equal(16);
   });
 
   it('each piece of activity data should be an instance of Activity', function() {
@@ -133,23 +259,33 @@ describe.only('Activity', function() {
   });
 
   it('should return all days that a given user exceeded their step goal', function() {
-    expect(activityRepo.exceededStepGoalForDay(1, userRepo)).to.deep.equal(['2019/06/15']);
+    expect(activityRepo.exceededStepGoalForDay(1, userRepo)).to.deep.equal(
+      [
+      '2019/06/15',
+      "2019/06/14",
+      "2019/06/13",
+      "2019/06/12",
+      "2019/06/11",
+      "2019/06/10",
+      "2019/06/09"
+      ]
+    );
   });
-  
+
   it('should return the highest number of stairs climbed in a day for all time', function() {
     expect(activityRepo.getStairClimbingRecord(11)).to.equal(37);
   });
 
   it('should return the average flight of stairs for all users on given day', function() {
-    expect(activityRepo.getAllUsersAverageDataForDay('2019/06/15', 'flightsOfStairs')).to.equal(23)
+    expect(activityRepo.getAllUsersAverageDataForDay('2019/06/15', 'flightsOfStairs')).to.equal(16)
   })
 
   it('should return average steps taken for given date for all users', function() {
-    expect(activityRepo.getAllUsersAverageDataForDay('2019/06/15', 'numSteps')).to.equal(6250)
+    expect(activityRepo.getAllUsersAverageDataForDay('2019/06/15', 'numSteps')).to.equal(4500)
   });
 
   it('should return average minutes active given date for all users', function() {
-    expect(activityRepo.getAllUsersAverageDataForDay('2019/06/15', 'minutesActive')).to.equal(109)
+    expect(activityRepo.getAllUsersAverageDataForDay('2019/06/15', 'minutesActive')).to.equal(95)
   });
 
   it('should return steps for given user on given date', function() {
@@ -164,26 +300,33 @@ describe.only('Activity', function() {
     expect(activityRepo.getUserDataForWeek(11, '2019/06/17')[2].numSteps).to.equal(2000);
   });
 
-  //THIS SECTION HAS NOT BEEN EDITED YET 
-  it('should get a users friend lists activity', function() {
-    const result = [
-      {
-        "userID": 2,
-        "date": "2019/06/15",
-        "numSteps": 4000,
-        "minutesActive": 138,
-        "flightsOfStairs": 10
-      },
-      {
-        "userID": 3,
-        "date": "2019/06/15",
-        "numSteps": 9000,
-        "minutesActive": 116,
-        "flightsOfStairs": 33
-      }
-    ]
-    expect(activityRepo.getFriendsActivityData(userRepo.users[0], userRepo)).to.deep.equal(result)
-  });
+  //THIS SECTION HAS NOT BEEN EDITED YET
+    it('should return a week of data for each friend in the friend list', function() {
+
+    expect(getFriendsActivityData(user1, userRepo)).to.deep.equal({
+      2: [],
+      3: []
+    })
+    })
+  // it('should get a users friend lists activity', function() {
+  //   const result = [
+  //     {
+  //       "userID": 2,
+  //       "date": "2019/06/15",
+  //       "numSteps": 4000,
+  //       "minutesActive": 138,
+  //       "flightsOfStairs": 10
+  //     },
+  //     {
+  //       "userID": 3,
+  //       "date": "2019/06/15",
+  //       "numSteps": 9000,
+  //       "minutesActive": 116,
+  //       "flightsOfStairs": 33
+  //     }
+  //   ]
+  //   expect(activityRepo.getFriendsActivityData(userRepo.users[0], userRepo)).to.deep.equal(result)
+  // });
 
   it('should get a users ranked friendslist activity for a chosen week', function() {
     expect(activityRepo.getFriendsAverageStepsForWeek(userRepo.users[1], '2019/06/17', userRepo)).to.deep.equal([{ '1': 10000 }, { '3': 9000 }, { '11': 3667 }]);
