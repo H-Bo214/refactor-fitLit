@@ -4,7 +4,7 @@ import DataRepo from '../src/Data-repo'
 import HydrationRepo from '../src/Hydration-repo';
 import UserRepo from '../src/User-repo';
 
-describe.only('Hydration Repo', function() {
+describe('Hydration Repo', function() {
   let hydrationData, hydrationRepo, user1, user2, users, userRepo;
 
   beforeEach(function() {
