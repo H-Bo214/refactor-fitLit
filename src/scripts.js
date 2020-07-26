@@ -220,9 +220,6 @@ function makeToday(userStorage, id, dataSet) {
   return sortedArray[0].date;
 }
 
-//
-
-
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
   // Currently displayed on the Hydration Dashboard.
   // console.log('hydrationInfo.calcOuncesConsumedByDay(id, dateString)', hydrationInfo.calcOuncesConsumedByDay(id, dateString));

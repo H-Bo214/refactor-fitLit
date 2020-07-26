@@ -69,17 +69,23 @@ class ActivityRepo extends DataRepo {
     return weekOfData;
   }
 
+  getStepSum(id, date) {
+    let userData = this.getUserDataForWeek(id, date);
+    let userStepData = userData.map((data) => data.numSteps);
+    let userSum = userStepData.reduce((sum, data) => sum += data);
+
+    return [userStepData, userSum]
+  }
+
   getFriendsActivityData(user, userRepo, date) {
     return user.friendsIds.reduce((friendActivityData, id) => {
       let friendName = userRepo.getUserFromId(id).name;
-      let friendData = this.getUserDataForWeek(id, date);
-      let friendStepData = friendData.map((data) => data.numSteps);
-      let friendSum = friendStepData.reduce((sum, data) => sum += data)
+      let friendStepSum = this.getStepSum(id, date)
 
       let friendInfo = {
         name: friendName,
-        userData: friendStepData,
-        userSum: friendSum
+        userData: friendStepSum[0],
+        userSum: friendStepSum[1]
       };
 
       friendActivityData.push(friendInfo)
@@ -94,10 +100,14 @@ class ActivityRepo extends DataRepo {
 /*
 - Starting with a friendActivityData array...
 - Return who has the most steps for that week.
+-
+
+Get current user data for a week- map to
 
 - For each friend in the Activity Data array...
-  - Reduce their userData to a sum of steps
-  -
+  - Somehow incorporate current user
+  - Reduce their userData to a sum of steps- initialize with current user data- start accumulator as
+  - Reduce to do comparisons & store max value
 - Return the user with the greatest sum
 */
 

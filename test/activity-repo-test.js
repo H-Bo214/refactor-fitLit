@@ -300,7 +300,11 @@ describe.only('Activity', function() {
     expect(activityRepo.getUserDataForWeek(11, '2019/06/17')[2].numSteps).to.equal(2000);
   });
 
-  it.only('(for each friend in the friend list), it should return their name & a week of activity data', function() {
+  it.only('given a user id & date, it should be able to calculate total weekly steps', function() {
+    expect(activityRepo.getStepSum(1, "2019/06/15")[1]).to.equal(70000)
+  })
+
+  it('(for each friend in the friend list), it should return their name & a week of activity data', function() {
   let date = "2019/06/15";
   user1 = userRepo.users[0];
 
