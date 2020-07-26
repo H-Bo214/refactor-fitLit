@@ -300,34 +300,31 @@ describe.only('Activity', function() {
     expect(activityRepo.getUserDataForWeek(11, '2019/06/17')[2].numSteps).to.equal(2000);
   });
 
+  it.only('(for each friend in the friend list), it should return their name & a week of activity data', function() {
+  let date = "2019/06/15";
+  user1 = userRepo.users[0];
+
+    expect(activityRepo.getFriendsActivityData(user1, userRepo, date)).to.deep.equal(
+      [
+        {
+          name: "Allie McCarthy",
+          userData: [4000, 4000, 4000, 4000, 4000, 4000, 4000],
+          userSum: 28000
+        },
+        {
+          name: "The Rock",
+          userData: [2000, 2000, 2000, 2000, 2000, 2000, 2000],
+          userSum: 14000
+        }
+      ]
+    );
+  })
+
+  it('should know the ID of the winning friend', function() {
+    expect(activityRepo.getWinnerById(userRepo.users[1], '2019/06/15', userRepo)).to.equal(1)
+  });
+
   //THIS SECTION HAS NOT BEEN EDITED YET
-    it('should return a week of data for each friend in the friend list', function() {
-
-    expect(getFriendsActivityData(user1, userRepo)).to.deep.equal({
-      2: [],
-      3: []
-    })
-    })
-  // it('should get a users friend lists activity', function() {
-  //   const result = [
-  //     {
-  //       "userID": 2,
-  //       "date": "2019/06/15",
-  //       "numSteps": 4000,
-  //       "minutesActive": 138,
-  //       "flightsOfStairs": 10
-  //     },
-  //     {
-  //       "userID": 3,
-  //       "date": "2019/06/15",
-  //       "numSteps": 9000,
-  //       "minutesActive": 116,
-  //       "flightsOfStairs": 33
-  //     }
-  //   ]
-  //   expect(activityRepo.getFriendsActivityData(userRepo.users[0], userRepo)).to.deep.equal(result)
-  // });
-
   it('should get a users ranked friendslist activity for a chosen week', function() {
     expect(activityRepo.getFriendsAverageStepsForWeek(userRepo.users[1], '2019/06/17', userRepo)).to.deep.equal([{ '1': 10000 }, { '3': 9000 }, { '11': 3667 }]);
   });
@@ -338,9 +335,7 @@ describe.only('Activity', function() {
     ])
   });
 
-  it('should know the ID of the winning friend', function() {
-    expect(activityRepo.getWinnerById(userRepo.users[1], '2019/06/15', userRepo)).to.equal(1)
-  });
+
 
   it('should show a 3-day increasing streak for a users step count', function() {
     expect(activityRepo.displayIncreasedSteps(userRepo, 11, 'numSteps')).to.deep.equal(['2019/06/17'])
