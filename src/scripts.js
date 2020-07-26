@@ -26,12 +26,16 @@ let activityInputPage = document.querySelector('.activity-input')
 let activityDataButton = document.querySelector('.activity-data-button')
 let hydrationDataButton = document.querySelector('.hydration-data-button')
 let hydrationInputPage = document.querySelector('.hydration-input')
-let submitInfoButton = document.querySelector('.submit-info')
+let submitHydrationButton = document.getElementById('hydration-submit')
+let submitSleepButton = document.getElementById('sleep-submit')
+let submitActivityButton = document.getElementById('activity-submit')
 
 sleepDataButton.addEventListener('click', accessSleepInputForm)
 activityDataButton.addEventListener('click', accessActivityInputForm)
 hydrationDataButton.addEventListener('click', accessHydrationInputForm)
-submitInfoButton.addEventListener('click', submitButton)
+submitHydrationButton.addEventListener('click', submitButton)
+submitSleepButton.addEventListener('click', submitButton)
+submitActivityButton.addEventListener('click', submitButton)
 
 
 window.onload = getData();
@@ -52,11 +56,62 @@ function getData() {
 }
 
 
-function submitButton(event) {
-  if(event.target.classList.contains('submit-info')) {
-    backToMainPage();
+function postData(directory, body) {
+  const root = 'https://fe-apps.herokuapp.com/api/v1/fitlit/1908/'
+  fetch(root + directory, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+  .then(response => console.log(response.status))
+  .catch(err => console.error(err))
+}
+
+function createSleepBody() {
+  let userSleepDate = document.getElementById('sleep-user-date').value
+  let userHoursSlept = parseFloat(document.getElementById('user-hours-slept').value)
+  let userSleepQuality = parseFloat(document.getElementById('user-sleep-quality').value)
+  console.log("RACHEL", {userID: userNow.id, date: userSleepDate, hoursSlept: userHoursSlept, sleepQuality: userSleepQuality})
+  return {userID: userNow.id, date: userSleepDate, hoursSlept: userHoursSlept, sleepQuality: userSleepQuality}
+}
+
+function createHydrationBody() {
+  let userHydrationDate = document.getElementById('hydration-user-date').value
+  let userOuncesConsumed = parseFloat(document.getElementById('user-ounces-number').value)
+  return {userID: userNow.id, date: userHydrationDate, numOunces: userOuncesConsumed}
+}
+
+function createActivityBody() {
+  let userActivityDate = document.getElementById('acitivity-user-date').value
+  let userNumberOfSteps = parseFloat(document.getElementById('user-step-number').value)
+  let userMinutesActive = parseFloat(document.getElementById('user-minutes-active').value)
+  let userStairsClimbed = parseFloat(document.getElementById('user-stairs-climbed').value)
+  return {userID: userNow.id, date: userActivityDate, numSteps: userNumberOfSteps, minutesActive: userMinutesActive, flightsOfStairs: userStairsClimbed}
+}
+
+function clickHandler(event) {
+  if(event.target.id === 'sleep-submit') {
+    let sleepBody = createSleepBody();
+    postData('sleep/sleepData', sleepBody)
+  }
+  if(event.target.id === 'hydration-submit') {
+    let hydrationBody = createHydrationBody();
+    postData('hydration/hydrationData', hydrationBody)
+  }
+  if(event.target.id === 'activity-submit') {
+    let activityBody = createActivityBody();
+    postData('activity/activityData', activityBody)
   }
 }
+
+function submitButton(event) {
+  event.preventDefault();
+  clickHandler(event);
+  backToMainPage();
+  }
+
 
 
 function startApp(userData, sleepData, activityData, hydrationData) {
@@ -64,6 +119,7 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   hydrationRepo = new HydrationRepo(hydrationData.hydrationData);
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
+
   // console.log('activityRepo', activityRepo);
   let userNowId = generateRandomId(userRepo);
   // console.log('userNowId', userNowId);
