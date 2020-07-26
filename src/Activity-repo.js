@@ -36,7 +36,7 @@ class ActivityRepo extends DataRepo {
     let user = userRepo.getUserFromId(id)
     let userData = this.getDataMatchingUserID(id, this.activityData);
     let dataOneDay = this.getDataByDate(date, userData);
-    return dataOneDay.numSteps >= user.dailyStepGoal; 
+    return dataOneDay.numSteps >= user.dailyStepGoal;
   }
 
   exceededStepGoalForDay(id, userRepo) {
@@ -72,11 +72,22 @@ class ActivityRepo extends DataRepo {
   // Friends(is for Iteration 5)
     // Will need to refactor the 4 functions below. They use each other to currently function.
   getFriendsActivityData(user, userRepo) {
-    let data = this.activityData;
-    let userActivityData = user.friendsIds.map(friend => userRepo.getDataMatchingUserID(friend, data));
-    return userActivityData.reduce((friendsActivities, listItem) => {
-      return friendsActivities.concat(listItem);
-    }, []);
+    user.friendsIds.reduce
+    /*
+    - Starting with an array of user data...
+    - I want to return an array (for each user) of their most recent week of step count data.
+    - I want to iterate over userRepo; on each iteration...
+      - Using the users friend list, I'll getDataMatchingUserID from this.activityData (getUserDataByDate)
+      - For each friend, I'll sort & then slice their data for a week (getUserDataForWeek)
+      - I want to return an object with properties for each friends id and an array of their week's worth of data.
+    */
+
+
+    // let data = this.activityData;
+    // let userActivityData = user.friendsIds.map(friend => userRepo.getDataMatchingUserID(friend, data));
+    // return userActivityData.reduce((friendsActivities, listItem) => {
+    //   return friendsActivities.concat(listItem);
+    // }, []);
   }
 
   //gets activity data for each friend & merges into 1 array
