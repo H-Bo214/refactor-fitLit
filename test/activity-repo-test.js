@@ -304,7 +304,7 @@ describe.only('Activity', function() {
     expect(activityRepo.createActivityData(1, "2019/06/15", userRepo).userSum).to.equal(70000)
   })
 
-  it.only('(for each friend in the friend list), it should return their name & a week of activity data', function() {
+  it('(for each friend in the friend list), it should return their name & a week of activity data', function() {
   let date = "2019/06/15";
   user1 = userRepo.users[0];
 
@@ -322,6 +322,10 @@ describe.only('Activity', function() {
         }
       ]
     );
+  })
+
+  it('should return the step challenge winner', function() {
+    expect(activityRepo.getStepChallengeWinner(userRepo.users[0], "2019/06/15", userRepo)).to.equal('Alex Roth')
   })
 
   it('should know the ID of the winning friend', function() {
