@@ -69,31 +69,35 @@ class ActivityRepo extends DataRepo {
     return weekOfData;
   }
 
-  getStepSum(id, date) {
+  createActivityData(id, date, userRepo) {
+    let userName = userRepo.getUserFromId(id).name;
     let userData = this.getUserDataForWeek(id, date);
     let userStepData = userData.map((data) => data.numSteps);
     let userSum = userStepData.reduce((sum, data) => sum += data);
 
-    return [userStepData, userSum]
+    let userInfo = {
+      name: userName,
+      userData: userStepData,
+      userSum: userSum
+    }
+
+    return userInfo
   }
 
   getFriendsActivityData(user, userRepo, date) {
     return user.friendsIds.reduce((friendActivityData, id) => {
-      let friendName = userRepo.getUserFromId(id).name;
-      let friendStepSum = this.getStepSum(id, date)
-
-      let friendInfo = {
-        name: friendName,
-        userData: friendStepSum[0],
-        userSum: friendStepSum[1]
-      };
+      let friendInfo = this.createActivityData(id, date, userRepo)
 
       friendActivityData.push(friendInfo)
       return friendActivityData
     }, [])
   }
 
-
+  // getStepChallengeWinner(user, date, userRepo) {
+  //   let currentUserSum = this.createActivityData(user.id, date);
+  //   let friendActivityData = this.getFriendsActivityData(user, userRepo, date);
+  //   friendActivityData.sort();
+  // }
   // Friends(is for Iteration 5)
     // Will need to refactor the 4 functions below. They use each other to currently function.
 
