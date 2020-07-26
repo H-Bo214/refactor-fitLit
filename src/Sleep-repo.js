@@ -52,7 +52,7 @@ class SleepRepo extends DataRepo {
   // }
 
   calcAllUserSleepQuality() {
-    return this.calculateAverage(this.sleepData, 'sleepQuality');
+    return Math.round(this.calculateAverage(this.sleepData, 'sleepQuality'));
   }
 
   //DOUBLE CHECK THIS WORKS IN TEST SUITE  

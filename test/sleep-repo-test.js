@@ -177,7 +177,7 @@ describe.only('Sleep Repo', function() {
     expect(sleepRepo).to.be.an.instanceof(DataRepo);
   });
 
-    it.only('should take in a list of data', function() {
+  it.only('should take in a list of data', function() {
     expect(sleepRepo.sleepData[1].userID).to.equal(2);
     expect(sleepRepo.sleepData[3].hoursSlept).to.equal(6.1);
     expect(sleepRepo.sleepData[6].sleepQuality).to.equal(1.6);
@@ -204,32 +204,29 @@ describe.only('Sleep Repo', function() {
     expect(sleepRepo.getWeekOfSleep('2019/06/21', 4)).to.deep.eq(user4SleepData);
   });
 
-
-
-
-
-
-
-
-
-
-
-
-
-/// left off on this test, calcAllUserSleepQuality. confirm the math is correct.
-
   it.only('should get all users sleep quality', function() {
-    expect(sleepRepo.calcAllUserSleepQuality()).to.eq('hello')
+    expect(sleepRepo.calcAllUserSleepQuality()).to.eq(3)
   });
+
 // Method determineBestSleepers returns the user object in an array. The prior version of this test would return the user name. The spec doesn't specifically state to return the user name so I believe this method is fine, as is. 
   it.only('should determine the best quality sleepers for a week', function() {
     expect(sleepRepo.determineBestSleepers('2019/08/22', users)).to.deep.eql([user3]);
   });
 
-  //come back to this test later so it gets a result of 2 people - unsure whether function is correct currently, but some functions need to be combined anyway 
+  //come back to this test later so it gets a result of 2 people - unsure whether function is correct currently, but some functions need to be combined anyway
+  // This method will return multiple results.
+
+it.only('should get all users who slept the most number of hours', function() {
+  expect(sleepRepo.getMaxSleepData('2019/08/22')).to.deep.eql([sleepData[0]])
+})
+
+
+
+
+
 
   it('should return people with longest sleep for the day', function() {
-    expect(sleep.getUsersWithMostSleepForDay('2019/06/21', userRepo)).to.eql(['Allie McCarthy', 'Rainbow Dash']);
+    expect(sleepRepo.getUsersWithMostSleepForDay(sleepData, userRepo)).to.eql(['Allie McCarthy', 'Rainbow Dash']);
   });
   //make this test fail when user is NOT best in week
 });
