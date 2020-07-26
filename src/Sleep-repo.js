@@ -84,12 +84,14 @@ class SleepRepo extends DataRepo {
     });
   }
 
-  getUsersWithMostSleepForDay(dataSet, userRepo) {
-    return dataSet.reduce((usersWithMaxSleep, data) => {
+  getUsersWithMostSleepForDay(dataSet, userRepo, date) {
+    dataSet = this.getMaxSleepData(date)
+    let users = dataSet.reduce((usersWithMaxSleep, data) => {
       let matchingUser = userRepo.users.find(user => user.id === data.userID); 
       usersWithMaxSleep.push(matchingUser);
-      return usersWithMaxSleep; 
+      return usersWithMaxSleep
     }, [])
+    return users.map(user => user.name)
   }
 
   //function for extracting user names for those who slept the most that week and the most that day: DELETING BECAUSE NOT NEEDED IN SPEC

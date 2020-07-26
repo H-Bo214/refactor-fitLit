@@ -214,19 +214,15 @@ describe.only('Sleep Repo', function() {
   });
 
   //come back to this test later so it gets a result of 2 people - unsure whether function is correct currently, but some functions need to be combined anyway
-  // This method will return multiple results.
 
-it.only('should get all users who slept the most number of hours', function() {
+  // This method will return multiple user results. Functioning correctly.
+
+it.only('should get users who slept the most number of hours on a specific date', function() {
   expect(sleepRepo.getMaxSleepData('2019/08/22')).to.deep.eql([sleepData[0]])
 })
 
-
-
-
-
-
-  it('should return people with longest sleep for the day', function() {
-    expect(sleepRepo.getUsersWithMostSleepForDay(sleepData, userRepo)).to.eql(['Allie McCarthy', 'Rainbow Dash']);
+  it.only('should return people with longest sleep for the day', function() {
+    expect(sleepRepo.getUsersWithMostSleepForDay(sleepData, userRepo, '2019/06/21')).to.eql([ 'Rainbow Dash', 'Allie McCarthy']);
   });
-  //make this test fail when user is NOT best in week
+
 });
