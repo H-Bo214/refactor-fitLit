@@ -17,7 +17,7 @@ h1 {
   height: 80px;
   padding-top: 10px;
   margin-top:0;
-  margin-bottom: 0;
+  margin-bottom: 25px;
   border: $outer-border-style;
 }
 
@@ -220,7 +220,8 @@ main {
 .hidden {
   display: none;
 }
-.sleep-data-form, .hydration-data-form, .activity-data-form {
+
+.data-form {
   align-items: center;
   display: flex;
   display: hidden;
@@ -228,12 +229,14 @@ main {
   height: 100vh;
   margin-bottom: 20px;
 }
-.sleep-data-form h2, .hydration-data-form h2, .activity-data-form h2 {
+
+.data-form h2 {
   margin-top: 15px;
   margin-bottom: 30px;
   text-align: center;
 }
-.sleep-data-form form, .hydration-data-form form, .activity-data-form form {
+
+.data-form form {
   align-content: center;
   background-color: #9A9DAB;
   border: .5px solid white;
@@ -242,7 +245,7 @@ main {
   flex-direction: column;
   width: 40%;
 }
-.sleep-data-form input, .hydration-data-form input, .activity-data-form input {
+.data-form input {
   border-radius: 6px;
   display: block;
   margin-bottom: 20px;
@@ -251,7 +254,7 @@ main {
   outline: none;
   padding: 10px 20px;
 }
-.submit-sleep-info, .submit-hydration-info, .submit-activity-info  {
+.submit-info {
   background-color: #4D4E4F;
   border: 1px solid black;
   border-radius: 6px;
@@ -272,7 +275,7 @@ label {
 
 //Media Queries
 @media only screen and (max-width: 1024px) {
-  
+
   main {
     display: flex;
     flex-direction: column;
@@ -298,6 +301,10 @@ label {
 
 @media only screen and (max-width: 768px) {
 
+  h1 {
+    margin-bottom: 25px;
+  }
+
 .body-sidebar-sidebarContainer {
   width:100vw;
 }
@@ -307,14 +314,22 @@ label {
 
 @media only screen and (max-width: 600px) {
 
+  h1 {
+    margin-bottom: 25px;
+  }
+
+  .data-form form {
+    width: 75%;
+  }
+
   .body-sidebar-sidebarContainer {
     width:100vw;
   }
-  
+
   .main-column-hydration,
   .main-column-activity,
   .main-column-sleep {
   flex-direction: column;
   }
-  
+
   }
