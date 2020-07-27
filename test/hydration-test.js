@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import Hydration from '../src/Hydration'
 
-describe.only('Hydration', function() {
+describe('Hydration', function() {
   let hydration1;
 
   beforeEach(function() {
