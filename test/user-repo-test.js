@@ -5,7 +5,7 @@ import User from '../src/User';
 import DataRepo from '../src/Data-repo';
 
 
-describe.only('User Repo', function() {
+describe('User Repo', function() {
   let user1, user2, users, userRepo;
 
   beforeEach(function() {
@@ -48,7 +48,7 @@ describe.only('User Repo', function() {
   });
 
   it('should store an empty array if no user data is passed in', function() {
-    const userRepo2 = new UserRepo(); 
+    const userRepo2 = new UserRepo();
 
     expect(userRepo2.users).to.deep.equal([]);
   });
@@ -61,7 +61,7 @@ describe.only('User Repo', function() {
     expect(userRepo.calculateAverageStepGoal()).to.eql(9500);
   });
 
-  //ALL THESE FUNCTIONS MOVED TO PARENT REPO CLASS/REFACTORED SO NO LONGER NEEDED 
+  //ALL THESE FUNCTIONS MOVED TO PARENT REPO CLASS/REFACTORED SO NO LONGER NEEDED
 //   describe('array changes', function() {
 // // I am not sure why ANY of these tests are in this file! To me, it seems like a lot of this data retrieval can/should be happening within the Hydration/Activity/Sleep class files. (Though I totally may be off here!)
 // //***Rachel note: Held up on refactoring the below, because these are likely the methods that may be moved to the parent Repo class */
@@ -459,7 +459,7 @@ describe.only('User Repo', function() {
 //       ]);
 //     });
 //     //test missing for sortDataByDate
-  
+
 
 //     it('should get a users most recent date using the app', function() {
 //       expect(userRepo.getLatestDateInData(4, hydrationData)).to.eql("2019/09/20");

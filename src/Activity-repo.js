@@ -36,7 +36,7 @@ class ActivityRepo extends DataRepo {
     let user = userRepo.getUserFromId(id)
     let userData = this.getDataMatchingUserID(id, this.activityData);
     let dataOneDay = this.getDataByDate(date, userData);
-    return dataOneDay.numSteps >= user.dailyStepGoal; 
+    return dataOneDay.numSteps >= user.dailyStepGoal;
   }
 
   exceededStepGoalForDay(id, userRepo) {
@@ -69,40 +69,36 @@ class ActivityRepo extends DataRepo {
     return weekOfData;
   }
 
-  // Friends(is for Iteration 5)
-    // Will need to refactor the 4 functions below. They use each other to currently function.
-  getFriendsActivityData(user, userRepo) {
-    let data = this.activityData;
-    let userActivityData = user.friendsIds.map(friend => userRepo.getDataMatchingUserID(friend, data));
-    return userActivityData.reduce((friendsActivities, listItem) => {
-      return friendsActivities.concat(listItem);
-    }, []);
+  createActivityData(id, date, userRepo) {
+    let userName = userRepo.getUserFromId(id).name;
+    let userData = this.getUserDataForWeek(id, date);
+    let userStepData = userData.map((data) => data.numSteps);
+    let userSum = userStepData.reduce((sum, data) => sum += data);
+    let userInfo = {
+      id: id,
+      name: userName,
+      userData: userStepData,
+      userSum: userSum
+    }
+    return userInfo
   }
 
-  //gets activity data for each friend & merges into 1 array
-
-  getFriendsAverageStepsForWeek(user, date, userRepo) {
-    let friendsActivity = this.getFriendsActivityData(user, userRepo);
-    let timeline = userRepo.getAllUsersWeekOfData(friendsActivity, date);
-    return userRepo.getRankedUserIDsWithDataAverages('numSteps', timeline)
+  getFriendsActivityData(user, userRepo, date) {
+    return user.friendsIds.reduce((friendActivityData, id) => {
+      let friendInfo = this.createActivityData(id, date, userRepo);
+      friendActivityData.push(friendInfo)
+      return friendActivityData
+    }, [])
   }
-  //gets friends' average steps for week? need to review all methods to be sure of accuracy
 
-  displayStepChallengeWinner(user, date, userRepo) {
-    let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
-    return rankedList.map(function(listItem) {
-      let userID = Object.keys(listItem)[0];
-      let userName = userRepo.getUserFromId(parseInt(userID)).name;
-      return `${userName}: ${listItem[userID]}`
-    })
+  getStepChallengeWinner(user, date, userRepo) {
+    let currentUserData = this.createActivityData(user.id, date, userRepo);
+    let friendActivityData = this.getFriendsActivityData(user, userRepo, date);
+    friendActivityData.push(currentUserData);
+    let sortedData = friendActivityData.sort((a, b) => b.userSum - a.userSum);
+    return [sortedData[0].name, sortedData[0].userSum, sortedData[0].id]
   }
-//returns user's name & data for the challenge winner
 
-  displayWinner(user, date, userRepo) {
-    let namedList = this.displayStepChallengeWinner(user, date, userRepo);
-    let winner = this.displayStepChallengeWinner(user, date, userRepo).shift();
-    return winner;
-  }
   displayIncreasedSteps(userRepo, id, dataKey) {
     let data = this.activityData;
     let sortedUserArray = (userRepo.sortDataByDate(id, data)).reverse();
@@ -115,11 +111,7 @@ class ActivityRepo extends DataRepo {
       return streak.date;
     })
   }
-  getWinnerById(user, date, userRepo) {
-    let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
-    let keysList = rankedList.map(listItem => Object.keys(listItem));
-    return parseInt(keysList[0].join(''))
-  }
+
 }
 
 

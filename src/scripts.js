@@ -73,7 +73,6 @@ function createSleepBody() {
   let userSleepDate = document.getElementById('sleep-user-date').value
   let userHoursSlept = parseFloat(document.getElementById('user-hours-slept').value)
   let userSleepQuality = parseFloat(document.getElementById('user-sleep-quality').value)
-  console.log("RACHEL", {userID: userNow.id, date: userSleepDate, hoursSlept: userHoursSlept, sleepQuality: userSleepQuality})
   return {userID: userNow.id, date: userSleepDate, hoursSlept: userHoursSlept, sleepQuality: userSleepQuality}
 }
 
@@ -122,8 +121,10 @@ function startApp(userData, sleepData, activityData, hydrationData) {
 
   // console.log('activityRepo', activityRepo);
   let userNowId = generateRandomId(userRepo);
+
   // console.log('userNowId', userNowId);
   userNow = generateRandomUser(userRepo, userNowId);
+
   //Note: Former today was string of "2019/06/15"; new function below generates string of same format
   // let today = generateCurrentDate();
   // console.log(today)
@@ -141,14 +142,18 @@ function startApp(userData, sleepData, activityData, hydrationData) {
 
   addInfoToSidebar(userNow, userRepo);
   addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
-  let winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
-  addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
+  let winnerNow = activityRepo.getStepChallengeWinner(userNow, today, userRepo)
+  addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow);
   addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
   addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
 function generateRandomId(dataset) {
-  return Math.floor(Math.random() * dataset.users.length);
+  let randNum = Math.ceil(Math.random() * dataset.users.length)
+  if (randNum === 0) {
+    randNum ++
+  };
+  return randNum
 }
 
 function generateRandomUser(userRepo, id) {
@@ -211,17 +216,14 @@ function makeFriendHTML(user, userStorage) {
   return user.getFriendsNames(userStorage).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
 }
 
-function makeWinnerID(activityInfo, user, dateString, userStorage){
-  return activityInfo.getWinnerById(user, dateString, userStorage)
-}
+// function makeWinnerID(activityInfo, user, dateString, userStorage){
+//   return activityInfo.getWinnerById(user, dateString, userStorage)
+// }
 
 function makeToday(userStorage, id, dataSet) {
   var sortedArray = userStorage.sortDataByDate(dataSet);
   return sortedArray[0].date;
 }
-
-//
-
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
   // Currently displayed on the Hydration Dashboard.
@@ -283,7 +285,7 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
 //getAllUserAverage is not SRP and handling the AVERAGE of, flightsOfStairs, numSteps, minutesActive.
 //getUserDataByDate is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
 //getUserDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
-function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user, winnerId) {
+function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateString, user) {
   let userStepsToday = document.getElementById('userStepsToday');
   userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityInfo.getUserDataByDate(id, dateString, 'numSteps')} (${activityInfo.getMilesByStepsForDate(id, dateString, userStorage)} miles)</span></p>`)
 
@@ -312,6 +314,7 @@ function addActivityInfo(id, activityInfo, dateString, userStorage, laterDateStr
   userMinutesThisWeek.insertAdjacentHTML("afterBegin", makeMinutesHTML(id, activityInfo, userStorage, activityInfo.getUserDataForWeek(id, dateString).map((data) => `${data.date}: ${data['minutesActive']}`)));
 
   let bestUserSteps = document.getElementById('bestUserSteps');
+  let winnerId = activityRepo.getStepChallengeWinner(user, dateString, userStorage)[2];
   bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(user, activityInfo, userStorage, activityInfo.getUserDataForWeek(winnerId, dateString).map((data) => `${data.date}: ${data['numSteps']}`)));
 }
 //I think renaming these to 'display' vs. 'make' would be more semantic.
@@ -328,24 +331,28 @@ function makeMinutesHTML(id, activityInfo, userStorage, method) {
 }
 
 function addFriendGameInfo(id, activityInfo, userStorage, dateString, laterDateString, user) {
+  let thisWeeksWinner = document.getElementById('bigWinner');
+  let winnerData = activityInfo.getStepChallengeWinner(user, dateString, userStorage);
+  thisWeeksWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${winnerData[0]}, ${winnerData[1]} steps`)
+
+  let friendChallengeListToday = document.getElementById('friendChallengeListToday');
+  friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.getFriendsActivityData(user, userStorage, dateString)));
+
+  let friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
+  friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.getFriendsActivityData(user, userStorage, laterDateString)));
+
+
+
   let increasedActivityStreak = document.getElementById('streakListMinutes')
   increasedActivityStreak.insertAdjacentHTML("afterBegin", createStepStreak(id, activityInfo, userStorage, activityInfo.displayIncreasedSteps(userStorage, id, 'minutesActive')));
 
-  let thisWeeksWinner = document.getElementById('bigWinner');
-  thisWeeksWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${activityInfo.displayWinner(user, dateString, userStorage)} steps`)
-
-  let friendChallengeListToday = document.getElementById('friendChallengeListToday');
-  friendChallengeListToday.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.displayStepChallengeWinner(user, dateString, userStorage)));
-
-  let friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
-  friendChallengeListHistory.insertAdjacentHTML("afterBegin", makeFriendChallengeHTML(id, activityInfo, userStorage, activityInfo.displayStepChallengeWinner(user, dateString, userStorage)));
 
   let stepStreak = document.getElementById('streakList');
   stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(id, activityInfo, userStorage, activityInfo.displayIncreasedSteps(userStorage, id, 'numSteps')));
 }
 
-function makeFriendChallengeHTML(id, activityInfo, userStorage, method) {
-  return method.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData} average steps.</li>`).join('');
+function makeFriendChallengeHTML(id, activityInfo, userStorage, friendActivityData) {
+  return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, averaged ${friendChallengeData.userSum} steps.</li>`).join('');
 }
 
 function createStepStreak(id, activityInfo, userStorage, method) {
