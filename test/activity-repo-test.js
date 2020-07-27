@@ -311,11 +311,13 @@ describe.only('Activity', function() {
     expect(activityRepo.getFriendsActivityData(user1, userRepo, date)).to.deep.equal(
       [
         {
+          id: 2,
           name: "Allie McCarthy",
           userData: [4000, 4000, 4000, 4000, 4000, 4000, 4000],
           userSum: 28000
         },
         {
+          id: 3,
           name: "The Rock",
           userData: [2000, 2000, 2000, 2000, 2000, 2000, 2000],
           userSum: 14000
@@ -325,25 +327,14 @@ describe.only('Activity', function() {
   })
 
   it('should return the step challenge winner', function() {
-    expect(activityRepo.getStepChallengeWinner(userRepo.users[0], "2019/06/15", userRepo)).to.equal('Alex Roth')
+    expect(activityRepo.getStepChallengeWinner(userRepo.users[0], "2019/06/15", userRepo)[0]).to.equal('Alex Roth')
   })
 
-  it('should know the ID of the winning friend', function() {
-    expect(activityRepo.getWinnerById(userRepo.users[1], '2019/06/15', userRepo)).to.equal(1)
+  it.only('should know the ID of the winning friend', function() {
+    expect(activityRepo.getStepChallengeWinner(userRepo.users[0], '2019/06/15', userRepo)[2]).to.equal(1)
   });
 
   //THIS SECTION HAS NOT BEEN EDITED YET
-  it('should get a users ranked friendslist activity for a chosen week', function() {
-    expect(activityRepo.getFriendsAverageStepsForWeek(userRepo.users[1], '2019/06/17', userRepo)).to.deep.equal([{ '1': 10000 }, { '3': 9000 }, { '11': 3667 }]);
-  });
-
-  it('should get a users ranked friendslist activity for a chosen week with names', function() {
-    expect(activityRepo.displayStepChallengeWinner(userRepo.users[0], '2019/06/15', userRepo)).to.deep.equal([
-      'The Rock: 9000', 'Allie McCarthy: 4000'
-    ])
-  });
-
-
 
   it('should show a 3-day increasing streak for a users step count', function() {
     expect(activityRepo.displayIncreasedSteps(userRepo, 11, 'numSteps')).to.deep.equal(['2019/06/17'])
