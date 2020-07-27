@@ -68,13 +68,6 @@ function allowNumbersOnlyHydrationDate(event) {
   }
 };
 
-function allowNumbersOnlyOunces(event) {
-  var key2 = event.keyCode;
-  if ((key2 < 48 || key2 > 57)) {
-    event.preventDefault();
-  }
-};
-
 function createSleepBody() {
   let userSleepDate = document.getElementById('sleep-user-date').value
   let userHoursSlept = parseFloat(document.getElementById('user-hours-slept').value)
@@ -396,10 +389,8 @@ function setUpButtons() {
 }
 
 function setUpInputs() {
-  let hydrationInputDate = document.getElementById('hydration-user-date')
   let hydrationInputOunces = document.getElementById('user-ounces-number')
-  hydrationInputDate.addEventListener('keypress', allowNumbersOnlyHydrationDate);
-  hydrationInputOunces.addEventListener('keypress', allowNumbersOnlyOunces)
+  hydrationInputOunces.addEventListener('keypress', allowNumbersOnlyHydrationDate)
 }
 
 // Should be invoked with window onload.

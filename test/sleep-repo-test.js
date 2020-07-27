@@ -83,7 +83,7 @@ describe('Sleep', function() {
     ];
 
     sleep = new SleepRepo(sleepData);
-    
+
     user1 = {
       id: 1,
       name: "Alex Roth",
@@ -165,7 +165,7 @@ describe('Sleep', function() {
   it('should return person with best quality sleep for the week', function() {
     expect(sleep.getUsersWithMostSleepWeekly('2019/06/21', userRepo)).to.eql(['Allie McCarthy']);
   });
-  //come back to this test later so it gets a result of 2 people - unsure whether function is correct currently, but some functions need to be combined anyway 
+  //come back to this test later so it gets a result of 2 people - unsure whether function is correct currently, but some functions need to be combined anyway
   it('should return all qualifying users if best quality sleep is a tie', function() {
     // let user5 = {
     //   id: 6,
@@ -185,5 +185,13 @@ describe('Sleep', function() {
   it('should return people with longest sleep for the day', function() {
     expect(sleep.getUsersWithMostSleepForDay('2019/06/21', userRepo)).to.eql(['Allie McCarthy', 'Rainbow Dash']);
   });
+
+  it('should not have sleep quality greater than 5', function() {
+
+    expect(sleep.calcAllUserSleepQuality()).to.eql(3)
+    expect(sleep.calcAllUserSleepQuality()).to.not.eql(7)
+  })
+
+
   //make this test fail when user is NOT best in week
 });

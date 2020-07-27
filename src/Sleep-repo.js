@@ -14,7 +14,7 @@ class SleepRepo extends DataRepo {
   calcAverageUserSleep(id, dataKey) {
     let userData = this.getDataMatchingUserID(id, this.sleepData);
     let averageSleep = this.calculateAverage(userData, dataKey);
-    return Math.round(averageSleep * 10) / 10; 
+    return Math.round(averageSleep * 10) / 10;
   }
 
   //NO LONGER BEING USED; calcAverageUserSleep is dynamic
@@ -55,7 +55,7 @@ class SleepRepo extends DataRepo {
     return this.calculateAverage(this.sleepData, 'sleepQuality');
   }
 
-  //DOUBLE CHECK THIS WORKS IN TEST SUITE  
+  //DOUBLE CHECK THIS WORKS IN TEST SUITE
   determineBestSleepers(date, userList) {
     return userList.reduce((wellRestedUsers, user) => {
       let weekOfData = this.getWeekOfSleep(date, user.id);
@@ -63,10 +63,10 @@ class SleepRepo extends DataRepo {
       if (averageSleepQuality > 3) {
         wellRestedUsers.push(user);
       }
-      return wellRestedUsers; 
+      return wellRestedUsers;
     }, [])
   }
-  
+
   ////function for users who have slept the most for the past week: DELETING BECAUSE NOT NEEDED IN SPEC
   // getUsersWithMostSleepWeekly(date, userRepo) {
   //   let timeline = userRepo.getAllUsersWeekOfData(this.sleepData, date);
@@ -74,11 +74,11 @@ class SleepRepo extends DataRepo {
   //   return this.getBestSleepersForWeekandDay(sleepRankWithData, userRepo);
   // }
 
-  //DOUBLE CHECK IN TEST SUITE (NOT CALLED IN SCRIPTS); return value from getMaxSleepData gets passed into getUsersWithMostSleepForDay 
+  //DOUBLE CHECK IN TEST SUITE (NOT CALLED IN SCRIPTS); return value from getMaxSleepData gets passed into getUsersWithMostSleepForDay
   getMaxSleepData(date) {
     let sleepDataOnDate = this.getDataMatchingDate(date, this.sleepData);
     let sortedSleepData = sleepDataOnDate.sort((a, b) => b.hoursSlept - a.hoursSlept);
-    let maxSleep = sortedSleepData[0].hoursSlept; 
+    let maxSleep = sortedSleepData[0].hoursSlept;
     return sortedSleepData.filter(data => {
       return data.hoursSlept === maxSleep
     });
@@ -86,9 +86,9 @@ class SleepRepo extends DataRepo {
 
   getUsersWithMostSleepForDay(dataSet, userRepo) {
     return dataSet.reduce((usersWithMaxSleep, data) => {
-      let matchingUser = userRepo.users.find(user => user.id === data.userID); 
+      let matchingUser = userRepo.users.find(user => user.id === data.userID);
       usersWithMaxSleep.push(matchingUser);
-      return usersWithMaxSleep; 
+      return usersWithMaxSleep;
     }, [])
   }
 
@@ -100,7 +100,7 @@ class SleepRepo extends DataRepo {
   //   let bestSleeperIds = bestSleepers.map(bestSleeper => (Object.keys(bestSleeper)));
   //   return bestSleeperIds.map(sleepNumber => userRepo.getUserFromId(parseInt(sleepNumber)).name);
   // }
-  
+
 }
 
 export default SleepRepo;
