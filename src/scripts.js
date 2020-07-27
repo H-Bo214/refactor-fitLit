@@ -1,15 +1,8 @@
 import './css/style.scss';
-
-
 import './images/runner.jpg';
 import './images/track.svg';
 import './images/friends-running.jpg';
 // import domUpdates from '../src/domUpdates'
-
-// import userData from './data/users';
-// import hydrationData from './data/hydration';
-// import sleepData from './data/sleep';
-// import activityData from './data/activity';
 
 import User from './User';
 import ActivityRepo from './Activity-repo';
@@ -37,11 +30,9 @@ submitHydrationButton.addEventListener('click', submitButton)
 submitSleepButton.addEventListener('click', submitButton)
 submitActivityButton.addEventListener('click', submitButton)
 
-
 window.onload = getData();
 
-
-
+/*---------GET/POST Functions---------*/
 function getData() {
   Promise.all([
     fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData'),
@@ -110,23 +101,19 @@ function submitButton(event) {
   backToMainPage();
   }
 
+/*---------Create Data Repos/Start App---------*/
 function createDataRepos(userData, sleepData, activityData, hydrationData) {
   userRepo = new UserRepo(userData.userData);
   hydrationRepo = new HydrationRepo(hydrationData.hydrationData);
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
 
-  startApp();
+  createUser();
 }
 
-function startApp(userData, sleepData, activityData, hydrationData) {
-
-  // console.log('activityRepo', activityRepo);
+function createUser() {
   let userNowId = generateRandomId(userRepo);
-
-  // console.log('userNowId', userNowId);
   userNow = generateRandomUser(userRepo, userNowId);
-
   today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
 
@@ -176,7 +163,8 @@ function createDashboard() {
   addFriendGameInfo(userNow.id, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
-/* Dom functions */
+/*---------Dashboard Functions---------*/
+   /*-----Header/Sidebar Functions----*/
 function addInfoToSidebar() {
   let headerText = document.getElementById('headerText');
   headerText.innerText = `${userNow.getUserFirstName()}'s Activity Tracker`;
@@ -212,6 +200,7 @@ function makeToday(userStorage, id, dataSet) {
   return sortedArray[0].date;
 }
 
+  /*-----Hydration Dashboard Functions----*/
 function addHydrationInfo() {
   let hydrationToday = document.getElementById('hydrationToday');
   hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationRepo.calcOuncesConsumedByDay(userNow.id, today)}</span></p><p>oz water today.</p>`);
@@ -235,6 +224,7 @@ function makeHydrationHTML(weekOfData) {
   return weekOfData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
 }
 
+  /*-----Sleep Dashboard Functions----*/
 function addSleepInfo() {
   let sleepToday = document.getElementById('sleepToday');
   sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${sleepRepo.calcDailySleep(userNow.id, today, 'hoursSlept')}</span></p> <p>hours today.</p>`);
@@ -263,9 +253,7 @@ function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
   return method.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
 }
 
-//getAllUserAverage is not SRP and handling the AVERAGE of, flightsOfStairs, numSteps, minutesActive.
-//getUserDataByDate is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
-//getUserDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
+  /*-----Activity Dashboard Functions----*/
 function addActivityInfo() {
   let userStepsToday = document.getElementById('userStepsToday');
   userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${activityRepo.getUserDataByDate(userNow.id, today, 'numSteps')} (${activityRepo.getMilesByStepsForDate(userNow.id, today, userRepo)} miles)</span></p>`)
@@ -298,6 +286,10 @@ function addActivityInfo() {
   let winnerId = activityRepo.getStepChallengeWinner(userNow, today, userRepo)[2];
   bestUserSteps.insertAdjacentHTML("afterBegin", makeStepsHTML(userNow, activityRepo, userRepo, activityRepo.getUserDataForWeek(winnerId, today).map((data) => `${data.date}: ${data['numSteps']}`)));
 }
+//getAllUserAverage is not SRP and handling the AVERAGE of, flightsOfStairs, numSteps, minutesActive.
+//getUserDataByDate is not SRP and handling the DAILY stats of, flightsOfStairs, numSteps, minutesActive.
+//getUserDataForWeek is not SRP and handling the WEEKLY AVERAGE of, flightsOfStairs, numSteps, minutesActive.
+
 //I think renaming these to 'display' vs. 'make' would be more semantic.
 function makeStepsHTML(id, activityInfo, userStorage, method) {
   return method.map(activityData => `<li class="historical-list-listItem">On ${activityData} steps</li>`).join('');
@@ -311,6 +303,7 @@ function makeMinutesHTML(id, activityInfo, userStorage, method) {
   return method.map(data => `<li class="historical-list-listItem">On ${data} minutes</li>`).join('');
 }
 
+  /*-----Step Challenge Dashboard Functions----*/
 function addFriendGameInfo(id, activityInfo, userStorage, dateString, laterDateString, user) {
   let thisWeeksWinner = document.getElementById('bigWinner');
   let winnerData = activityInfo.getStepChallengeWinner(user, dateString, userStorage);
@@ -340,6 +333,7 @@ function createStepStreak(id, activityInfo, userStorage, method) {
   return method.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
 }
 
+/*---------Display Functions---------*/
 function accessSleepInputForm() {
   mainPage.classList.add('hidden')
   sleepInputPage.classList.remove('hidden')
@@ -361,7 +355,3 @@ function backToMainPage() {
   activityInputPage.classList.add('hidden')
   hydrationInputPage.classList.add('hidden')
 }
-
-
-// Should be invoked with window onload.
-// startApp();
