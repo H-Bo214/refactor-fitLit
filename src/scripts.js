@@ -50,8 +50,7 @@ function getData() {
     fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData')
   ])
     .then(responses => Promise.all(responses.map(response => response.json())))
-    .then(([userData, sleepData, activityData, hydrationData]) => startApp(userData, sleepData, activityData, hydrationData)
-    )
+    .then(([userData, sleepData, activityData, hydrationData]) => createDataRepos(userData, sleepData, activityData, hydrationData))
     .catch(err => console.error(err))
 }
 
@@ -111,13 +110,16 @@ function submitButton(event) {
   backToMainPage();
   }
 
-
-
-function startApp(userData, sleepData, activityData, hydrationData) {
+function createDataRepos(userData, sleepData, activityData, hydrationData) {
   userRepo = new UserRepo(userData.userData);
   hydrationRepo = new HydrationRepo(hydrationData.hydrationData);
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
+
+  startApp();
+}
+
+function startApp(userData, sleepData, activityData, hydrationData) {
 
   // console.log('activityRepo', activityRepo);
   let userNowId = generateRandomId(userRepo);
