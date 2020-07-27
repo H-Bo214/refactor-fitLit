@@ -169,40 +169,38 @@ function generateCurrentDate() {
 
 ///////
 function createDOMElements() {
-  addInfoToSidebar(userNow, userRepo);
+  addInfoToSidebar();
   addHydrationInfo(userNow.id, hydrationRepo, today, userRepo, randomHistory);
-  let winnerNow = activityRepo.getStepChallengeWinner(userNow, today, userRepo)
   addActivityInfo(userNow.id, activityRepo, today, userRepo, randomHistory, userNow);
   addSleepInfo(userNow.id, sleepRepo, today, userRepo, randomHistory);
   addFriendGameInfo(userNow.id, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
 /* Dom functions */
-function addInfoToSidebar(user, userStorage) {
+function addInfoToSidebar() {
   let headerText = document.getElementById('headerText');
-  headerText.innerText = `${user.getUserFirstName()}'s Activity Tracker`;
+  headerText.innerText = `${userNow.getUserFirstName()}'s Activity Tracker`;
 
   let sidebarHeader = document.querySelector('.sidebar-header-name');
-  sidebarHeader.innerText = user.name;
+  sidebarHeader.innerText = userNow.name;
 
   let userAddress = document.getElementById('userAddress');
-  userAddress.innerText = user.address;
+  userAddress.innerText = userNow.address;
 
   let userEmail = document.getElementById('userEmail');
-  userEmail.innerText = user.email;
+  userEmail.innerText = userNow.email;
 
   let userStrideLength = document.getElementById('userStridelength');
-  userStrideLength.innerText = `Your stridelength is ${user.strideLength} meters.`;
+  userStrideLength.innerText = `Your stridelength is ${userNow.strideLength} meters.`;
 
   let userStepGoal = document.querySelector('.step-goal-card');
-  userStepGoal.innerText = `Your daily step goal is ${user.dailyStepGoal}.`
+  userStepGoal.innerText = `Your daily step goal is ${userNow.dailyStepGoal}.`
 
-  //Right now, this is missing from the DOM interface! Not sure if we want to include this or remove both this method & html elements. The FitLit spec does say that this should be included
   let avgStepGoalCard = document.querySelector('.avg-step-goal-card')
-  avgStepGoalCard.innerText = `The average daily step goal is ${userStorage.calculateAverageStepGoal()}`;
+  avgStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}`;
 
   let friendList = document.getElementById('friendList');
-  friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(user, userStorage))
+  friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(userNow, userRepo))
 };
 
 function makeFriendHTML(user, userStorage) {
