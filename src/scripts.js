@@ -17,7 +17,7 @@ import HydrationRepo from './Hydration-repo';
 import SleepRepo from './Sleep-repo';
 import UserRepo from './User-repo';
 
-let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory, userNow;
+let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory, userNow, today;
 
 let sleepDataButton = document.querySelector('.sleep-data-button')
 let mainPage = document.querySelector('.main')
@@ -127,27 +127,10 @@ function startApp(userData, sleepData, activityData, hydrationData) {
   // console.log('userNowId', userNowId);
   userNow = generateRandomUser(userRepo, userNowId);
 
-  //Note: Former today was string of "2019/06/15"; new function below generates string of same format
-  // let today = generateCurrentDate();
-  // console.log(today)
-  // let userList = [];
-  // users are instantiated in the makeUser method and pushed into userList, which then is used to instantiate the userRepo.
-  // makeUsers(userList);
-  // let userRepo = new UserRepo(userList);
-  // userNowId is a random user chosen on page load through pickUser method.
-  // var userNowId = pickUser();
-  // userNow is the current random user.
-  // today is always 9/22/19
-  let today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
+  today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
-  //Some of this is hydration card functionality- not sure why it's in start app rather than in the hydration function below!
 
-  addInfoToSidebar(userNow, userRepo);
-  addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
-  let winnerNow = activityRepo.getStepChallengeWinner(userNow, today, userRepo)
-  addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow);
-  addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
-  addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
+  createDOMElements()
 }
 
 function generateRandomId(dataset) {
@@ -185,6 +168,14 @@ function generateCurrentDate() {
 // }
 
 ///////
+function createDOMElements() {
+  addInfoToSidebar(userNow, userRepo);
+  addHydrationInfo(userNow.id, hydrationRepo, today, userRepo, randomHistory);
+  let winnerNow = activityRepo.getStepChallengeWinner(userNow, today, userRepo)
+  addActivityInfo(userNow.id, activityRepo, today, userRepo, randomHistory, userNow);
+  addSleepInfo(userNow.id, sleepRepo, today, userRepo, randomHistory);
+  addFriendGameInfo(userNow.id, activityRepo, userRepo, today, randomHistory, userNow);
+}
 
 /* Dom functions */
 function addInfoToSidebar(user, userStorage) {
