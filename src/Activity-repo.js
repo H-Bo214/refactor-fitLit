@@ -75,6 +75,7 @@ class ActivityRepo extends DataRepo {
     let userStepData = userData.map((data) => data.numSteps);
     let userSum = userStepData.reduce((sum, data) => sum += data);
     let userInfo = {
+      id: id,
       name: userName,
       userData: userStepData,
       userSum: userSum
@@ -95,62 +96,8 @@ class ActivityRepo extends DataRepo {
     let friendActivityData = this.getFriendsActivityData(user, userRepo, date);
     friendActivityData.push(currentUserData);
     let sortedData = friendActivityData.sort((a, b) => b.userSum - a.userSum);
-    return sortedData[0].name
+    return [sortedData[0].name, sortedData[0].userSum, sortedData[0].id]
   }
-
-
-  // Friends(is for Iteration 5)
-    // Will need to refactor the 4 functions below. They use each other to currently function.
-
-/*
-- Starting with a friendActivityData array...
-- Return who has the most steps for that week.
--
-
-Get current user data for a week- map to
-
-- For each friend in the Activity Data array...
-  - Somehow incorporate current user
-  - Reduce their userData to a sum of steps- initialize with current user data- start accumulator as
-  - Reduce to do comparisons & store max value
-- Return the user with the greatest sum
-*/
-
-  displayWinner(user, date, userRepo) {
-
-
-
-    let namedList = this.displayStepChallengeWinner(user, date, userRepo);
-    let winner = this.displayStepChallengeWinner(user, date, userRepo).shift();
-    return winner;
-  }
-
-  getWinnerById(user, date, userRepo) {
-    let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
-    let keysList = rankedList.map(listItem => Object.keys(listItem));
-    return parseInt(keysList[0].join(''))
-  }
-
-
-    getFriendsAverageStepsForWeek(user, date, userRepo) {
-      let friendsActivity = this.getFriendsActivityData(user, userRepo);
-      let timeline = userRepo.getAllUsersWeekOfData(friendsActivity, date);
-      return userRepo.getRankedUserIDsWithDataAverages('numSteps', timeline)
-    }
-    //gets friends' average steps for week? need to review all methods to be sure of accuracy
-
-    displayStepChallengeWinner(user, date, userRepo) {
-      let rankedList = this.getFriendsAverageStepsForWeek(user, date, userRepo);
-      return rankedList.map(function(listItem) {
-        let userID = Object.keys(listItem)[0];
-        let userName = userRepo.getUserFromId(parseInt(userID)).name;
-        return `${userName}: ${listItem[userID]}`
-      })
-    }
-  //returns user's name & data for the challenge winner. WE DON'T WANT THIS HERE- THIS IS DOM
-
-
-
 
   displayIncreasedSteps(userRepo, id, dataKey) {
     let data = this.activityData;
