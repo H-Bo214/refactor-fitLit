@@ -106,8 +106,9 @@ function createDataRepos(userData, sleepData, activityData, hydrationData) {
   hydrationRepo = new HydrationRepo(hydrationData.hydrationData);
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
-  domUpdates.defineUserRepo(userRepo)
+  domUpdates.defineUserRepo(userRepo);
   domUpdates.defineHydrationRepo(hydrationRepo);
+  domUpdates.defineSleepRepo(sleepRepo);
   createUser();
 }
 
@@ -176,43 +177,25 @@ function addHydrationInfo() {
   domUpdates.displayWeeklyHydration();
 }
 
-
-
-
-
-
-function makeHydrationHTML(weekOfData) {
-  return weekOfData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
-}
-
 /*---------Sleep Dashboard Functions---------*/
 function addSleepInfo() {
-  let sleepToday = document.getElementById('sleepToday');
-  sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${sleepRepo.calcDailySleep(userNow.id, today, 'hoursSlept')}</span></p> <p>hours today.</p>`);
-
-  let sleepQualityToday = document.getElementById('sleepQualityToday');
-  sleepQualityToday.insertAdjacentHTML("afterBegin", `<p>Your sleep quality was</p> <p><span class="number">${sleepRepo.calcDailySleep(userNow.id, today, 'sleepQuality')}</span></p><p>out of 5.</p>`);
-
-  let userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
-  userAvgSleepQuality.insertAdjacentHTML("afterBegin", `<p>Your average sleep quality is</p> <p><span class="number">${Math.round(sleepRepo.calcAverageUserSleep(userNow.id, 'sleepQuality') *100)/100}</span></p><p>out of 5.</p>`);
-
-  let userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
-  userAvgSleepQuantity.insertAdjacentHTML("afterBegin", `<p>Your average hours slept is</p> <p><span class="number">${Math.round(sleepRepo.calcAverageUserSleep(userNow.id, 'hoursSlept') * 100)/100}</span></p><p>per day.</p>`)
-
-  let sleepThisWeek = document.getElementById('sleepThisWeek');
-  sleepThisWeek.insertAdjacentHTML('afterBegin', makeSleepHTML(userNow.id, sleepRepo, userRepo, sleepRepo.getWeekOfSleep(today, userNow.id).map(data => `${data.date}: ${data.hoursSlept}`)));
-
-  let sleepQualityWeek = document.getElementById('sleepQualityWeek');
-  sleepQualityWeek.insertAdjacentHTML('afterBegin', makeSleepQualityHTML(userNow.id, sleepRepo, userRepo, sleepRepo.getWeekOfSleep(today, userNow.id).map(data => `${data.date}: ${data.sleepQuality}`)));
+  domUpdates.displayDailySleep();
+  domUpdates.displayAverageDailySleep();
+  domUpdates.displayWeeklySleep(); 
 }
 
-function makeSleepHTML(id, sleepInfo, userStorage, method) {
-  return method.map(sleepData => `<li class="historical-list-listItem">On ${sleepData} hours</li>`).join('');
-}
 
-function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
-  return method.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
-}
+
+
+
+
+// function makeSleepHTML(id, sleepInfo, userStorage, method) {
+//   return method.map(sleepData => `<li class="historical-list-listItem">On ${sleepData} hours</li>`).join('');
+// }
+
+// function makeSleepQualityHTML(id, sleepInfo, userStorage, method) {
+//   return method.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
+// }
 
 /*---------Activity Dashboard Functions---------*/
 function addActivityInfo() {
