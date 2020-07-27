@@ -44,7 +44,6 @@ function getData() {
     .catch(err => console.error(err))
 }
 
-
 function postData(directory, body) {
   const root = 'https://fe-apps.herokuapp.com/api/v1/fitlit/1908/'
   fetch(root + directory, {
@@ -80,15 +79,15 @@ function createActivityBody() {
 }
 
 function clickHandler(event) {
-  if(event.target.id === 'sleep-submit') {
+  if (event.target.id === 'sleep-submit') {
     let sleepBody = createSleepBody();
     postData('sleep/sleepData', sleepBody)
   }
-  if(event.target.id === 'hydration-submit') {
+  if (event.target.id === 'hydration-submit') {
     let hydrationBody = createHydrationBody();
     postData('hydration/hydrationData', hydrationBody)
   }
-  if(event.target.id === 'activity-submit') {
+  if (event.target.id === 'activity-submit') {
     let activityBody = createActivityBody();
     postData('activity/activityData', activityBody)
   }
@@ -98,7 +97,7 @@ function submitButton(event) {
   event.preventDefault();
   clickHandler(event);
   backToMainPage();
-  }
+}
 
 /*---------Create Data Repos/Start App---------*/
 function createDataRepos(userData, sleepData, activityData, hydrationData) {
@@ -134,7 +133,7 @@ function generateRandomId(dataset) {
   let randNum = Math.ceil(Math.random() * dataset.users.length)
   if (randNum === 0) {
     randNum ++
-  };
+  }
   return randNum
 }
 
@@ -143,19 +142,19 @@ function generateRandomUser(userRepo, id) {
 };
 
 //Not being used right now; use to get date later
-function generateCurrentDate() {
-  const rawDate = new Date();
-  let day = rawDate.getDate();
-  if (day < 10) {
-    day = `0${day.toString()}`
-  };
-  let month = rawDate.getMonth() + 1;
-  if (month < 10) {
-    month = `0${month.toString()}`
-  };
-  const year = rawDate.getFullYear();
-  return `${year}/${month}/${day}`
-}
+// function generateCurrentDate() {
+//   const rawDate = new Date();
+//   let day = rawDate.getDate();
+//   if (day < 10) {
+//     day = `0${day.toString()}`
+//   };
+//   let month = rawDate.getMonth() + 1;
+//   if (month < 10) {
+//     month = `0${month.toString()}`
+//   };
+//   const year = rawDate.getFullYear();
+//   return `${year}/${month}/${day}`
+// }
 
 function createDashboard() {
   addInfoToSidebar();
@@ -211,13 +210,7 @@ function addFriendGameInfo() {
 // }
 
 
-// function makeFriendChallengeHTML(friendActivityData) {
-//   return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, averaged ${friendChallengeData.userSum} steps.</li>`).join('');
-// }
-
-
-
-/*---------Display Functions---------*/
+/*---------Display View Functions---------*/
 function accessSleepInputForm() {
   mainPage.classList.add('hidden')
   sleepInputPage.classList.remove('hidden')
