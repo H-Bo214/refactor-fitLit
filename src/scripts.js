@@ -107,15 +107,19 @@ function createDataRepos(userData, sleepData, activityData, hydrationData) {
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
   domUpdates.defineUserRepo(userRepo)
+  domUpdates.defineHydrationRepo(hydrationRepo);
   createUser();
 }
 
 function createUser() {
   let userNowId = generateRandomId(userRepo);
   userNow = generateRandomUser(userRepo, userNowId);
-  today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
+  // today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
+  today = '2020/01/22';
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
   domUpdates.defineUser(userNow);
+  domUpdates.defineToday(today);
+  domUpdates.defineRandomHistory(randomHistory); 
   createDashboard()
 }
 
@@ -166,61 +170,16 @@ function addInfoToSidebar() {
   domUpdates.displayUserGoals();
 }
 
-// function displayHeader() {
-//   let headerText = document.getElementById('headerText');
-//   headerText.innerText = `${userNow.getUserFirstName()}'s Activity Tracker`;
-// }
-
-// function displayUserInfo() {
-//   let sidebarHeader = document.querySelector('.sidebar-header-name');
-//   sidebarHeader.innerText = userNow.name;
-
-//   let userAddress = document.getElementById('userAddress');
-//   userAddress.innerText = userNow.address;
-
-//   let userEmail = document.getElementById('userEmail');
-//   userEmail.innerText = userNow.email;
-
-//   let friendList = document.getElementById('friendList');
-//   friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(userNow, userRepo))
-// }
-
-// function displayUserGoals() {
-//   let userStrideLength = document.getElementById('userStridelength');
-//   userStrideLength.innerText = `Your stride length is ${userNow.strideLength} meters.`;
-
-//   let userStepGoal = document.querySelector('.step-goal-card');
-//   userStepGoal.innerText = `Your daily step goal is ${userNow.dailyStepGoal}.`
-
-//   let avgStepGoalCard = document.querySelector('.avg-step-goal-card')
-//   avgStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}`;
-// }
-
-
-
-function makeFriendHTML(user, userStorage) {
-  return user.getFriendsNames(userStorage).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
-}
-
 /*---------Hydration Dashboard Functions---------*/
 function addHydrationInfo() {
-  let hydrationToday = document.getElementById('hydrationToday');
-  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationRepo.calcOuncesConsumedByDay(userNow.id, today)}</span></p><p>oz water today.</p>`);
-
-  let hydrationAverage = document.getElementById('hydrationAverage');
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationRepo.calcAvgOuncesConsumedByDay(userNow.id).toFixed(2)}</span></p> <p>oz per day.</p>`)
-
-  // Refactor .map((data) => `${data.date}: ${data.numOunces}`) at some point.
-  let hydrationThisWeek = document.getElementById('hydrationThisWeek');
-  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(hydrationRepo.calcWeekOunces(today, userNow.id).map((data) => `${data.date}: ${data.numOunces}`)));
-
-  let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
-  hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
-
-  let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
-  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(hydrationRepo.calcWeekOunces(randomHistory, userNow.id).map((data) => `${data.date}: ${data.numOunces}`)));
-
+  domUpdates.displayDailyHydration();
+  domUpdates.displayWeeklyHydration();
 }
+
+
+
+
+
 
 function makeHydrationHTML(weekOfData) {
   return weekOfData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
