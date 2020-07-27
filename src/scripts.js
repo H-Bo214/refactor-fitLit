@@ -2,9 +2,8 @@ import './css/style.scss';
 import './images/runner.jpg';
 import './images/track.svg';
 import './images/friends-running.jpg';
-// import domUpdates from '../src/domUpdates'
+import domUpdates from '../src/domUpdates'
 
-import User from './User';
 import ActivityRepo from './Activity-repo';
 import HydrationRepo from './Hydration-repo';
 import SleepRepo from './Sleep-repo';
@@ -107,7 +106,7 @@ function createDataRepos(userData, sleepData, activityData, hydrationData) {
   hydrationRepo = new HydrationRepo(hydrationData.hydrationData);
   sleepRepo = new SleepRepo(sleepData.sleepData);
   activityRepo = new ActivityRepo(activityData.activityData);
-
+  domUpdates.defineUserRepo(userRepo)
   createUser();
 }
 
@@ -116,8 +115,13 @@ function createUser() {
   userNow = generateRandomUser(userRepo, userNowId);
   today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
-
+  domUpdates.defineUser(userNow);
   createDashboard()
+}
+
+function makeToday(userStorage, id, dataSet) {
+  var sortedArray = userStorage.sortDataByDate(dataSet);
+  return sortedArray[0].date;
 }
 
 function generateRandomId(dataset) {
@@ -157,38 +161,45 @@ function createDashboard() {
 
 /*---------Header/Sidebar Functions---------*/
 function addInfoToSidebar() {
-  let headerText = document.getElementById('headerText');
-  headerText.innerText = `${userNow.getUserFirstName()}'s Activity Tracker`;
+  domUpdates.displayHeader();
+  domUpdates.displayUserInfo();
+  domUpdates.displayUserGoals();
+}
 
-  let sidebarHeader = document.querySelector('.sidebar-header-name');
-  sidebarHeader.innerText = userNow.name;
+// function displayHeader() {
+//   let headerText = document.getElementById('headerText');
+//   headerText.innerText = `${userNow.getUserFirstName()}'s Activity Tracker`;
+// }
 
-  let userAddress = document.getElementById('userAddress');
-  userAddress.innerText = userNow.address;
+// function displayUserInfo() {
+//   let sidebarHeader = document.querySelector('.sidebar-header-name');
+//   sidebarHeader.innerText = userNow.name;
 
-  let userEmail = document.getElementById('userEmail');
-  userEmail.innerText = userNow.email;
+//   let userAddress = document.getElementById('userAddress');
+//   userAddress.innerText = userNow.address;
 
-  let userStrideLength = document.getElementById('userStridelength');
-  userStrideLength.innerText = `Your stridelength is ${userNow.strideLength} meters.`;
+//   let userEmail = document.getElementById('userEmail');
+//   userEmail.innerText = userNow.email;
 
-  let userStepGoal = document.querySelector('.step-goal-card');
-  userStepGoal.innerText = `Your daily step goal is ${userNow.dailyStepGoal}.`
+//   let friendList = document.getElementById('friendList');
+//   friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(userNow, userRepo))
+// }
 
-  let avgStepGoalCard = document.querySelector('.avg-step-goal-card')
-  avgStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}`;
+// function displayUserGoals() {
+//   let userStrideLength = document.getElementById('userStridelength');
+//   userStrideLength.innerText = `Your stride length is ${userNow.strideLength} meters.`;
 
-  let friendList = document.getElementById('friendList');
-  friendList.insertAdjacentHTML('afterBegin', makeFriendHTML(userNow, userRepo))
-};
+//   let userStepGoal = document.querySelector('.step-goal-card');
+//   userStepGoal.innerText = `Your daily step goal is ${userNow.dailyStepGoal}.`
+
+//   let avgStepGoalCard = document.querySelector('.avg-step-goal-card')
+//   avgStepGoalCard.innerText = `The average daily step goal is ${userRepo.calculateAverageStepGoal()}`;
+// }
+
+
 
 function makeFriendHTML(user, userStorage) {
   return user.getFriendsNames(userStorage).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
-}
-
-function makeToday(userStorage, id, dataSet) {
-  var sortedArray = userStorage.sortDataByDate(dataSet);
-  return sortedArray[0].date;
 }
 
 /*---------Hydration Dashboard Functions---------*/
