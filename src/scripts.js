@@ -19,26 +19,16 @@ import UserRepo from './User-repo';
 
 let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory, userNow;
 
-let sleepDataButton = document.querySelector('.sleep-data-button')
 let mainPage = document.querySelector('.main')
 let sleepInputPage = document.querySelector('.sleep-input')
 let activityInputPage = document.querySelector('.activity-input')
-let activityDataButton = document.querySelector('.activity-data-button')
-let hydrationDataButton = document.querySelector('.hydration-data-button')
 let hydrationInputPage = document.querySelector('.hydration-input')
-let submitHydrationButton = document.getElementById('hydration-submit')
-let submitSleepButton = document.getElementById('sleep-submit')
-let submitActivityButton = document.getElementById('activity-submit')
 
-sleepDataButton.addEventListener('click', accessSleepInputForm)
-activityDataButton.addEventListener('click', accessActivityInputForm)
-hydrationDataButton.addEventListener('click', accessHydrationInputForm)
-submitHydrationButton.addEventListener('click', submitButton)
-submitSleepButton.addEventListener('click', submitButton)
-submitActivityButton.addEventListener('click', submitButton)
+
 
 
 window.onload = getData();
+setUpButtons();
 
 
 
@@ -84,7 +74,7 @@ function createHydrationBody() {
 }
 
 function createActivityBody() {
-  let userActivityDate = document.getElementById('acitivity-user-date').value
+  let userActivityDate = document.getElementById('activity-user-date').value
   let userNumberOfSteps = parseFloat(document.getElementById('user-step-number').value)
   let userMinutesActive = parseFloat(document.getElementById('user-minutes-active').value)
   let userStairsClimbed = parseFloat(document.getElementById('user-stairs-climbed').value)
@@ -374,6 +364,20 @@ function backToMainPage() {
   hydrationInputPage.classList.add('hidden')
 }
 
+function setUpButtons() {
+  let sleepDataButton = document.querySelector('.sleep-data-button')
+  let activityDataButton = document.querySelector('.activity-data-button')
+  let hydrationDataButton = document.querySelector('.hydration-data-button')
+  let submitHydrationButton = document.getElementById('hydration-submit')
+  let submitSleepButton = document.getElementById('sleep-submit')
+  let submitActivityButton = document.getElementById('activity-submit')
+  sleepDataButton.addEventListener('click', accessSleepInputForm)
+  activityDataButton.addEventListener('click', accessActivityInputForm)
+  hydrationDataButton.addEventListener('click', accessHydrationInputForm)
+  submitHydrationButton.addEventListener('click', submitButton)
+  submitSleepButton.addEventListener('click', submitButton)
+  submitActivityButton.addEventListener('click', submitButton)
+}
 
 // Should be invoked with window onload.
 // startApp();
