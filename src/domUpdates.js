@@ -5,6 +5,7 @@ const domUpdates = {
   randomHistory: null, 
   hydrationRepo: null, 
   sleepRepo: null, 
+  activityRepo: null,
 
   defineUser(user) {
     this.user = user;
@@ -28,6 +29,10 @@ const domUpdates = {
 
   defineSleepRepo(repo) {
     this.sleepRepo = repo; 
+  },
+
+  defineActivityRepo(repo) {
+    this.activityRepo = repo;
   },
 
   displayHeader() {
@@ -117,7 +122,78 @@ const domUpdates = {
 
   makeSleepQualityHTML(weekOfData) {
     return weekOfData.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
+  },
+
+  displayDailyActivity() {
+    let userStepsToday = document.getElementById('userStepsToday');
+    userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'numSteps')} (${this.activityRepo.getMilesByStepsForDate(this.user.id, this.today, this.userRepo)} miles)</span></p>`);
+
+    let userStairsToday = document.getElementById('userStairsToday');
+    userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'flightsOfStairs')}</span></p>`);
+
+    let userMinutesToday = document.getElementById('userMinutesToday');
+    userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'minutesActive')}</span></p>`);
+  },
+
+  displayAverageDailyActivity() {
+    let avgStepsToday = document.getElementById('avgStepsToday');
+    avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${this.activityRepo.getAllUsersAverageDataForDay(this.today, 'numSteps')}</span></p>`);
+
+    let avgStairsToday = document.getElementById('avgStairsToday');
+    avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${this.activityRepo.getAllUsersAverageDataForDay(this.today, 'flightsOfStairs')}</span></p>`);
+
+    let avgMinutesToday = document.getElementById('avgMinutesToday');
+    avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${this.activityRepo.getAllUsersAverageDataForDay(this.today, 'minutesActive')}</span></p>`);
+  },
+
+  displayWeeklyActivity() {
+    let userStepsThisWeek = document.getElementById('userStepsThisWeek');
+    userStepsThisWeek.insertAdjacentHTML("afterBegin", this.makeStepsHTML(this.activityRepo.getUserDataForWeek(this.user.id, this.today).map((data) => `${data.date}: ${data['numSteps']}`)));
+
+    let userStairsThisWeek = document.getElementById('userStairsThisWeek');
+    userStairsThisWeek.insertAdjacentHTML("afterBegin", this.makeStairsHTML(this.activityRepo.getUserDataForWeek(this.user.id, this.today).map((data) => `${data.date}: ${data['flightsOfStairs']}`)));
+
+    let userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
+    userMinutesThisWeek.insertAdjacentHTML("afterBegin", this.makeMinutesHTML(this.activityRepo.getUserDataForWeek(this.user.id, this.today).map((data) => `${data.date}: ${data['minutesActive']}`)));
+
+    let bestUserSteps = document.getElementById('bestUserSteps');
+    let winnerId = this.activityRepo.getStepChallengeWinner(this.user, this.today, this.userRepo)[2];
+    bestUserSteps.insertAdjacentHTML("afterBegin", this.makeStepsHTML(this.activityRepo.getUserDataForWeek(winnerId, this.today).map((data) => `${data.date}: ${data['numSteps']}`)));
+  },
+
+  makeStepsHTML(weekOfData) {
+    return weekOfData.map(activityData => `<li class="historical-list-listItem">On ${activityData} steps</li>`).join('');
+  },
+
+  makeStairsHTML(weekOfData) {
+    return weekOfData.map(data => `<li class="historical-list-listItem">On ${data} flights</li>`).join('');
+  },
+
+  makeMinutesHTML(weekOfData) {
+    return weekOfData.map(data => `<li class="historical-list-listItem">On ${data} minutes</li>`).join('');
+  },
+
+  displayWinner() {
+    let thisWeeksWinner = document.getElementById('bigWinner');
+    let winnerData = this.activityRepo.getStepChallengeWinner(this.user, this.today, this.userRepo);
+    thisWeeksWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${winnerData[0]}, ${winnerData[1]} steps`);  
+  },
+
+  displayFriendChallenge() {
+    let friendChallengeListToday = document.getElementById('friendChallengeListToday');
+    let friendDataThisWeek = this.activityRepo.getFriendsActivityData(this.user, this.userRepo, this.today);
+    friendChallengeListToday.insertAdjacentHTML("afterBegin", this.makeFriendChallengeHTML(friendDataThisWeek));
+
+    let friendChallengeListHistory = document.getElementById('friendChallengeListHistory');
+    let friendDataHistoricWeek = this.activityRepo.getFriendsActivityData(this.user, this.userRepo, this.randomHistory)
+    friendChallengeListHistory.insertAdjacentHTML("afterBegin", this.makeFriendChallengeHTML(friendDataHistoricWeek));
+  },
+
+  makeFriendChallengeHTML(friendActivityData) {
+    return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, averaged ${friendChallengeData.userSum} steps.</li>`).join('');
   }
+
+
 
 }
 
