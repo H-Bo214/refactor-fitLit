@@ -4,7 +4,7 @@ import ActivityRepo from '../src/Activity-repo';
 import DataRepo from '../src/Data-repo';
 import UserRepo from '../src/User-repo';
 
-describe.only('Activity', function() {
+describe('Activity', function() {
   let activityData, user1, user2, user3, users, userRepo, activityRepo;
 
   beforeEach(function() {

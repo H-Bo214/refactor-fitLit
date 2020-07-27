@@ -52,7 +52,7 @@ class SleepRepo extends DataRepo {
   // }
 
   calcAllUserSleepQuality() {
-    return this.calculateAverage(this.sleepData, 'sleepQuality');
+    return Math.round(this.calculateAverage(this.sleepData, 'sleepQuality'));
   }
 
   //DOUBLE CHECK THIS WORKS IN TEST SUITE  
@@ -85,11 +85,12 @@ class SleepRepo extends DataRepo {
   }
 
   getUsersWithMostSleepForDay(dataSet, userRepo) {
-    return dataSet.reduce((usersWithMaxSleep, data) => {
+    let users = dataSet.reduce((usersWithMaxSleep, data) => {
       let matchingUser = userRepo.users.find(user => user.id === data.userID); 
       usersWithMaxSleep.push(matchingUser);
-      return usersWithMaxSleep; 
+      return usersWithMaxSleep
     }, [])
+    return users.map(user => user.name)
   }
 
   //function for extracting user names for those who slept the most that week and the most that day: DELETING BECAUSE NOT NEEDED IN SPEC
