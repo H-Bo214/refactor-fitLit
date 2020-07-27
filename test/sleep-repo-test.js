@@ -222,7 +222,8 @@ it('should get users who slept the most number of hours on a specific date', fun
 })
 
   it('should return people with longest sleep for the day', function() {
-    expect(sleepRepo.getUsersWithMostSleepForDay(sleepData, userRepo, '2019/06/21')).to.eql([ 'Rainbow Dash', 'Allie McCarthy']);
+    let result = sleepRepo.getMaxSleepData('2019/06/21')
+    expect(sleepRepo.getUsersWithMostSleepForDay(result, userRepo)).to.eql([ 'Rainbow Dash', 'Allie McCarthy']);
   });
 
 });

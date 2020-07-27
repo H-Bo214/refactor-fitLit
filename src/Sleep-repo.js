@@ -84,8 +84,7 @@ class SleepRepo extends DataRepo {
     });
   }
 
-  getUsersWithMostSleepForDay(dataSet, userRepo, date) {
-    dataSet = this.getMaxSleepData(date)
+  getUsersWithMostSleepForDay(dataSet, userRepo) {
     let users = dataSet.reduce((usersWithMaxSleep, data) => {
       let matchingUser = userRepo.users.find(user => user.id === data.userID); 
       usersWithMaxSleep.push(matchingUser);

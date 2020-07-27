@@ -78,7 +78,7 @@ describe('Data Repo', function() {
   });
 
   it('should calculate an average', function() {
-    expect(Number(dataRepo.calculateAverage(sleepData,'sleepQuality').toFixed(1))).to.equal(2.6)
+    expect(Math.round(dataRepo.calculateAverage(sleepData,'sleepQuality') * 10) / 10).to.equal(2.6)
   });
 
   it('should return a specific users data', function() {
