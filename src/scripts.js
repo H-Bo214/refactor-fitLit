@@ -149,7 +149,10 @@ function startApp(userData, sleepData, activityData, hydrationData) {
 }
 
 function generateRandomId(dataset) {
-  let randNum = Math.floor(Math.random() * dataset.users.length);
+  let randNum = Math.ceil(Math.random() * dataset.users.length)
+  if (randNum === 0) {
+    randNum ++
+  };
   return randNum
 }
 
