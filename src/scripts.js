@@ -170,7 +170,7 @@ function generateCurrentDate() {
 ///////
 function createDOMElements() {
   addInfoToSidebar();
-  addHydrationInfo(userNow.id, hydrationRepo, today, userRepo, randomHistory);
+  addHydrationInfo();
   addActivityInfo(userNow.id, activityRepo, today, userRepo, randomHistory, userNow);
   addSleepInfo(userNow.id, sleepRepo, today, userRepo, randomHistory);
   addFriendGameInfo(userNow.id, activityRepo, userRepo, today, randomHistory, userNow);
@@ -216,33 +216,28 @@ function makeToday(userStorage, id, dataSet) {
   return sortedArray[0].date;
 }
 
-function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
-  // Currently displayed on the Hydration Dashboard.
-  // console.log('hydrationInfo.calcOuncesConsumedByDay(id, dateString)', hydrationInfo.calcOuncesConsumedByDay(id, dateString));
+
+function addHydrationInfo() {
   let hydrationToday = document.getElementById('hydrationToday');
-  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationInfo.calcOuncesConsumedByDay(id, dateString)}</span></p><p>oz water today.</p>`);
+  hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${hydrationRepo.calcOuncesConsumedByDay(userNow.id, today)}</span></p><p>oz water today.</p>`);
 
-  // Currently displayed on the Hydration Dashboard.
   let hydrationAverage = document.getElementById('hydrationAverage');
-  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calcAvgOuncesConsumedByDay(id).toFixed(2)}</span></p> <p>oz per day.</p>`)
+  hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationRepo.calcAvgOuncesConsumedByDay(userNow.id).toFixed(2)}</span></p> <p>oz per day.</p>`)
 
-  // Currently displayed on the Hydration Dashboard.
   // Refactor .map((data) => `${data.date}: ${data.numOunces}`) at some point.
   let hydrationThisWeek = document.getElementById('hydrationThisWeek');
-  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcWeekOunces(dateString, id).map((data) => `${data.date}: ${data.numOunces}`)));
+  hydrationThisWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(hydrationRepo.calcWeekOunces(today, userNow.id).map((data) => `${data.date}: ${data.numOunces}`)));
 
-// Currently displayed on the Hydration Dashboard.
   let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
   hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
 
-// Currently displayed on the Hydration Dashboard.
   let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
-  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calcWeekOunces(laterDateString, id).map((data) => `${data.date}: ${data.numOunces}`)));
+  hydrationRandomWeek.insertAdjacentHTML('afterBegin', makeHydrationHTML(hydrationRepo.calcWeekOunces(randomHistory, userNow.id).map((data) => `${data.date}: ${data.numOunces}`)));
 
 }
 
-function makeHydrationHTML(id, hydrationInfo, userStorage, method) {
-  return method.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
+function makeHydrationHTML(weekOfData) {
+  return weekOfData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
 }
 
 function addSleepInfo(id, sleepInfo, dateString, userStorage, laterDateString) {
