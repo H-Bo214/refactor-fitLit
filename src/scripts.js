@@ -27,8 +27,10 @@ let hydrationInputPage = document.querySelector('.hydration-input')
 
 
 
+
 window.onload = getData();
 setUpButtons();
+setUpInputs();
 
 
 
@@ -58,6 +60,20 @@ function postData(directory, body) {
   .then(response => console.log(response.status))
   .catch(err => console.error(err))
 }
+
+function allowNumbersOnlyHydrationDate(event) {
+  let key1 = event.keyCode;
+  if ((key1 < 48 || key1 > 57)) {
+    event.preventDefault();
+  }
+};
+
+function allowNumbersOnlyOunces(event) {
+  var key2 = event.keyCode;
+  if ((key2 < 48 || key2 > 57)) {
+    event.preventDefault();
+  }
+};
 
 function createSleepBody() {
   let userSleepDate = document.getElementById('sleep-user-date').value
@@ -377,6 +393,13 @@ function setUpButtons() {
   submitHydrationButton.addEventListener('click', submitButton)
   submitSleepButton.addEventListener('click', submitButton)
   submitActivityButton.addEventListener('click', submitButton)
+}
+
+function setUpInputs() {
+  let hydrationInputDate = document.getElementById('hydration-user-date')
+  let hydrationInputOunces = document.getElementById('user-ounces-number')
+  hydrationInputDate.addEventListener('keypress', allowNumbersOnlyHydrationDate);
+  hydrationInputOunces.addEventListener('keypress', allowNumbersOnlyOunces)
 }
 
 // Should be invoked with window onload.
