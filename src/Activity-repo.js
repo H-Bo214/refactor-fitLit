@@ -99,19 +99,31 @@ class ActivityRepo extends DataRepo {
     return [sortedData[0].name, sortedData[0].userSum, sortedData[0].id]
   }
 
-  displayIncreasedSteps(userRepo, id, dataKey) {
-    let data = this.activityData;
-    let sortedUserArray = (userRepo.sortDataByDate(id, data)).reverse();
-    let streaks = sortedUserArray.filter(function(element, index) {
-      if (index >= 2) {
-        return (sortedUserArray[index - 2][dataKey] < sortedUserArray[index - 1][dataKey] && sortedUserArray[index - 1][dataKey] < sortedUserArray[index][dataKey])
+  getIncreasinglyActiveDates(id, date) {
+    let weekOfData = this.getUserDataForWeek(id, date).reverse(); 
+    let increasinglyActiveDates = []
+    weekOfData.reduce((previousData, currentData) => {
+      if (currentData.minutesActive > previousData.minutesActive) {
+        increasinglyActiveDates.push(currentData.date)
       }
-    });
-    return streaks.map(function(streak) {
-      return streak.date;
-    })
+      previousData = currentData;
+      return previousData;  
+    }); 
+    return increasinglyActiveDates; 
   }
 
+  getThreeDayStepStreaks(id, date) {
+    let userData = this.getDataMatchingUserID(id, this.activityData);
+    let sortedData = this.sortDataByDate(userData);
+    let indexOfDate = this.getIndexOfDate(date, sortedData);
+    let monthOfData = this.getDataInDateSpan(indexOfDate, 30, sortedData).reverse();
+    return monthOfData.reduce((streakDays, currentDay, i, month) => {
+      if (i >= 2 && currentDay.numSteps > month[i - 1].numSteps && month[i - 1].numSteps > month[i - 2].numSteps) {
+        streakDays.push(currentDay.date);
+      }
+      return streakDays; 
+    }, []);
+  }
 }
 
 
