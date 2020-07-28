@@ -84,7 +84,7 @@ const domUpdates = {
   },
 
   displayWeeklyHydration() {
-    //Have not been able to get this method to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
+    //Have not been able to get weeklyData to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
     let hydrationThisWeek = document.getElementById('hydrationThisWeek');
     let weeklyData = this.hydrationRepo.calcWeekOunces(this.today, this.user.id);
     hydrationThisWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(weeklyData));
@@ -93,7 +93,7 @@ const domUpdates = {
     let historicWeekHeaderText = `Week of ${this.randomHistory}`;
     hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', historicWeekHeaderText));
 
-//Have not been able to get this method to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
+    //Have not been able to get this method to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
     let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
     let randomWeeklyData = this.hydrationRepo.calcWeekOunces(this.randomHistory, this.user.id);
     hydrationRandomWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(randomWeeklyData));
@@ -107,24 +107,24 @@ const domUpdates = {
 /*---------Activity Dashboard Methods---------*/
   displayDailyActivity() {
     let userStepsToday = document.getElementById('userStepsToday');
-    userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'numSteps')} (${this.activityRepo.getMilesByStepsForDate(this.user.id, this.today, this.userRepo)} miles)</span></p>`);
+    userStepsToday.insertAdjacentHTML("afterBegin", `${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'numSteps')} <br> (${this.activityRepo.getMilesByStepsForDate(this.user.id, this.today, this.userRepo)} miles)`);
 
     let userStairsToday = document.getElementById('userStairsToday');
-    userStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count:</p><p>You</><p><span class="number">${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'flightsOfStairs')}</span></p>`);
+    userStairsToday.insertAdjacentHTML("afterBegin", this.activityRepo.getUserDataByDate(this.user.id, this.today, 'flightsOfStairs'));
 
     let userMinutesToday = document.getElementById('userMinutesToday');
-    userMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>You</p><p><span class="number">${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'minutesActive')}</span></p>`);
+    userMinutesToday.insertAdjacentHTML("afterBegin", this.activityRepo.getUserDataByDate(this.user.id, this.today, 'minutesActive'));
   },
 
   displayAverageDailyActivity() {
     let avgStepsToday = document.getElementById('avgStepsToday');
-    avgStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>All Users</p><p><span class="number">${this.activityRepo.getAllUsersAverageDataForDay(this.today, 'numSteps')}</span></p>`);
+    avgStepsToday.insertAdjacentHTML("afterBegin", this.activityRepo.getAllUsersAverageDataForDay(this.today, 'numSteps'));
 
     let avgStairsToday = document.getElementById('avgStairsToday');
-    avgStairsToday.insertAdjacentHTML("afterBegin", `<p>Stair Count: </p><p>All Users</p><p><span class="number">${this.activityRepo.getAllUsersAverageDataForDay(this.today, 'flightsOfStairs')}</span></p>`);
+    avgStairsToday.insertAdjacentHTML("afterBegin", this.activityRepo.getAllUsersAverageDataForDay(this.today, 'flightsOfStairs'));
 
     let avgMinutesToday = document.getElementById('avgMinutesToday');
-    avgMinutesToday.insertAdjacentHTML("afterBegin", `<p>Active Minutes:</p><p>All Users</p><p><span class="number">${this.activityRepo.getAllUsersAverageDataForDay(this.today, 'minutesActive')}</span></p>`);
+    avgMinutesToday.insertAdjacentHTML("afterBegin", this.activityRepo.getAllUsersAverageDataForDay(this.today, 'minutesActive'));
   },
 
   displayWeeklyActivity() {
