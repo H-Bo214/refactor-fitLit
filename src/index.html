@@ -208,48 +208,52 @@
       </aside>
     </section>
   </main>
-
-  <div class="sleep-input hidden">
-    <section class="data-form">
-      <form>
-        <h2>Add New Sleep Data</h2>
-            <label for="sleep-user-date">Date</label>
-            <input type="text" name="sleep-user-date" id="sleep-user-date" placeholder="yyyy/mm/dd">
-            <label for="user-hours-slept">Hours Slept</label>
-            <input type="number" name="user-hours-slept" id="user-hours-slept" min="0" max="40">
-            <label for="user-sleep-quality">Sleep Quality</label>
-            <input type="number" name="user-sleep-quality" id="user-sleep-quality" min="1" max="5" placeholder="Enter a number from 1-5" step=".1">
-            <input value="Submit" class="submit-info" id="sleep-submit" type="submit">
-      </form>
-    </section>
+  <section class="input-forms">
+    <div class="sleep-input hidden">
+      <section class="data-form">
+        <form>
+          <h2>Add New Sleep Data</h2>
+              <label for="sleep-user-date">Date</label>
+              <input type="text" name="sleep-user-date" id="sleep-user-date" placeholder="yyyy/mm/dd">
+              <label for="user-hours-slept">Hours Slept</label>
+              <input type="number" name="user-hours-slept" id="user-hours-slept" min="0" max="40">
+              <label for="user-sleep-quality">Sleep Quality</label>
+              <input type="number" name="user-sleep-quality" id="user-sleep-quality" min="1" max="5" placeholder="Enter a number from 1-5" step=".1">
+              <input value="Submit" class="submit-info" id="sleep-submit" type="submit">
+        </form>
+        <button class="back-home">← Back Home</button>
+      </section>
+      </div>
+      <div class="activity-input hidden">
+      <section class="data-form">
+        <form>
+          <h2>Add New Activity Data</h2>
+              <label for="activity-user-date">Date</label>
+              <input type="text" name="activity-user-date" id="activity-user-date" placeholder="yyyy/mm/dd">
+              <label for="user-step-number">Number of Steps</label>
+              <input type="number" name="user-step-number" id="user-step-number" mix="0">
+              <label for="user-minutes-active">Active Minutes</label>
+              <input type="number" name="user-minutes-active" id="user-minutes-active" min="0">
+              <label for="user-stairs-climbed">Flight of Stairs Climbed</label>
+              <input type="number" name="user-stairs-climbed" id="user-stairs-climbed" min="0">
+              <button class="submit-info" id="activity-submit">Submit</button>
+        </form>
+        <button class="back-home">← Back Home</button>
+      </section>
+      </div>
+      <div class ="hydration-input hidden">
+      <section class="data-form">
+        <form>
+          <h2>Add New Hydration Data</h2>
+              <label for="hydration-user-date">Date</label>
+              <input type="text" name="hydration-user-date" id="hydration-user-date" placeholder="yyyy/mm/dd">
+              <label for="user-ounces-number">Ounces of Water Drank</label>
+              <input type="number" name="user-ounces-number" id="user-ounces-number" min="0">
+              <button class="submit-info" id="hydration-submit">Submit</button>
+        </form>
+        <button class="back-home">← Back Home</button>
+      </section>
     </div>
-    <div class="activity-input hidden">
-    <section class="data-form">
-      <form>
-        <h2>Add New Activity Data</h2>
-            <label for="activity-user-date">Date</label>
-            <input type="text" name="activity-user-date" id="activity-user-date" placeholder="yyyy/mm/dd">
-            <label for="user-step-number">Number of Steps</label>
-            <input type="number" name="user-step-number" id="user-step-number" mix="0">
-            <label for="user-minutes-active">Active Minutes</label>
-            <input type="number" name="user-minutes-active" id="user-minutes-active" min="0">
-            <label for="user-stairs-climbed">Flight of Stairs Climbed</label>
-            <input type="number" name="user-stairs-climbed" id="user-stairs-climbed" min="0">
-            <button class="submit-info" id="activity-submit">Submit</button>
-      </form>
-    </section>
-    </div>
-    <div class ="hydration-input hidden">
-    <section class="data-form">
-      <form>
-        <h2>Add New Hydration Data</h2>
-            <label for="hydration-user-date">Date</label>
-            <input type="text" name="hydration-user-date" id="hydration-user-date" placeholder="yyyy/mm/dd">
-            <label for="user-ounces-number">Ounces of Water Drank</label>
-            <input type="number" name="user-ounces-number" id="user-ounces-number" min="0">
-            <button class="submit-info" id="hydration-submit">Submit</button>
-      </form>
-    </section>
-  </div>
+  </section>
 </body>
 </html>
