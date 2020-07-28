@@ -4,6 +4,9 @@ const spies = require('chai-spies');
 import domUpdates from '../src/domUpdates';
 import User from '../src/User'
 import UserRepo from '../src/User-repo'
+import Hydration from '../src/Hydration'
+import HydrationRepo from '../src/Hydration-repo'
+import DataRepo from '../src/Data-repo'
 
 chai.use(spies);
 
@@ -18,14 +21,35 @@ describe.only('domUpdates', function() {
       "dailyStepGoal": 10000,
       "friends": []
     }
+
+    const hydrationData =[
+      {
+        "userID": 999,
+        "date": "2019/06/15",
+        "numOunces": 37
+      },
+      {
+        "userID": 999,
+        "date": "2019/06/16",
+        "numOunces": 38
+      },
+      {
+        "userID": 999,
+        "date": "2019/09/19",
+        "numOunces": 30
+      },
+    ]
     domUpdates.userRepo = new UserRepo([user1]);
-    domUpdates.user = domUpdates.userRepo.users[0]
+    domUpdates.user = domUpdates.userRepo.users[0];
+    domUpdates.hydrationRepo = new HydrationRepo(hydrationData);
+    domUpdates.today = "2019/06/15";
 
     global.document = {};
-    chai.spy.on(document, ['getElementById', 'querySelector'], () => {
+    chai.spy.on(document, ['getElementById', 'querySelector', 'querySelectorAll'], () => {
       return {
         innerText: '',
-        insertAdjacentHTML: () => {}
+        insertAdjacentHTML: () => {},
+        forEach: () => {}
       }
     });
   });
@@ -39,6 +63,7 @@ describe.only('domUpdates', function() {
 
   it('should spy on displayUserInfo', function() {
     domUpdates.displayUserInfo();
+    // console.log(domUpdates)
 
     expect(document.querySelector).to.have.been.called(1)
     expect(document.querySelector).to.have.been.called.with('.sidebar-header-name')
@@ -56,5 +81,23 @@ describe.only('domUpdates', function() {
     expect(document.querySelector).to.have.been.called.with('.avg-step-goal-card')
     expect(document.getElementById).to.have.been.called(1)
     expect(document.getElementById).to.have.been.called.with('userStridelength')
+  })
+
+  it('should spy on displayDailyHydration', function() {
+    domUpdates.displayDailyHydration();
+
+    expect(document.getElementById).to.have.been.called(2)
+    expect(document.getElementById).to.have.been.called.with('hydrationToday')
+    expect(document.getElementById).to.have.been.called.with('hydrationAverage')
+  })
+
+  it('should spy on displayWeeklyHydration', function() {
+    domUpdates.displayWeeklyHydration();
+
+    expect(document.getElementById).to.have.been.called(2)
+    expect(document.getElementById).to.have.been.called.with('hydrationThisWeek')
+    expect(document.getElementById).to.have.been.called.with('hydrationEarlierWeek')
+    expect(document.querySelectorAll).to.have.been.called(1)
+    expect(document.querySelectorAll).to.have.been.called.with('.historicalWeek')
   })
 })
