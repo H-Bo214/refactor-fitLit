@@ -136,17 +136,21 @@ const domUpdates = {
 
   displayWeeklyActivity() {
     let userStepsThisWeek = document.getElementById('userStepsThisWeek');
-    userStepsThisWeek.insertAdjacentHTML("afterBegin", this.makeStepsHTML(this.activityRepo.getUserDataForWeek(this.user.id, this.today).map((data) => `${data.date}: ${data['numSteps']}`)));
+    let userStepCountWeek = this.activityRepo.getUserDataForWeek(this.user.id, this.today);
+    userStepsThisWeek.insertAdjacentHTML("afterBegin", this.makeStepsHTML(userStepCountWeek.map((data) => `${data.date}: ${data['numSteps']}`)));
 
     let userStairsThisWeek = document.getElementById('userStairsThisWeek');
-    userStairsThisWeek.insertAdjacentHTML("afterBegin", this.makeStairsHTML(this.activityRepo.getUserDataForWeek(this.user.id, this.today).map((data) => `${data.date}: ${data['flightsOfStairs']}`)));
+    let userStairCountWeek = this.activityRepo.getUserDataForWeek(this.user.id, this.today);
+    userStairsThisWeek.insertAdjacentHTML("afterBegin", this.makeStairsHTML(userStairCountWeek.map((data) => `${data.date}: ${data['flightsOfStairs']}`)));
 
     let userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
-    userMinutesThisWeek.insertAdjacentHTML("afterBegin", this.makeMinutesHTML(this.activityRepo.getUserDataForWeek(this.user.id, this.today).map((data) => `${data.date}: ${data['minutesActive']}`)));
+    let userMinutesActiveWeek = this.activityRepo.getUserDataForWeek(this.user.id, this.today);
+    userMinutesThisWeek.insertAdjacentHTML("afterBegin", this.makeMinutesHTML(userMinutesActiveWeek.map((data) => `${data.date}: ${data['minutesActive']}`)));
 
     let bestUserSteps = document.getElementById('bestUserSteps');
     let winnerId = this.activityRepo.getStepChallengeWinner(this.user, this.today, this.userRepo)[2];
-    bestUserSteps.insertAdjacentHTML("afterBegin", this.makeStepsHTML(this.activityRepo.getUserDataForWeek(winnerId, this.today).map((data) => `${data.date}: ${data['numSteps']}`)));
+    let winnerStepCountWeek = this.activityRepo.getUserDataForWeek(winnerId, this.today);
+    bestUserSteps.insertAdjacentHTML("afterBegin", this.makeStepsHTML(winnerStepCountWeek.map((data) => `${data.date}: ${data['numSteps']}`)));
   },
 
   makeStepsHTML(weekOfData) {
