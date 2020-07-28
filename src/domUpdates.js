@@ -66,30 +66,36 @@ const domUpdates = {
   },
 
   makeFriendHTML() {
-    return this.user.getFriendsNames(this.userRepo).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
+    let friendsNames = this.user.getFriendsNames(this.userRepo)
+    return friendsNames.map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
   },
 
   displayDailyHydration() {
     let hydrationToday = document.getElementById('hydrationToday');
-    hydrationToday.insertAdjacentHTML('afterBegin', `<p>You drank</p><p><span class="number">${this.hydrationRepo.calcOuncesConsumedByDay(this.user.id, this.today)}</span></p><p>oz water today.</p>`);
+    let ozToday = this.hydrationRepo.calcOuncesConsumedByDay(this.user.id, this.today)
+    hydrationToday.insertAdjacentHTML('afterBegin', ozToday);
 
     let hydrationAverage = document.getElementById('hydrationAverage');
-    hydrationAverage.insertAdjacentHTML('afterBegin', `<p>Your average water intake is</p><p><span class="number">${this.hydrationRepo.calcAvgOuncesConsumedByDay(this.user.id).toFixed(2)}</span></p> <p>oz per day.</p>`)
+    let averageOz = this.hydrationRepo.calcAvgOuncesConsumedByDay(this.user.id).toFixed(2);
+    hydrationAverage.insertAdjacentHTML('afterBegin', averageOz)
   },
 
   displayWeeklyHydration() {
     let hydrationThisWeek = document.getElementById('hydrationThisWeek');
-    hydrationThisWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)));
+    let weeklyData = this.hydrationRepo.calcWeekOunces(this.today, this.user.id);
+    hydrationThisWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(weeklyData));
 
     let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
     hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${this.randomHistory}`));
 
     let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
-    hydrationRandomWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(this.hydrationRepo.calcWeekOunces(this.randomHistory, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)));
+    let randomWeeklyData = this.hydrationRepo.calcWeekOunces(this.randomHistory, this.user.id);
+    hydrationRandomWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(randomWeeklyData));
   },
 
   makeHydrationHTML(weekOfData) {
-    return weekOfData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
+    let formattedData = weekOfData.map((data) => `${data.date}: ${data.numOunces}`);
+    return formattedData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
   },
 
   displayDailySleep() {
