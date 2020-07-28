@@ -107,24 +107,31 @@ const domUpdates = {
 /*---------Activity Dashboard Methods---------*/
   displayDailyActivity() {
     let userStepsToday = document.getElementById('userStepsToday');
-    userStepsToday.insertAdjacentHTML("afterBegin", `${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'numSteps')} <br> (${this.activityRepo.getMilesByStepsForDate(this.user.id, this.today, this.userRepo)} miles)`);
+    let userStepCount = this.activityRepo.getUserDataByDate(this.user.id, this.today, 'numSteps');
+    let userStepCountMiles = this.activityRepo.getMilesByStepsForDate(this.user.id, this.today, this.userRepo);
+    userStepsToday.insertAdjacentHTML("afterBegin", `${userStepCount} <br> (${userStepCountMiles} miles)`);
 
     let userStairsToday = document.getElementById('userStairsToday');
-    userStairsToday.insertAdjacentHTML("afterBegin", this.activityRepo.getUserDataByDate(this.user.id, this.today, 'flightsOfStairs'));
+    let userStairCount = this.activityRepo.getUserDataByDate(this.user.id, this.today, 'flightsOfStairs');
+    userStairsToday.insertAdjacentHTML("afterBegin", userStairCount);
 
     let userMinutesToday = document.getElementById('userMinutesToday');
-    userMinutesToday.insertAdjacentHTML("afterBegin", this.activityRepo.getUserDataByDate(this.user.id, this.today, 'minutesActive'));
+    let userActiveMinutes = this.activityRepo.getUserDataByDate(this.user.id, this.today, 'minutesActive')
+    userMinutesToday.insertAdjacentHTML("afterBegin", userActiveMinutes);
   },
 
   displayAverageDailyActivity() {
     let avgStepsToday = document.getElementById('avgStepsToday');
-    avgStepsToday.insertAdjacentHTML("afterBegin", this.activityRepo.getAllUsersAverageDataForDay(this.today, 'numSteps'));
+    let allUserStepCount = this.activityRepo.getAllUsersAverageDataForDay(this.today, 'numSteps');
+    avgStepsToday.insertAdjacentHTML("afterBegin", allUserStepCount);
 
     let avgStairsToday = document.getElementById('avgStairsToday');
-    avgStairsToday.insertAdjacentHTML("afterBegin", this.activityRepo.getAllUsersAverageDataForDay(this.today, 'flightsOfStairs'));
+    let allUserStairCount = this.activityRepo.getAllUsersAverageDataForDay(this.today, 'flightsOfStairs');
+    avgStairsToday.insertAdjacentHTML("afterBegin", allUserStairCount);
 
     let avgMinutesToday = document.getElementById('avgMinutesToday');
-    avgMinutesToday.insertAdjacentHTML("afterBegin", this.activityRepo.getAllUsersAverageDataForDay(this.today, 'minutesActive'));
+    let allUserActiveMinutes = this.activityRepo.getAllUsersAverageDataForDay(this.today, 'minutesActive');
+    avgMinutesToday.insertAdjacentHTML("afterBegin", allUserActiveMinutes);
   },
 
   displayWeeklyActivity() {
