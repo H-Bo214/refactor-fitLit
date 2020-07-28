@@ -210,21 +210,6 @@ function addFriendGameInfo() {
   domUpdates.displayFriendChallenge();
 }
 
-//These currently need to be refactored in Activity Repo! Then, we'll need to hook these back up to our display methods here.
-
-// function createStepStreak(activeDates) {
-//   return activeDates.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
-// };
-
-// function addIncreasinglyActiveInfo(id, dateString, activityInfo, userStorage, laterDateString, user) {
-//   let increasedActivityStreak = document.getElementById('streakListMinutes')
-//   increasedActivityStreak.insertAdjacentHTML("afterBegin", createStepStreak(activityRepo.getIncreasinglyActiveDates(id, dateString, 'minutesActive')));
-  
-//   // let stepStreak = document.getElementById('streakList');
-//   // stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(userNow.id, activityRepo, userRepo, activityRepo.displayIncreasedSteps(userRepo, userNow.id, 'numSteps')));
-// } 
-
-
 /*---------Display View Functions---------*/
 function accessSleepInputForm() {
   mainPage.classList.add('hidden')

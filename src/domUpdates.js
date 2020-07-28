@@ -193,23 +193,17 @@ const domUpdates = {
     return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, averaged ${friendChallengeData.userSum} steps.</li>`).join('');
   },
 
-  //NEW
+  createStepStreak(activeDates) {
+    return activeDates.map(date => `<li class="historical-list-listItem">${date}</li>`).join('');
+  },
 
+  addIncreasinglyActiveInfo() {
+    let increasedActivityStreak = document.getElementById('streakListMinutes')
+    increasedActivityStreak.insertAdjacentHTML("afterBegin", this.createStepStreak(this.activityRepo.getIncreasinglyActiveDates(this.user.id, this.today)));
 
- createStepStreak(activeDates) {
-  return activeDates.map(date => `<li class="historical-list-listItem">${date}</li>`).join('');
-},
-
-addIncreasinglyActiveInfo() {
-  let increasedActivityStreak = document.getElementById('streakListMinutes')
-  increasedActivityStreak.insertAdjacentHTML("afterBegin", this.createStepStreak(this.activityRepo.getIncreasinglyActiveDates(this.user.id, this.today, 'minutesActive')));
-
-  // let stepStreak = document.getElementById('streakList');
-  // stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(userNow.id, activityRepo, userRepo, activityRepo.displayIncreasedSteps(userRepo, userNow.id, 'numSteps')));
-} 
-
-
-
+    let stepStreak = document.getElementById('streakList');
+    stepStreak.insertAdjacentHTML("afterBegin", this.createStepStreak(this.activityRepo.getThreeDayStepStreaks(this.user.id, this.today)))
+  } 
 }
 
 module.exports = domUpdates
