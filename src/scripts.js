@@ -3,7 +3,6 @@ import './images/runner.jpg';
 import './images/track.svg';
 import './images/friends-running.jpg';
 import domUpdates from '../src/domUpdates'
-
 import ActivityRepo from './Activity-repo';
 import HydrationRepo from './Hydration-repo';
 import SleepRepo from './Sleep-repo';
@@ -11,25 +10,38 @@ import UserRepo from './User-repo';
 
 let userRepo, hydrationRepo, sleepRepo, activityRepo, randomHistory, userNow, today;
 
-let sleepDataButton = document.querySelector('.sleep-data-button')
+let mainPageButtons = document.querySelector('.button');
+let dataFormSection = document.querySelector('.input-forms');
 let mainPage = document.querySelector('.main')
 let sleepInputPage = document.querySelector('.sleep-input')
 let activityInputPage = document.querySelector('.activity-input')
-let activityDataButton = document.querySelector('.activity-data-button')
-let hydrationDataButton = document.querySelector('.hydration-data-button')
 let hydrationInputPage = document.querySelector('.hydration-input')
-let submitHydrationButton = document.getElementById('hydration-submit')
-let submitSleepButton = document.getElementById('sleep-submit')
-let submitActivityButton = document.getElementById('activity-submit')
 
-sleepDataButton.addEventListener('click', accessSleepInputForm)
-activityDataButton.addEventListener('click', accessActivityInputForm)
-hydrationDataButton.addEventListener('click', accessHydrationInputForm)
-submitHydrationButton.addEventListener('click', submitButton)
-submitSleepButton.addEventListener('click', submitButton)
-submitActivityButton.addEventListener('click', submitButton)
+mainPageButtons.addEventListener('click', mainPageClickAnalyzer);
+dataFormSection.addEventListener('click', formClickAnalyzer);
 
 window.onload = getData();
+
+function mainPageClickAnalyzer(event) {
+  if (event.target.classList.contains('sleep-data-button')) {
+    accessSleepInputForm();
+  }
+  if (event.target.classList.contains('activity-data-button')) {
+    accessActivityInputForm();
+  }
+  if (event.target.classList.contains('hydration-data-button')) {
+    accessHydrationInputForm();
+  }
+}
+
+function formClickAnalyzer(event) {
+  if (event.target.classList.contains('back-home')) {
+    backToMainPage();
+  }
+  if (event.target.classList.contains('submit-info')) {
+    submitButton();
+  }
+}
 
 /*---------GET/POST Functions---------*/
 function getData() {
@@ -45,7 +57,7 @@ function getData() {
 }
 
 function postData(directory, body) {
-  const root = 'https://fe-apps.herokuapp.com/api/v1/fitlit/1908/'
+  const root = 'https://fe-apps.herokuapp.com/api/v1/fitlit/1908/'  
   fetch(root + directory, {
     method: 'POST',
     headers: {
@@ -53,8 +65,8 @@ function postData(directory, body) {
     },
     body: JSON.stringify(body),
   })
-  .then(response => console.log(response.status))
-  .catch(err => console.error(err))
+    .then(response => console.log(response.status))
+    .catch(err => console.error(err))
 }
 
 function createSleepBody() {
@@ -78,7 +90,7 @@ function createActivityBody() {
   return {userID: userNow.id, date: userActivityDate, numSteps: userNumberOfSteps, minutesActive: userMinutesActive, flightsOfStairs: userStairsClimbed}
 }
 
-function clickHandler(event) {
+function formSubmitClickHandler(event) {
   if (event.target.id === 'sleep-submit') {
     let sleepBody = createSleepBody();
     postData('sleep/sleepData', sleepBody)
@@ -95,7 +107,7 @@ function clickHandler(event) {
 
 function submitButton(event) {
   event.preventDefault();
-  clickHandler(event);
+  formSubmitClickHandler(event);
   backToMainPage();
 }
 
@@ -115,8 +127,8 @@ function createDataRepos(userData, sleepData, activityData, hydrationData) {
 function createUser() {
   let userNowId = generateRandomId(userRepo);
   userNow = generateRandomUser(userRepo, userNowId);
-  // today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
-  today = '2020/01/22';
+  today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
+  // today = '2020/01/22';
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
   domUpdates.defineUser(userNow);
   domUpdates.defineToday(today);
@@ -139,7 +151,7 @@ function generateRandomId(dataset) {
 
 function generateRandomUser(userRepo, id) {
   return userRepo.getUserFromId(id);
-};
+}
 
 //Not being used right now; use to get date later
 // function generateCurrentDate() {
