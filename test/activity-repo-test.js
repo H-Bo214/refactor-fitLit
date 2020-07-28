@@ -82,7 +82,7 @@ describe('Activity', function() {
       {
         "userID": 2,
         "date": "2019/06/12",
-        "numSteps": 4000,
+        "numSteps": 6000,
         "minutesActive": 120,
         "flightsOfStairs": 10
       },
@@ -96,7 +96,7 @@ describe('Activity', function() {
       {
         "userID": 2,
         "date": "2019/06/10",
-        "numSteps": 4000,
+        "numSteps": 2000,
         "minutesActive": 120,
         "flightsOfStairs": 10
       },
@@ -261,13 +261,13 @@ describe('Activity', function() {
   it('should return all days that a given user exceeded their step goal', function() {
     expect(activityRepo.exceededStepGoalForDay(1, userRepo)).to.deep.equal(
       [
-      '2019/06/15',
-      "2019/06/14",
-      "2019/06/13",
-      "2019/06/12",
-      "2019/06/11",
-      "2019/06/10",
-      "2019/06/09"
+        '2019/06/15',
+        "2019/06/14",
+        "2019/06/13",
+        "2019/06/12",
+        "2019/06/11",
+        "2019/06/10",
+        "2019/06/09"
       ]
     );
   });
@@ -313,7 +313,7 @@ describe('Activity', function() {
         {
           id: 2,
           name: "Allie McCarthy",
-          userData: [4000, 4000, 4000, 4000, 4000, 4000, 4000],
+          userData: [4000, 4000, 4000, 6000, 4000, 2000, 4000],
           userSum: 28000
         },
         {
@@ -330,17 +330,15 @@ describe('Activity', function() {
     expect(activityRepo.getStepChallengeWinner(userRepo.users[0], "2019/06/15", userRepo)[0]).to.equal('Alex Roth')
   })
 
-  it.only('should know the ID of the winning friend', function() {
+  it('should know the ID of the winning friend', function() {
     expect(activityRepo.getStepChallengeWinner(userRepo.users[0], '2019/06/15', userRepo)[2]).to.equal(1)
   });
 
-  //THIS SECTION HAS NOT BEEN EDITED YET
-
-  it('should show a 3-day increasing streak for a users step count', function() {
-    expect(activityRepo.displayIncreasedSteps(userRepo, 11, 'numSteps')).to.deep.equal(['2019/06/17'])
+  it('should show be able to calculate the days over a week that a user was increasingly active', function() {
+    expect(activityRepo.getIncreasinglyActiveDates(11, '2019/06/17')).to.deep.equal(['2019/06/16', '2019/06/17'])
   });
 
   it('should show a 3-day increasing streak for a users minutes of activity', function() {
-    expect(activityRepo.displayIncreasedSteps(userRepo, 11, 'minutesActive')).to.equal(['2019/06/17'])
+    expect(activityRepo.getThreeDayStepStreaks(2, '2019/06/15')).to.deep.equal(['2019/06/12'])
   });
 });
