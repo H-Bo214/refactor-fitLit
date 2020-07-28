@@ -82,7 +82,7 @@ function createHydrationBody() {
 }
 
 function createActivityBody() {
-  let userActivityDate = document.getElementById('acitivity-user-date').value
+  let userActivityDate = document.getElementById('activity-user-date').value
   let userNumberOfSteps = parseFloat(document.getElementById('user-step-number').value)
   let userMinutesActive = parseFloat(document.getElementById('user-minutes-active').value)
   let userStairsClimbed = parseFloat(document.getElementById('user-stairs-climbed').value)
