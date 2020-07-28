@@ -66,6 +66,7 @@ class ActivityRepo extends DataRepo {
     let sortedData = this.sortDataByDate(userData);
     let indexOfDate = this.getIndexOfDate(date, sortedData)
     let weekOfData = this.getDataInDateSpan(indexOfDate, 7, sortedData);
+    console.log(weekOfData)
     return weekOfData;
   }
 
@@ -99,18 +100,33 @@ class ActivityRepo extends DataRepo {
     return [sortedData[0].name, sortedData[0].userSum, sortedData[0].id]
   }
 
-  displayIncreasedSteps(userRepo, id, dataKey) {
-    let data = this.activityData;
-    let sortedUserArray = (userRepo.sortDataByDate(id, data)).reverse();
-    let streaks = sortedUserArray.filter(function(element, index) {
-      if (index >= 2) {
-        return (sortedUserArray[index - 2][dataKey] < sortedUserArray[index - 1][dataKey] && sortedUserArray[index - 1][dataKey] < sortedUserArray[index][dataKey])
+////NEEDS REFACTORING 
+  getIncreasinglyActiveDates(id, date, dataKey) {
+    let weekOfData = this.getUserDataForWeek(id, date).reverse(); 
+    let increasinglyActiveDates = []
+    weekOfData.reduce((previousData, currentData) => {
+      if (currentData[dataKey] > previousData[dataKey]) {
+        increasinglyActiveDates.push(currentData.date)
       }
-    });
-    return streaks.map(function(streak) {
-      return streak.date;
-    })
+      previousData = currentData;
+      return previousData;  
+    }); 
+    return increasinglyActiveDates; 
   }
+
+
+  // displayIncreasedSteps(userRepo, id, dataKey) {
+  //   let data = this.activityData;
+  //   let sortedUserArray = (userRepo.sortDataByDate(id, data)).reverse();
+  //   let streaks = sortedUserArray.filter(function(element, index) {
+  //     if (index >= 2) {
+  //       return (sortedUserArray[index - 2][dataKey] < sortedUserArray[index - 1][dataKey] && sortedUserArray[index - 1][dataKey] < sortedUserArray[index][dataKey])
+  //     }
+  //   });
+  //   return streaks.map(function(streak) {
+  //     return streak.date;
+  //   })
+  // }
 
 }
 

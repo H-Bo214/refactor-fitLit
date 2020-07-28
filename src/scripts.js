@@ -126,8 +126,8 @@ function createDataRepos(userData, sleepData, activityData, hydrationData) {
 function createUser() {
   let userNowId = generateRandomId(userRepo);
   userNow = generateRandomUser(userRepo, userNowId);
-  today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
-  // today = '2020/01/22';
+  // today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
+  today = '2020/01/22';
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
   domUpdates.defineUser(userNow);
   domUpdates.defineToday(today);
@@ -200,6 +200,7 @@ function addActivityInfo() {
   domUpdates.displayDailyActivity();
   domUpdates.displayAverageDailyActivity();
   domUpdates.displayWeeklyActivity();
+  domUpdates.addIncreasinglyActiveInfo();
 }
 
 
@@ -210,15 +211,18 @@ function addFriendGameInfo() {
 }
 
 //These currently need to be refactored in Activity Repo! Then, we'll need to hook these back up to our display methods here.
-  // let increasedActivityStreak = document.getElementById('streakListMinutes')
-  // increasedActivityStreak.insertAdjacentHTML("afterBegin", createStepStreak(userNow.id, activityRepo, userRepo, activityRepo.displayIncreasedSteps(userRepo, userNow.id, 'minutesActive')));
-  //
-  // let stepStreak = document.getElementById('streakList');
-  // stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(userNow.id, activityRepo, userRepo, activityRepo.displayIncreasedSteps(userRepo, userNow.id, 'numSteps')));
 
-  // function createStepStreak(id, activityInfo, userStorage, method) {
-//   return method.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
-// }
+// function createStepStreak(activeDates) {
+//   return activeDates.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
+// };
+
+// function addIncreasinglyActiveInfo(id, dateString, activityInfo, userStorage, laterDateString, user) {
+//   let increasedActivityStreak = document.getElementById('streakListMinutes')
+//   increasedActivityStreak.insertAdjacentHTML("afterBegin", createStepStreak(activityRepo.getIncreasinglyActiveDates(id, dateString, 'minutesActive')));
+  
+//   // let stepStreak = document.getElementById('streakList');
+//   // stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(userNow.id, activityRepo, userRepo, activityRepo.displayIncreasedSteps(userRepo, userNow.id, 'numSteps')));
+// } 
 
 
 /*---------Display View Functions---------*/
