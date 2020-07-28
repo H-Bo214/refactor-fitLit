@@ -1,6 +1,5 @@
 import './css/style.scss';
 import './images/runner.jpg';
-import './images/track.svg';
 import './images/friends-running.jpg';
 import domUpdates from '../src/domUpdates'
 import ActivityRepo from './Activity-repo';

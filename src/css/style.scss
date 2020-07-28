@@ -24,21 +24,40 @@ h1 {
 main {
   @include displayStyle(flex, row);
   height: 1500px;
+  @include ipad-pro-size {
+    display: flex;
+    flex-direction: column;
+    height: 1500px;
+  }
 }
 
 .main-sidebar-body {
   @include displayStyle(flex, row);
   width: 25%;
+  @include ipad-pro-size {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-top: 1px solid black;
+  }
 }
 
 .body-sidebar-sidebarContainer {
   background-color: #e4e7eb;
   border: $outer-border-style;
-  border-top: none;
   @include displayStyle(flex, column);
   align-items: center;
   text-align: center;
   overflow: scroll;
+  @include  ipad-pro-size {
+    width: 100vw;
+  }
+  @include ipad-size {
+    width:100vw;
+  }
+  @include iphone-size {
+    width:100vw;
+  }
 }
 
 .sidebar-header-name, .hydration-header, .activity-header, .sleep-header {
@@ -78,6 +97,9 @@ main {
   margin: 0 0 1em;
   @include displayStyle(flex, column);
   overflow: scroll;
+  @include ipad-pro-size {
+    overflow: unset;
+  }
 }
 
 .main-column-hydration,
@@ -85,6 +107,9 @@ main {
 .main-column-sleep {
   @include displayStyle(flex, row);
   flex-grow: 1;
+  @include iphone-size {
+    flex-direction: column;
+  }
 }
 
 .infoContainer-cardContainer-card-horizontal,
@@ -175,11 +200,9 @@ main {
   list-style-type: none;
   font-weight: lighter;
   font-style: italic;
-  // padding-top: 1em;
   padding-left: 0;
   margin: 1em;
   font-size: 1em;
-  // height: 15rem;
   overflow-y: scroll;
 }
 
@@ -244,7 +267,11 @@ main {
   display: flex;
   flex-direction: column;
   width: 40%;
+    @include iphone-size {
+    width: 75%;
+  }
 }
+
 .data-form input {
   border-radius: 6px;
   display: block;
@@ -269,67 +296,3 @@ label {
   padding-bottom: 0.3em;
   text-align: center;
 }
-
-
-
-
-//Media Queries
-@media only screen and (max-width: 1024px) {
-
-  main {
-    display: flex;
-    flex-direction: column;
-    height: 1500px;
-  }
-
-  .main-sidebar-body {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    border-top: 1px solid black;
-  }
-
-  .body-main-infoContainer {
-    overflow: unset;
-  }
-
-  .body-sidebar-sidebarContainer {
-    width: 100vw;
-  }
-
-}
-
-@media only screen and (max-width: 768px) {
-
-  h1 {
-    margin-bottom: 25px;
-  }
-
-.body-sidebar-sidebarContainer {
-  width:100vw;
-}
-
-
-}
-
-@media only screen and (max-width: 600px) {
-
-  h1 {
-    margin-bottom: 25px;
-  }
-
-  .data-form form {
-    width: 75%;
-  }
-
-  .body-sidebar-sidebarContainer {
-    width:100vw;
-  }
-
-  .main-column-hydration,
-  .main-column-activity,
-  .main-column-sleep {
-  flex-direction: column;
-  }
-
-  }
