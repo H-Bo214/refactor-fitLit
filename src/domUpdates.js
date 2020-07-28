@@ -35,7 +35,7 @@ const domUpdates = {
     this.activityRepo = repo;
   },
 
-/*---------Header/Sidebar Methods---------*/
+  /*---------Header/Sidebar Methods---------*/
   displayHeader() {
     let headerText = document.getElementById('headerText');
     headerText.innerText = `${this.user.getUserFirstName()}'s Activity Tracker`;
@@ -165,6 +165,18 @@ const domUpdates = {
     return weekOfData.map(data => `<li class="historical-list-listItem">On ${data} minutes</li>`).join('');
   },
 
+  createStepStreak(activeDates) {
+    return activeDates.map(date => `<li class="historical-list-listItem">${date}</li>`).join('');
+  },
+
+  addIncreasinglyActiveInfo() {
+    let increasedActivityStreak = document.getElementById('streakListMinutes')
+    increasedActivityStreak.insertAdjacentHTML("afterBegin", this.createStepStreak(this.activityRepo.getIncreasinglyActiveDates(this.user.id, this.today)));
+
+    let stepStreak = document.getElementById('streakList');
+    stepStreak.insertAdjacentHTML("afterBegin", this.createStepStreak(this.activityRepo.getThreeDayStepStreaks(this.user.id, this.today)))
+  }
+
 /*---------Sleep Dashboard Methods---------*/
   displayDailySleep() {
     let sleepToday = document.getElementById('sleepToday');
@@ -223,7 +235,7 @@ const domUpdates = {
 
   makeFriendChallengeHTML(friendActivityData) {
     return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, averaged ${friendChallengeData.userSum} steps.</li>`).join('');
-  }
+  },
 }
 
 module.exports = domUpdates

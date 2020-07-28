@@ -1,6 +1,5 @@
 import './css/style.scss';
 import './images/runner.jpg';
-import './images/track.svg';
 import './images/friends-running.jpg';
 import domUpdates from '../src/domUpdates'
 import ActivityRepo from './Activity-repo';
@@ -83,7 +82,7 @@ function createHydrationBody() {
 }
 
 function createActivityBody() {
-  let userActivityDate = document.getElementById('acitivity-user-date').value
+  let userActivityDate = document.getElementById('activity-user-date').value
   let userNumberOfSteps = parseFloat(document.getElementById('user-step-number').value)
   let userMinutesActive = parseFloat(document.getElementById('user-minutes-active').value)
   let userStairsClimbed = parseFloat(document.getElementById('user-stairs-climbed').value)
@@ -127,8 +126,8 @@ function createDataRepos(userData, sleepData, activityData, hydrationData) {
 function createUser() {
   let userNowId = generateRandomId(userRepo);
   userNow = generateRandomUser(userRepo, userNowId);
-  today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
-  // today = '2020/01/22';
+  // today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
+  today = '2020/01/22';
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
   domUpdates.defineUser(userNow);
   domUpdates.defineToday(today);
@@ -201,6 +200,7 @@ function addActivityInfo() {
   domUpdates.displayDailyActivity();
   domUpdates.displayAverageDailyActivity();
   domUpdates.displayWeeklyActivity();
+  domUpdates.addIncreasinglyActiveInfo();
 }
 
 
@@ -209,18 +209,6 @@ function addFriendGameInfo() {
   domUpdates.displayWinner();
   domUpdates.displayFriendChallenge();
 }
-
-//These currently need to be refactored in Activity Repo! Then, we'll need to hook these back up to our display methods here.
-  // let increasedActivityStreak = document.getElementById('streakListMinutes')
-  // increasedActivityStreak.insertAdjacentHTML("afterBegin", createStepStreak(userNow.id, activityRepo, userRepo, activityRepo.displayIncreasedSteps(userRepo, userNow.id, 'minutesActive')));
-  //
-  // let stepStreak = document.getElementById('streakList');
-  // stepStreak.insertAdjacentHTML("afterBegin", createStepStreak(userNow.id, activityRepo, userRepo, activityRepo.displayIncreasedSteps(userRepo, userNow.id, 'numSteps')));
-
-  // function createStepStreak(id, activityInfo, userStorage, method) {
-//   return method.map(streakData => `<li class="historical-list-listItem">${streakData}!</li>`).join('');
-// }
-
 
 /*---------Display View Functions---------*/
 function accessSleepInputForm() {
