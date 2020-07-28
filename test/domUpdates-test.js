@@ -9,7 +9,7 @@ chai.use(spies);
 
 describe.only('domUpdates', function() {
   beforeEach(() => {
-    domUpdates.user = new User({
+    const user1 = {
       "id": 999,
       "name": "Fake Data",
       "address": "1500 Fake Address, Faketown VA",
@@ -17,7 +17,10 @@ describe.only('domUpdates', function() {
       "strideLength": 4.3,
       "dailyStepGoal": 10000,
       "friends": []
-    });
+    }
+    domUpdates.userRepo = new UserRepo([user1]);
+    domUpdates.user = domUpdates.userRepo.users[0]
+
     global.document = {};
     chai.spy.on(document, ['getElementById', 'querySelector'], () => {
       return {
@@ -43,5 +46,15 @@ describe.only('domUpdates', function() {
     expect(document.getElementById).to.have.been.called.with('userAddress')
     expect(document.getElementById).to.have.been.called.with('userEmail')
     expect(document.getElementById).to.have.been.called.with('friendList')
+  })
+
+  it('should spy on displayUserGoals', function() {
+    domUpdates.displayUserGoals();
+
+    expect(document.querySelector).to.have.been.called(2)
+    expect(document.querySelector).to.have.been.called.with('.step-goal-card')
+    expect(document.querySelector).to.have.been.called.with('.avg-step-goal-card')
+    expect(document.getElementById).to.have.been.called(1)
+    expect(document.getElementById).to.have.been.called.with('userStridelength')
   })
 })
