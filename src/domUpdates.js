@@ -2,9 +2,9 @@ const domUpdates = {
   user: null,
   userRepo: null,
   today: null,
-  randomHistory: null, 
-  hydrationRepo: null, 
-  sleepRepo: null, 
+  randomHistory: null,
+  hydrationRepo: null,
+  sleepRepo: null,
   activityRepo: null,
 
   defineUser(user) {
@@ -12,15 +12,15 @@ const domUpdates = {
   },
 
   defineUserRepo(userRepo) {
-    this.userRepo = userRepo; 
+    this.userRepo = userRepo;
   },
 
   defineToday(today) {
-    this.today = today; 
+    this.today = today;
   },
 
   defineRandomHistory(date) {
-    this.randomHistory = date; 
+    this.randomHistory = date;
   },
 
   defineHydrationRepo(repo) {
@@ -28,17 +28,18 @@ const domUpdates = {
   },
 
   defineSleepRepo(repo) {
-    this.sleepRepo = repo; 
+    this.sleepRepo = repo;
   },
 
   defineActivityRepo(repo) {
     this.activityRepo = repo;
   },
 
+/*---------Header/Sidebar Methods---------*/
   displayHeader() {
     let headerText = document.getElementById('headerText');
     headerText.innerText = `${this.user.getUserFirstName()}'s Activity Tracker`;
-  }, 
+  },
 
   displayUserInfo() {
     let sidebarHeader = document.querySelector('.sidebar-header-name');
@@ -51,7 +52,7 @@ const domUpdates = {
     userEmail.innerText = this.user.email;
 
     let friendList = document.getElementById('friendList');
-    friendList.insertAdjacentHTML('afterBegin', this.makeFriendHTML(this.user, this.userRepo));  
+    friendList.insertAdjacentHTML('afterBegin', this.makeFriendHTML(this.user, this.userRepo));
   },
 
   displayUserGoals() {
@@ -59,9 +60,10 @@ const domUpdates = {
     userStrideLength.innerText = `Your stride length is ${this.user.strideLength} meters.`;
 
     let userStepGoal = document.querySelector('.step-goal-card');
-    userStepGoal.innerText = `Your daily step goal is ${this.user.dailyStepGoal}.`
+    userStepGoal.innerText = `Your daily step goal is ${this.user.dailyStepGoal}.`;
 
-    let avgStepGoalCard = document.querySelector('.avg-step-goal-card')
+    let avgStepGoalCard = document.querySelector('.avg-step-goal-card');
+    let userAvg = this.userRepo.calculateAverageStepGoal();
     avgStepGoalCard.innerText = `The average daily step goal is ${this.userRepo.calculateAverageStepGoal()}`;
   },
 
@@ -70,6 +72,7 @@ const domUpdates = {
     return friendsNames.map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
   },
 
+/*---------Hydration Dashboard Methods---------*/
   displayDailyHydration() {
     let hydrationToday = document.getElementById('hydrationToday');
     let ozToday = this.hydrationRepo.calcOuncesConsumedByDay(this.user.id, this.today)
@@ -81,13 +84,16 @@ const domUpdates = {
   },
 
   displayWeeklyHydration() {
+    //Have not been able to get this method to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
     let hydrationThisWeek = document.getElementById('hydrationThisWeek');
     let weeklyData = this.hydrationRepo.calcWeekOunces(this.today, this.user.id);
     hydrationThisWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(weeklyData));
 
     let hydrationRandomHeader = document.querySelectorAll('.historicalWeek');
-    hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${this.randomHistory}`));
+    let historicWeekHeaderText = `Week of ${this.randomHistory}`;
+    hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', historicWeekHeaderText));
 
+//Have not been able to get this method to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
     let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
     let randomWeeklyData = this.hydrationRepo.calcWeekOunces(this.randomHistory, this.user.id);
     hydrationRandomWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(randomWeeklyData));
@@ -98,38 +104,7 @@ const domUpdates = {
     return formattedData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
   },
 
-  displayDailySleep() {
-    let sleepToday = document.getElementById('sleepToday');
-    sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${this.sleepRepo.calcDailySleep(this.user.id, this.today, 'hoursSlept')}</span></p> <p>hours today.</p>`);
-
-    let sleepQualityToday = document.getElementById('sleepQualityToday');
-    sleepQualityToday.insertAdjacentHTML("afterBegin", `<p>Your sleep quality was</p> <p><span class="number">${this.sleepRepo.calcDailySleep(this.user.id, this.today, 'sleepQuality')}</span></p><p>out of 5.</p>`);
-  },
-
-  displayAverageDailySleep() {
-    let userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
-    userAvgSleepQuality.insertAdjacentHTML("afterBegin", `<p>Your average sleep quality is</p> <p><span class="number">${Math.round(this.sleepRepo.calcAverageUserSleep(this.user.id, 'sleepQuality') * 100) / 100}</span></p><p>out of 5.</p>`);
-
-    let userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
-    userAvgSleepQuantity.insertAdjacentHTML("afterBegin", `<p>Your average hours slept is</p> <p><span class="number">${Math.round(this.sleepRepo.calcAverageUserSleep(this.user.id, 'hoursSlept') * 100) / 100}</span></p><p>per day.</p>`)
-  },
-
-  displayWeeklySleep() {
-    let sleepThisWeek = document.getElementById('sleepThisWeek');
-    sleepThisWeek.insertAdjacentHTML('afterBegin', this.makeSleepHTML(this.sleepRepo.getWeekOfSleep(this.today, this.user.id).map(data => `${data.date}: ${data.hoursSlept}`)));
-
-    let sleepQualityWeek = document.getElementById('sleepQualityWeek');
-    sleepQualityWeek.insertAdjacentHTML('afterBegin', this.makeSleepQualityHTML(this.sleepRepo.getWeekOfSleep(this.today, this.user.id).map(data => `${data.date}: ${data.sleepQuality}`)));
-  },
-
-  makeSleepHTML(weekOfData) {
-    return weekOfData.map(sleepData => `<li class="historical-list-listItem">On ${sleepData} hours</li>`).join('');
-  },
-
-  makeSleepQualityHTML(weekOfData) {
-    return weekOfData.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
-  },
-
+/*---------Activity Dashboard Methods---------*/
   displayDailyActivity() {
     let userStepsToday = document.getElementById('userStepsToday');
     userStepsToday.insertAdjacentHTML("afterBegin", `<p>Step Count:</p><p>You</p><p><span class="number">${this.activityRepo.getUserDataByDate(this.user.id, this.today, 'numSteps')} (${this.activityRepo.getMilesByStepsForDate(this.user.id, this.today, this.userRepo)} miles)</span></p>`);
@@ -179,10 +154,44 @@ const domUpdates = {
     return weekOfData.map(data => `<li class="historical-list-listItem">On ${data} minutes</li>`).join('');
   },
 
+/*---------Sleep Dashboard Methods---------*/
+  displayDailySleep() {
+    let sleepToday = document.getElementById('sleepToday');
+    sleepToday.insertAdjacentHTML("afterBegin", `<p>You slept</p> <p><span class="number">${this.sleepRepo.calcDailySleep(this.user.id, this.today, 'hoursSlept')}</span></p> <p>hours today.</p>`);
+
+    let sleepQualityToday = document.getElementById('sleepQualityToday');
+    sleepQualityToday.insertAdjacentHTML("afterBegin", `<p>Your sleep quality was</p> <p><span class="number">${this.sleepRepo.calcDailySleep(this.user.id, this.today, 'sleepQuality')}</span></p><p>out of 5.</p>`);
+  },
+
+  displayAverageDailySleep() {
+    let userAvgSleepQuality = document.getElementById('userAvgSleepQuality');
+    userAvgSleepQuality.insertAdjacentHTML("afterBegin", `<p>Your average sleep quality is</p> <p><span class="number">${Math.round(this.sleepRepo.calcAverageUserSleep(this.user.id, 'sleepQuality') * 100) / 100}</span></p><p>out of 5.</p>`);
+
+    let userAvgSleepQuantity = document.getElementById('userAvgSleepQuantity')
+    userAvgSleepQuantity.insertAdjacentHTML("afterBegin", `<p>Your average hours slept is</p> <p><span class="number">${Math.round(this.sleepRepo.calcAverageUserSleep(this.user.id, 'hoursSlept') * 100) / 100}</span></p><p>per day.</p>`)
+  },
+
+  displayWeeklySleep() {
+    let sleepThisWeek = document.getElementById('sleepThisWeek');
+    sleepThisWeek.insertAdjacentHTML('afterBegin', this.makeSleepHTML(this.sleepRepo.getWeekOfSleep(this.today, this.user.id).map(data => `${data.date}: ${data.hoursSlept}`)));
+
+    let sleepQualityWeek = document.getElementById('sleepQualityWeek');
+    sleepQualityWeek.insertAdjacentHTML('afterBegin', this.makeSleepQualityHTML(this.sleepRepo.getWeekOfSleep(this.today, this.user.id).map(data => `${data.date}: ${data.sleepQuality}`)));
+  },
+
+  makeSleepHTML(weekOfData) {
+    return weekOfData.map(sleepData => `<li class="historical-list-listItem">On ${sleepData} hours</li>`).join('');
+  },
+
+  makeSleepQualityHTML(weekOfData) {
+    return weekOfData.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
+  },
+
+/*---------Step Challenge Methods---------*/
   displayWinner() {
     let thisWeeksWinner = document.getElementById('bigWinner');
     let winnerData = this.activityRepo.getStepChallengeWinner(this.user, this.today, this.userRepo);
-    thisWeeksWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${winnerData[0]}, ${winnerData[1]} steps`);  
+    thisWeeksWinner.insertAdjacentHTML('afterBegin', `THIS WEEK'S WINNER! ${winnerData[0]}, ${winnerData[1]} steps`);
   },
 
   displayFriendChallenge() {
@@ -198,9 +207,6 @@ const domUpdates = {
   makeFriendChallengeHTML(friendActivityData) {
     return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, averaged ${friendChallengeData.userSum} steps.</li>`).join('');
   }
-
-
-
 }
 
 module.exports = domUpdates
