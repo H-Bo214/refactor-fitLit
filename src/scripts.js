@@ -187,7 +187,6 @@ function addActivityInfo() {
   domUpdates.addIncreasinglyActiveInfo();
 }
 
-
 /*-----Step Challenge Dashboard Functions----*/
 function addFriendGameInfo() {
   domUpdates.displayWinner();

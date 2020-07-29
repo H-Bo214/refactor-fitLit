@@ -15,8 +15,6 @@ class UserRepo extends DataRepo {
     return this.users.find((user) => user.id === id);
   }
 
-  
-
   calculateAverageStepGoal() {
     return this.calculateAverage(this.users, 'dailyStepGoal');
   }

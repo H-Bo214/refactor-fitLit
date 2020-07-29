@@ -29,7 +29,6 @@ class HydrationRepo extends DataRepo {
 
     return weekOfData;
   }
-
 }
 
 export default HydrationRepo;

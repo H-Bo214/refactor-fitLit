@@ -8,7 +8,7 @@ import HydrationRepo from '../src/Hydration-repo'
 
 chai.use(spies);
 
-describe.only('domUpdates', function() {
+describe('domUpdates', function() {
   beforeEach(() => {
     const user1 = {
       "id": 999,

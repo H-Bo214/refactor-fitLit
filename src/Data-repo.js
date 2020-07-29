@@ -33,7 +33,6 @@ class DataRepo {
   getIndexOfDate(date, dataSet) {
     return dataSet.findIndex(data => data.date === date)
   }
-
 }
 
 

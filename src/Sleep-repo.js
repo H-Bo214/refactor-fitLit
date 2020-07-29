@@ -17,13 +17,10 @@ class SleepRepo extends DataRepo {
     return Math.round(averageSleep * 10) / 10;
   }
 
-
   calcDailySleep(id, date, dataKey) {
     let userData = this.getDataMatchingUserID(id, this.sleepData);
     return this.getDataByDate(date, userData)[dataKey];
   }
-
-
 
   getWeekOfSleep(date, id) {
     let userData = this.getDataMatchingUserID(id, this.sleepData);
@@ -32,8 +29,6 @@ class SleepRepo extends DataRepo {
     let weekOfData = this.getDataInDateSpan(indexOfDate, 7, sortedData);
     return weekOfData;
   }
-
-
 
   calcAllUserSleepQuality() {
     return Math.round(this.calculateAverage(this.sleepData, 'sleepQuality'));
@@ -49,8 +44,6 @@ class SleepRepo extends DataRepo {
       return wellRestedUsers;
     }, [])
   }
-
-
 
   getMaxSleepData(date) {
     let sleepDataOnDate = this.getDataMatchingDate(date, this.sleepData);
@@ -69,9 +62,6 @@ class SleepRepo extends DataRepo {
     }, [])
     return users.map(user => user.name)
   }
-
-
-
 }
 
 export default SleepRepo;

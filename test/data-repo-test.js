@@ -104,12 +104,4 @@ describe('Data Repo', function() {
   it('should get the index specified by date', function() {
     expect(dataRepo.getIndexOfDate('2019/06/19', sleepData)).to.equal(5);
   });
-
-
-
-
-
-
-
-
 });

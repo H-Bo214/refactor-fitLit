@@ -218,5 +218,4 @@ describe('Sleep Repo', function() {
     let result = sleepRepo.getMaxSleepData('2019/06/21')
     expect(sleepRepo.getUsersWithMostSleepForDay(result, userRepo)).to.eql([ 'Rainbow Dash', 'Allie McCarthy']);
   });
-
 });

@@ -212,7 +212,6 @@ describe('Activity', function() {
     users = [user1, user2, user3];
     userRepo = new UserRepo(users);
     activityRepo = new ActivityRepo(activityData);
-
   });
 
   it('should be a function', function() {

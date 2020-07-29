@@ -1,4 +1,3 @@
-
 class Sleep {
   constructor(sleepDetails) {
     this.userID = sleepDetails.userID;
