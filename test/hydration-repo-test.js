@@ -33,7 +33,8 @@ describe('Hydration Repo', function() {
         "userID": 4,
         "date": "2019/09/18",
         "numOunces": 29
-      },{
+      },
+      {
         "userID": 4,
         "date": "2019/09/17",
         "numOunces": 28

@@ -305,8 +305,8 @@ describe('Activity', function() {
   })
 
   it('(for each friend in the friend list), it should return their name & a week of activity data', function() {
-  let date = "2019/06/15";
-  user1 = userRepo.users[0];
+    let date = "2019/06/15";
+    user1 = userRepo.users[0];
 
     expect(activityRepo.getFriendsActivityData(user1, userRepo, date)).to.deep.equal(
       [
