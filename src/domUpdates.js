@@ -231,7 +231,7 @@ const domUpdates = {
   },
 
   makeFriendChallengeHTML(friendActivityData) {
-    return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, averaged ${friendChallengeData.userSum} steps.</li>`).join('');
+    return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, walked ${friendChallengeData.userSum} steps.</li>`).join('');
   },
 }
 
