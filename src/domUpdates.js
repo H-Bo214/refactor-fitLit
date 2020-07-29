@@ -63,7 +63,7 @@ const domUpdates = {
     userStepGoal.innerText = `Your daily step goal is ${this.user.dailyStepGoal}.`;
 
     let avgStepGoalCard = document.querySelector('.avg-step-goal-card');
-    let userAvg = this.userRepo.calculateAverageStepGoal();
+    // let userAvg = this.userRepo.calculateAverageStepGoal();
     avgStepGoalCard.innerText = `The average daily step goal is ${this.userRepo.calculateAverageStepGoal()}`;
   },
 
@@ -72,7 +72,7 @@ const domUpdates = {
     return friendsNames.map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
   },
 
-/*---------Hydration Dashboard Methods---------*/
+  /*---------Hydration Dashboard Methods---------*/
   displayDailyHydration() {
     let hydrationToday = document.getElementById('hydrationToday');
     let ozToday = this.hydrationRepo.calcOuncesConsumedByDay(this.user.id, this.today)
@@ -104,7 +104,7 @@ const domUpdates = {
     return formattedData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
   },
 
-/*---------Activity Dashboard Methods---------*/
+  /*---------Activity Dashboard Methods---------*/
   displayDailyActivity() {
     let userStepsToday = document.getElementById('userStepsToday');
     let userStepCount = this.activityRepo.getUserDataByDate(this.user.id, this.today, 'numSteps');
@@ -175,9 +175,9 @@ const domUpdates = {
 
     let stepStreak = document.getElementById('streakList');
     stepStreak.insertAdjacentHTML("afterBegin", this.createStepStreak(this.activityRepo.getThreeDayStepStreaks(this.user.id, this.today)))
-  }
+  },
 
-/*---------Sleep Dashboard Methods---------*/
+  /*---------Sleep Dashboard Methods---------*/
   displayDailySleep() {
     let sleepToday = document.getElementById('sleepToday');
     let userSleepToday = this.sleepRepo.calcDailySleep(this.user.id, this.today, 'hoursSlept');
@@ -216,7 +216,7 @@ const domUpdates = {
     return weekOfData.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
   },
 
-/*---------Step Challenge Methods---------*/
+  /*---------Step Challenge Methods---------*/
   displayWinner() {
     let thisWeeksWinner = document.getElementById('bigWinner');
     let winnerData = this.activityRepo.getStepChallengeWinner(this.user, this.today, this.userRepo);
