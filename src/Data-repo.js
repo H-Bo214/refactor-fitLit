@@ -1,7 +1,4 @@
 class DataRepo {
-  // constructor(data) {
-  //   this.data = data;
-  // };
 
   calculateAverage(dataSet, dataKey) {
     let sum = dataSet.reduce((sum, data) => sum + data[dataKey], 0);
@@ -27,9 +24,6 @@ class DataRepo {
   getDataMatchingDate(date, dataSet) {
     return dataSet.filter((data) => data.date === date);
   }
-  // generateRandomIndex(dataSet) {
-  //   return Math.floor(Math.random() * (dataSet.length - 7))
-  // }
 
   makeRandomDate(dataSet) {
     let sortedArray = this.sortDataByDate(dataSet);

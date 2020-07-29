@@ -5,7 +5,6 @@ import UserRepo from '../src/User-repo';
 
 describe('Sleep Repo', function() {
   let sleepData, sleepRepo,  user1, user2, user3, user4, users, userRepo, user4SleepData;
-  // sleep,
   beforeEach(function() {
     sleepData = [
       {
@@ -124,7 +123,6 @@ describe('Sleep Repo', function() {
       "sleepQuality": 3.1
     }, ]
     sleepRepo = new SleepRepo(sleepData);
-    // console.log('sleepRepo', sleepRepo);
     user1 = {
       id: 1,
       name: "Alex Roth",

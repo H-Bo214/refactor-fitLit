@@ -61,7 +61,6 @@ describe.only('domUpdates', function() {
 
   it('should spy on displayUserInfo', function() {
     domUpdates.displayUserInfo();
-    // console.log(domUpdates)
 
     expect(document.querySelector).to.have.been.called(1)
     expect(document.querySelector).to.have.been.called.with('.sidebar-header-name')

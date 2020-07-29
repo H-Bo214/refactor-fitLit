@@ -63,7 +63,6 @@ const domUpdates = {
     userStepGoal.innerText = `Your daily step goal is ${this.user.dailyStepGoal}.`;
 
     let avgStepGoalCard = document.querySelector('.avg-step-goal-card');
-    // let userAvg = this.userRepo.calculateAverageStepGoal();
     avgStepGoalCard.innerText = `The average daily step goal is ${this.userRepo.calculateAverageStepGoal()}`;
   },
 
@@ -84,7 +83,6 @@ const domUpdates = {
   },
 
   displayWeeklyHydration() {
-    //Have not been able to get weeklyData to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
     let hydrationThisWeek = document.getElementById('hydrationThisWeek');
     let weeklyData = this.hydrationRepo.calcWeekOunces(this.today, this.user.id);
     hydrationThisWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(weeklyData));
@@ -93,7 +91,6 @@ const domUpdates = {
     let historicWeekHeaderText = `Week of ${this.randomHistory}`;
     hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', historicWeekHeaderText));
 
-    //Have not been able to get this method to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
     let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
     let randomWeeklyData = this.hydrationRepo.calcWeekOunces(this.randomHistory, this.user.id);
     hydrationRandomWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(randomWeeklyData));

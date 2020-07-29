@@ -11,15 +11,11 @@ class UserRepo extends DataRepo {
     }
   }
 
-  //Do not delete
   getUserFromId(id) {
     return this.users.find((user) => user.id === id);
   }
 
-  //NOT NEEDED: moved to parent repo
-  //  getDataMatchingUserID(id, dataSet) {
-  //    return dataSet.filter((data) => data.userID === id);
-  // };
+  
 
   calculateAverageStepGoal() {
     return this.calculateAverage(this.users, 'dailyStepGoal');
