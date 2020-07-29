@@ -3,7 +3,7 @@ import DataRepo from '../src/Data-repo';
 import SleepRepo from '../src/Sleep-repo';
 
 describe('Data Repo', function() {
-  let userSleepData, dataRepo, sleepData, sleepRepo;
+  let userSleepData, dataRepo, sleepData;
 
   beforeEach(function() {
 
@@ -66,7 +66,6 @@ describe('Data Repo', function() {
       },
     ];
     dataRepo = new DataRepo()
-    sleepRepo = new SleepRepo(sleepData)
   });
 
   it('should be a function', function() {

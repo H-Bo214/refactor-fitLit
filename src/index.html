@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" name="description"
-    content="A fitness tracking website that displays your hydration, sleep, and activity data.">
+  <meta charset="UTF-8" name="description" content="A fitness tracking website that displays your hydration, sleep, and activity data.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Activity Tracker</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
+
 <body>
   <header>
     <h1 id="headerText">Activity Tracker</h1>
@@ -16,7 +17,7 @@
       <aside class="body-sidebar-sidebarContainer">
         <h2 class="sidebar-header-name"></h2>
         <section class="sidebar-header-line"></section>
-        <img class="runner-img" src="./images/runner.jpg" alt="image of a person running in a park" >
+        <img class="runner-img" src="./images/runner.jpg" alt="image of a person running in a park">
         <section class="sidebar-header-line"></section>
         <p class="sidebar-header-userInfo" id="userAddress"></p>
         <section class="sidebar-header-line"></section>
@@ -26,17 +27,17 @@
         <section class="sidebar-header-line"></section>
         <p class="sidebar-header-userInfo step-goal-card"></p>
         <p class="sidebar-header-userInfo avg-step-goal-card"></p>
-            <section class="sidebar-header-line"></section>
-            <section class="sidebar-body-friendContainer">
-              <p class="sidebar-header-userInfo">Friends</p>
-              <section class="sidebar-friendContainer-listItems"></section>
-                <ul class="card-vertical-list" id="friendList"></ul>
-              </section>
-              <section class="sidebar-header-line"></section>
-              <p class="thisWeek">Keep up the good work! You were increasingly active on these dates this week:</p>
-              <ul class="card-vertical-list" id="streakListMinutes"></ul>
-            </section>
-      </aside>
+        <section class="sidebar-header-line"></section>
+        <section class="sidebar-body-friendContainer">
+          <p class="sidebar-header-userInfo">Friends</p>
+          <section class="sidebar-friendContainer-listItems"></section>
+          <ul class="card-vertical-list" id="friendList"></ul>
+        </section>
+        <section class="sidebar-header-line"></section>
+        <p class="thisWeek">Keep up the good work! You were increasingly active on these dates this week:</p>
+        <ul class="card-vertical-list" id="streakListMinutes"></ul>
+    </section>
+    </aside>
     </section>
     <section class="body-main-infoContainer">
       <section class="button">
@@ -74,36 +75,36 @@
       <h2 class="activity-header">Activity</h2>
       <section class="main-column-activity">
         <section class="infoContainer-cardContainer-card-horizontal">
-            <section class="card-today-activity">
-              <p>Step Count:</p>
-              <p>You</p>
-              <span class="number"id="userStepsToday"></span>
-            </section>
-            <section class="card-today-activity">
-              <p>Step Count:</p>
-              <p> All Users</p>
-              <span class="number" id="avgStepsToday"></span>
-            </section>
-            <section class="card-today-activity">
-              <p>Stair Count:</p>
-              <p>You</p>
-              <span class="number" id="userStairsToday"></span>
-            </section>
-            <section class="card-today-activity">
-              <p>Stair Count:</p>
-              <p>All Users</p>
-              <span class="number" id="avgStairsToday"></span>
-            </section>
-            <section class="card-today-activity">
-              <p>Active Minutes:</p>
-              <p>You</p>
-              <span class="number" id="userMinutesToday"></span>
-            </section>
-            <section class="card-today-activity">
-              <p>Active Minutes:</p>
-              <p>All Users</p>
-              <span class="number" id="avgMinutesToday"></span>
-            </section>
+          <section class="card-today-activity">
+            <p>Step Count:</p>
+            <p>You</p>
+            <span class="number" id="userStepsToday"></span>
+          </section>
+          <section class="card-today-activity">
+            <p>Step Count:</p>
+            <p> All Users</p>
+            <span class="number" id="avgStepsToday"></span>
+          </section>
+          <section class="card-today-activity">
+            <p>Stair Count:</p>
+            <p>You</p>
+            <span class="number" id="userStairsToday"></span>
+          </section>
+          <section class="card-today-activity">
+            <p>Stair Count:</p>
+            <p>All Users</p>
+            <span class="number" id="avgStairsToday"></span>
+          </section>
+          <section class="card-today-activity">
+            <p>Active Minutes:</p>
+            <p>You</p>
+            <span class="number" id="userMinutesToday"></span>
+          </section>
+          <section class="card-today-activity">
+            <p>Active Minutes:</p>
+            <p>All Users</p>
+            <span class="number" id="avgMinutesToday"></span>
+          </section>
         </section>
         <section class="infoContainer-cardContainer-card-horizontal">
           <section class="horizontalCard-activity-container">
@@ -174,26 +175,24 @@
       <aside class="body-sidebar-sidebarContainer">
         <h2 class="sidebar-header-name">STEP CHALLENGE!</h2>
         <section class="sidebar-header-line"></section>
-        <img src="./images/friends-running.jpg"
-          alt="image of two friends running on a paved track"
-          class="friends-running-img">
+        <img src="./images/friends-running.jpg" alt="image of two friends running on a paved track" class="friends-running-img">
         <section class="sidebar-header-line"></section>
         <p class="sidebar-header-userInfo" id="bigWinner"></p>
         <section class="sidebar-header-line"></section>
         <p class="sidebar-header-userInfo step-goal-card"></p>
         <p class="sidebar-header-userInfo avg-step-goal-card"></p>
-            <section class="sidebar-body-friendContainer">
-              <section class="sidebar-friendContainer-listItems">
-                <p class="thisWeek">Rank this week</p>
-                <ul class="card-vertical-list" id="friendChallengeListToday"></ul>
-                <section class="sidebar-header-line"></section>
-                <p class="historicalWeek">- Historical Rank</p>
-                <ul class="card-vertical-list" id="friendChallengeListHistory"></ul>
-                <section class="sidebar-header-line"></section>
-              </section>
-              <p class="thisWeek">You had 3-day step streaks on these days over the past 30 days:</p>
-              <ul class="card-vertical-list" id="streakList"></ul>
-            </section>
+        <section class="sidebar-body-friendContainer">
+          <section class="sidebar-friendContainer-listItems">
+            <p class="thisWeek">Rank this week</p>
+            <ul class="card-vertical-list" id="friendChallengeListToday"></ul>
+            <section class="sidebar-header-line"></section>
+            <p class="historicalWeek">- Historical Rank</p>
+            <ul class="card-vertical-list" id="friendChallengeListHistory"></ul>
+            <section class="sidebar-header-line"></section>
+          </section>
+          <p class="thisWeek">You had 3-day step streaks on these days over the past 30 days:</p>
+          <ul class="card-vertical-list" id="streakList"></ul>
+        </section>
       </aside>
     </section>
   </main>
@@ -202,43 +201,43 @@
       <section class="data-form">
         <form>
           <h2>Add New Sleep Data</h2>
-              <label for="sleep-user-date">Date</label>
-              <input type="text" name="sleep-user-date" id="sleep-user-date" placeholder="yyyy/mm/dd">
-              <label for="user-hours-slept">Hours Slept</label>
-              <input type="number" name="user-hours-slept" id="user-hours-slept" min="0" max="40">
-              <label for="user-sleep-quality">Sleep Quality</label>
-              <input type="number" name="user-sleep-quality" id="user-sleep-quality" min="1" max="5" placeholder="Enter a number from 1-5" step=".1">
-              <input value="Submit" class="submit-info" id="sleep-submit" type="submit">
+          <label for="sleep-user-date">Date</label>
+          <input type="text" name="sleep-user-date" id="sleep-user-date" placeholder="yyyy/mm/dd">
+          <label for="user-hours-slept">Hours Slept</label>
+          <input type="number" name="user-hours-slept" id="user-hours-slept" min="0" max="40">
+          <label for="user-sleep-quality">Sleep Quality</label>
+          <input type="number" name="user-sleep-quality" id="user-sleep-quality" min="1" max="5" placeholder="Enter a number from 1-5" step=".1">
+          <input value="Submit" class="submit-info" id="sleep-submit" type="submit">
         </form>
         <button class="back-home">← Back Home</button>
       </section>
-      </div>
-      <div class="activity-input hidden">
+    </div>
+    <div class="activity-input hidden">
       <section class="data-form">
         <form>
           <h2>Add New Activity Data</h2>
-              <label for="activity-user-date">Date</label>
-              <input type="text" name="activity-user-date" id="activity-user-date" placeholder="yyyy/mm/dd">
-              <label for="user-step-number">Number of Steps</label>
-              <input type="number" name="user-step-number" id="user-step-number" mix="0">
-              <label for="user-minutes-active">Active Minutes</label>
-              <input type="number" name="user-minutes-active" id="user-minutes-active" min="0">
-              <label for="user-stairs-climbed">Flight of Stairs Climbed</label>
-              <input type="number" name="user-stairs-climbed" id="user-stairs-climbed" min="0">
-              <button class="submit-info" id="activity-submit">Submit</button>
+          <label for="activity-user-date">Date</label>
+          <input type="text" name="activity-user-date" id="activity-user-date" placeholder="yyyy/mm/dd">
+          <label for="user-step-number">Number of Steps</label>
+          <input type="number" name="user-step-number" id="user-step-number" mix="0">
+          <label for="user-minutes-active">Active Minutes</label>
+          <input type="number" name="user-minutes-active" id="user-minutes-active" min="0">
+          <label for="user-stairs-climbed">Flight of Stairs Climbed</label>
+          <input type="number" name="user-stairs-climbed" id="user-stairs-climbed" min="0">
+          <button class="submit-info" id="activity-submit">Submit</button>
         </form>
         <button class="back-home">← Back Home</button>
       </section>
-      </div>
-      <div class ="hydration-input hidden">
+    </div>
+    <div class="hydration-input hidden">
       <section class="data-form">
         <form>
           <h2>Add New Hydration Data</h2>
-              <label for="hydration-user-date">Date</label>
-              <input type="text" name="hydration-user-date" id="hydration-user-date" placeholder="yyyy/mm/dd">
-              <label for="user-ounces-number">Ounces of Water Drank</label>
-              <input type="number" name="user-ounces-number" id="user-ounces-number" min="0">
-              <button class="submit-info" id="hydration-submit">Submit</button>
+          <label for="hydration-user-date">Date</label>
+          <input type="text" name="hydration-user-date" id="hydration-user-date" placeholder="yyyy/mm/dd">
+          <label for="user-ounces-number">Ounces of Water Drank</label>
+          <input type="number" name="user-ounces-number" id="user-ounces-number" min="0">
+          <button class="submit-info" id="hydration-submit">Submit</button>
         </form>
         <button class="back-home">← Back Home</button>
       </section>
