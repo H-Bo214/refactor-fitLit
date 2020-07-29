@@ -56,7 +56,7 @@ function getData() {
 }
 
 function postData(directory, body) {
-  const root = 'https://fe-apps.herokuapp.com/api/v1/fitlit/1908/'  
+  const root = 'https://fe-apps.herokuapp.com/api/v1/fitlit/1908/'
   fetch(root + directory, {
     method: 'POST',
     headers: {
@@ -126,12 +126,11 @@ function createDataRepos(userData, sleepData, activityData, hydrationData) {
 function createUser() {
   let userNowId = generateRandomId(userRepo);
   userNow = generateRandomUser(userRepo, userNowId);
-  // today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
-  today = '2020/01/22';
+  today = makeToday(userRepo, userNowId, hydrationRepo.hydrationData);
   randomHistory = hydrationRepo.makeRandomDate(hydrationRepo.hydrationData);
   domUpdates.defineUser(userNow);
   domUpdates.defineToday(today);
-  domUpdates.defineRandomHistory(randomHistory); 
+  domUpdates.defineRandomHistory(randomHistory);
   createDashboard()
 }
 
@@ -151,21 +150,6 @@ function generateRandomId(dataset) {
 function generateRandomUser(userRepo, id) {
   return userRepo.getUserFromId(id);
 }
-
-//Not being used right now; use to get date later
-// function generateCurrentDate() {
-//   const rawDate = new Date();
-//   let day = rawDate.getDate();
-//   if (day < 10) {
-//     day = `0${day.toString()}`
-//   };
-//   let month = rawDate.getMonth() + 1;
-//   if (month < 10) {
-//     month = `0${month.toString()}`
-//   };
-//   const year = rawDate.getFullYear();
-//   return `${year}/${month}/${day}`
-// }
 
 function createDashboard() {
   addInfoToSidebar();
@@ -192,7 +176,7 @@ function addHydrationInfo() {
 function addSleepInfo() {
   domUpdates.displayDailySleep();
   domUpdates.displayAverageDailySleep();
-  domUpdates.displayWeeklySleep(); 
+  domUpdates.displayWeeklySleep();
 }
 
 /*---------Activity Dashboard Functions---------*/
@@ -203,8 +187,7 @@ function addActivityInfo() {
   domUpdates.addIncreasinglyActiveInfo();
 }
 
-
-  /*-----Step Challenge Dashboard Functions----*/
+/*-----Step Challenge Dashboard Functions----*/
 function addFriendGameInfo() {
   domUpdates.displayWinner();
   domUpdates.displayFriendChallenge();

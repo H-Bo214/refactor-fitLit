@@ -63,7 +63,6 @@ const domUpdates = {
     userStepGoal.innerText = `Your daily step goal is ${this.user.dailyStepGoal}.`;
 
     let avgStepGoalCard = document.querySelector('.avg-step-goal-card');
-    let userAvg = this.userRepo.calculateAverageStepGoal();
     avgStepGoalCard.innerText = `The average daily step goal is ${this.userRepo.calculateAverageStepGoal()}`;
   },
 
@@ -72,7 +71,7 @@ const domUpdates = {
     return friendsNames.map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
   },
 
-/*---------Hydration Dashboard Methods---------*/
+  /*---------Hydration Dashboard Methods---------*/
   displayDailyHydration() {
     let hydrationToday = document.getElementById('hydrationToday');
     let ozToday = this.hydrationRepo.calcOuncesConsumedByDay(this.user.id, this.today)
@@ -84,7 +83,6 @@ const domUpdates = {
   },
 
   displayWeeklyHydration() {
-    //Have not been able to get weeklyData to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
     let hydrationThisWeek = document.getElementById('hydrationThisWeek');
     let weeklyData = this.hydrationRepo.calcWeekOunces(this.today, this.user.id);
     hydrationThisWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(weeklyData));
@@ -93,7 +91,6 @@ const domUpdates = {
     let historicWeekHeaderText = `Week of ${this.randomHistory}`;
     hydrationRandomHeader.forEach(instance => instance.insertAdjacentHTML('afterBegin', historicWeekHeaderText));
 
-    //Have not been able to get this method to refactor- as far as I can tell, when I try to assign this.hydrationRepo.calcWeekOunces(this.today, this.user.id).map((data) => `${data.date}: ${data.numOunces}`)) to a variable and then map that new variable, it won't let me because I'm returning an HTML collection rather than an array. -JKW 7/28/2020 @ 2:30 PM
     let hydrationRandomWeek = document.getElementById('hydrationEarlierWeek');
     let randomWeeklyData = this.hydrationRepo.calcWeekOunces(this.randomHistory, this.user.id);
     hydrationRandomWeek.insertAdjacentHTML('afterBegin', this.makeHydrationHTML(randomWeeklyData));
@@ -104,7 +101,7 @@ const domUpdates = {
     return formattedData.map(drinkData => `<li class="historical-list-listItem">On ${drinkData}oz</li>`).join('');
   },
 
-/*---------Activity Dashboard Methods---------*/
+  /*---------Activity Dashboard Methods---------*/
   displayDailyActivity() {
     let userStepsToday = document.getElementById('userStepsToday');
     let userStepCount = this.activityRepo.getUserDataByDate(this.user.id, this.today, 'numSteps');
@@ -175,9 +172,9 @@ const domUpdates = {
 
     let stepStreak = document.getElementById('streakList');
     stepStreak.insertAdjacentHTML("afterBegin", this.createStepStreak(this.activityRepo.getThreeDayStepStreaks(this.user.id, this.today)))
-  }
+  },
 
-/*---------Sleep Dashboard Methods---------*/
+  /*---------Sleep Dashboard Methods---------*/
   displayDailySleep() {
     let sleepToday = document.getElementById('sleepToday');
     let userSleepToday = this.sleepRepo.calcDailySleep(this.user.id, this.today, 'hoursSlept');
@@ -216,7 +213,7 @@ const domUpdates = {
     return weekOfData.map(sleepQualityData => `<li class="historical-list-listItem">On ${sleepQualityData}/5 quality of sleep</li>`).join('');
   },
 
-/*---------Step Challenge Methods---------*/
+  /*---------Step Challenge Methods---------*/
   displayWinner() {
     let thisWeeksWinner = document.getElementById('bigWinner');
     let winnerData = this.activityRepo.getStepChallengeWinner(this.user, this.today, this.userRepo);
@@ -234,7 +231,7 @@ const domUpdates = {
   },
 
   makeFriendChallengeHTML(friendActivityData) {
-    return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, averaged ${friendChallengeData.userSum} steps.</li>`).join('');
+    return friendActivityData.map(friendChallengeData => `<li class="historical-list-listItem">Your friend ${friendChallengeData.name}, walked ${friendChallengeData.userSum} steps.</li>`).join('');
   },
 }
 

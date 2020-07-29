@@ -75,10 +75,10 @@ class ActivityRepo extends DataRepo {
     let userStepData = userData.map((data) => data.numSteps);
     let userSum = userStepData.reduce((sum, data) => sum += data);
     let userInfo = {
-      id: id,
+      id,
       name: userName,
       userData: userStepData,
-      userSum: userSum
+      userSum
     }
     return userInfo
   }

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import Activity from '../src/Activity';
 
 describe('Activity', function() {
-  let activity1 
+  let activity1
 
   beforeEach(function() {
     activity1 = new Activity({
@@ -13,7 +13,6 @@ describe('Activity', function() {
       "minutesActive": 200,
       "flightsOfStairs": 25
     });
-
   });
 
   it('should be a function', function() {

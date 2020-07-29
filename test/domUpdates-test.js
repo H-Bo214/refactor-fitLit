@@ -2,15 +2,13 @@ const chai = require('chai');
 const expect = chai.expect;
 const spies = require('chai-spies');
 import domUpdates from '../src/domUpdates';
-import User from '../src/User'
 import UserRepo from '../src/User-repo'
-import Hydration from '../src/Hydration'
 import HydrationRepo from '../src/Hydration-repo'
-import DataRepo from '../src/Data-repo'
+
 
 chai.use(spies);
 
-describe.only('domUpdates', function() {
+describe('domUpdates', function() {
   beforeEach(() => {
     const user1 = {
       "id": 999,
@@ -22,7 +20,7 @@ describe.only('domUpdates', function() {
       "friends": []
     }
 
-    const hydrationData =[
+    const hydrationData = [
       {
         "userID": 999,
         "date": "2019/06/15",
@@ -63,7 +61,6 @@ describe.only('domUpdates', function() {
 
   it('should spy on displayUserInfo', function() {
     domUpdates.displayUserInfo();
-    // console.log(domUpdates)
 
     expect(document.querySelector).to.have.been.called(1)
     expect(document.querySelector).to.have.been.called.with('.sidebar-header-name')

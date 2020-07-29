@@ -5,7 +5,7 @@ import HydrationRepo from '../src/Hydration-repo';
 import UserRepo from '../src/User-repo';
 
 describe('Hydration Repo', function() {
-  let hydrationData, hydrationRepo, user1, user2, users, userRepo;
+  let hydrationData, hydrationRepo, user1, user2, users;
 
   beforeEach(function() {
     hydrationData = [
@@ -33,7 +33,8 @@ describe('Hydration Repo', function() {
         "userID": 4,
         "date": "2019/09/18",
         "numOunces": 29
-      },{
+      },
+      {
         "userID": 4,
         "date": "2019/09/17",
         "numOunces": 28
@@ -86,7 +87,6 @@ describe('Hydration Repo', function() {
       friends: [1, 2, 3]
     };
     users = [user1, user2];
-    userRepo = new UserRepo(users);
   });
 
   it('should be a function', function() {

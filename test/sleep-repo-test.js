@@ -5,7 +5,6 @@ import UserRepo from '../src/User-repo';
 
 describe('Sleep Repo', function() {
   let sleepData, sleepRepo,  user1, user2, user3, user4, users, userRepo, user4SleepData;
-  // sleep,
   beforeEach(function() {
     sleepData = [
       {
@@ -82,49 +81,48 @@ describe('Sleep Repo', function() {
       },
     ];
     user4SleepData = [{
-        "userID": 4,
-        "date": "2019/06/21",
-        "hoursSlept": 6.1,
-        "sleepQuality": 3.5
-      },
-      {
-        "userID": 4,
-        "date": "2019/06/20",
-        "hoursSlept": 4.7,
-        "sleepQuality": 4
-      },
-      {
-        "userID": 4,
-        "date": "2019/06/19",
-        "hoursSlept": 10.1,
-        "sleepQuality": 1.3
-      },
-      {
-        "userID": 4,
-        "date": "2019/06/18",
-        "hoursSlept": 7.9,
-        "sleepQuality": 1.6
-      },
-      {
-        "userID": 4,
-        "date": "2019/06/17",
-        "hoursSlept": 5.9,
-        "sleepQuality": 1.6
-      },
-      {
-        "userID": 4,
-        "date": "2019/06/16",
-        "hoursSlept": 9.6,
-        "sleepQuality": 1
-      },
-      {
-        "userID": 4,
-        "date": "2019/06/15",
-        "hoursSlept": 9,
-        "sleepQuality": 3.1
-      },]
+      "userID": 4,
+      "date": "2019/06/21",
+      "hoursSlept": 6.1,
+      "sleepQuality": 3.5
+    },
+    {
+      "userID": 4,
+      "date": "2019/06/20",
+      "hoursSlept": 4.7,
+      "sleepQuality": 4
+    },
+    {
+      "userID": 4,
+      "date": "2019/06/19",
+      "hoursSlept": 10.1,
+      "sleepQuality": 1.3
+    },
+    {
+      "userID": 4,
+      "date": "2019/06/18",
+      "hoursSlept": 7.9,
+      "sleepQuality": 1.6
+    },
+    {
+      "userID": 4,
+      "date": "2019/06/17",
+      "hoursSlept": 5.9,
+      "sleepQuality": 1.6
+    },
+    {
+      "userID": 4,
+      "date": "2019/06/16",
+      "hoursSlept": 9.6,
+      "sleepQuality": 1
+    },
+    {
+      "userID": 4,
+      "date": "2019/06/15",
+      "hoursSlept": 9,
+      "sleepQuality": 3.1
+    }, ]
     sleepRepo = new SleepRepo(sleepData);
-    // console.log('sleepRepo', sleepRepo);
     user1 = {
       id: 1,
       name: "Alex Roth",
@@ -208,22 +206,16 @@ describe('Sleep Repo', function() {
     expect(sleepRepo.calcAllUserSleepQuality()).to.eq(3)
   });
 
-// Method determineBestSleepers returns the user object in an array. The prior version of this test would return the user name. The spec doesn't specifically state to return the user name so I believe this method is fine, as is. 
   it('should determine the best quality sleepers for a week', function() {
     expect(sleepRepo.determineBestSleepers('2019/08/22', users)).to.deep.eql([user3]);
   });
 
-  //come back to this test later so it gets a result of 2 people - unsure whether function is correct currently, but some functions need to be combined anyway
-
-  // This method will return multiple user results. Functioning correctly.
-
-it('should get users who slept the most number of hours on a specific date', function() {
-  expect(sleepRepo.getMaxSleepData('2019/08/22')).to.deep.eql([sleepData[0]])
-})
+  it('should get users who slept the most number of hours on a specific date', function() {
+    expect(sleepRepo.getMaxSleepData('2019/08/22')).to.deep.eql([sleepData[0]])
+  })
 
   it('should return people with longest sleep for the day', function() {
     let result = sleepRepo.getMaxSleepData('2019/06/21')
     expect(sleepRepo.getUsersWithMostSleepForDay(result, userRepo)).to.eql([ 'Rainbow Dash', 'Allie McCarthy']);
   });
-
 });

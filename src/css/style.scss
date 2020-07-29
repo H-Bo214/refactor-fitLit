@@ -7,18 +7,18 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
   background-color: #e4e7eb;
+  font-family: 'Roboto', sans-serif;
   height: auto;
 }
 
 h1 {
-  text-align: center;
-  height: 80px;
-  padding-top: 10px;
-  margin-top:0;
-  margin-bottom: 25px;
   border: $outer-border-style;
+  height: 80px;
+  margin-bottom: 25px;
+  margin-top:0;
+  padding-top: 10px;
+  text-align: center;
 }
 
 main {
@@ -35,10 +35,10 @@ main {
   @include displayStyle(flex, row);
   width: 25%;
   @include ipad-pro-size {
+    border-top: 1px solid black;
     display: flex;
     flex-direction: row;
     width: 100%;
-    border-top: 1px solid black;
   }
 }
 
@@ -47,8 +47,8 @@ main {
   border: $outer-border-style;
   @include displayStyle(flex, column);
   align-items: center;
-  text-align: center;
   overflow: scroll;
+  text-align: center;
   @include  ipad-pro-size {
     width: 100vw;
   }
@@ -72,16 +72,16 @@ main {
 
 .sidebar-header-line {
   border: 1px solid black;
-  margin: 1em 1em 0 1em;
   height: 0;
-  width: 80%;
+  margin: 1em 1em 0 1em;
   padding-left: 1em;
+  width: 80%;
 }
 
 .friends-running-img {
   border-radius: 50%;
-  width: 197px;
   margin: 1rem;
+  width: 197px;
 }
 
 .sidebar-body-friendContainer {
@@ -93,8 +93,8 @@ main {
 }
 
 .body-main-infoContainer {
-  width: 100%;
   margin: 0 0 1em;
+  width: 100%;
   @include displayStyle(flex, column);
   overflow: scroll;
   @include ipad-pro-size {
@@ -114,14 +114,14 @@ main {
 
 .infoContainer-cardContainer-card-horizontal,
 .infoContainer-cardContainer-card-vertical {
-  width: 100vw;
   background-color: $section-background-color;
   border: $outer-border-style;
+  width: 100vw;
   @include displayStyle(flex, column);
   align-items: center;
-  margin: 1%;
-  justify-content: space-around;
   border-radius: 6px;
+  justify-content: space-around;
+  margin: 1%;
   overflow: scroll;
 }
 
@@ -180,36 +180,36 @@ main {
 }
 
 .number {
-  font-size: 2em;
-  font-weight: bolder;
   color: #4d4e4f;
   font-kerning: normal;
+  font-size: 2em;
+  font-weight: bolder;
 }
 
 .historicalWeek,
 .weekly-sleep-quality,
 .thisWeek {
-  text-align: center;
+  color: $main-font-color;
   font-size: 1em;
   font-weight: bolder;
   margin: .5em;
-  color: $main-font-color;
+  text-align: center;
 }
 
 .card-vertical-list {
-  list-style-type: none;
-  font-weight: lighter;
-  font-style: italic;
-  padding-left: 0;
-  margin: 1em;
   font-size: 1em;
+  font-style: italic;
+  font-weight: lighter;
+  list-style-type: none;
+  margin: 1em;
   overflow-y: scroll;
+  padding-left: 0;
 }
 
 .historical-list-listItem {
-  padding: .3em;
-  font-weight: bold;
   font-family: $primary-font-style;
+  font-weight: bold;
+  padding: .3em;
   text-align: center;
 }
 
@@ -219,8 +219,8 @@ main {
 }
 
 .runner-img {
-  margin: 1rem;
   border-radius: 50%;
+  margin: 1rem;
   width: 200px;
 }
 
@@ -254,8 +254,8 @@ main {
 }
 
 .data-form h2 {
-  margin-top: 15px;
   margin-bottom: 30px;
+  margin-top: 15px;
   text-align: center;
 }
 
